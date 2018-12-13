@@ -1,7 +1,5 @@
-import { Platform } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 
-import icons from './theme/icons';
 import colors from './theme/colors';
 
 Navigation.events().registerAppLaunchedListener(() => {
@@ -10,23 +8,18 @@ Navigation.events().registerAppLaunchedListener(() => {
       textColor: colors.bottomBarText,
       selectedTextColor: colors.bottomBarTextSelected,
       selectedIconColor: colors.bottomBarTextSelected,
-      iconInsets: { top: 8, bottom: -8 }
+      iconInsets: { top: 8, bottom: -8 },
+      iconColor: colors.bottomBarText
     },
+
     bottomTabs: {
       animate: true,
       barStyle: 'black',
       backgroundColor: colors.bottomBar,
       titleDisplayMode: 'alwaysHide'
     },
+
     animations: {
-      push: {
-        bottomTabs: {
-          alpha: {
-            from: 0,
-            to: 1
-          }
-        }
-      },
       setRoot: {
         enabled: 1,
         alpha: {
@@ -44,23 +37,11 @@ Navigation.events().registerAppLaunchedListener(() => {
 export const goAuth = () =>
   Navigation.setRoot({
     root: {
-      bottomTabs: {
-        id: 'BottomTabsId',
+      stack: {
         children: [
           {
             component: {
-              name: 'SignIn',
-              options: {
-                bottomTab: {}
-              }
-            }
-          },
-          {
-            component: {
-              name: 'Home',
-              options: {
-                bottomTab: {}
-              }
+              name: 'SignIn'
             }
           }
         ]
@@ -79,41 +60,32 @@ export const goHome = async () =>
               children: [
                 {
                   component: {
-                    name: 'Info',
-                    options: {
-                      topBar: {
-                        visible: Platform.OS === 'ios',
-                        drawBehind: Platform.OS !== 'ios'
-                      },
-                      bottomTab: {
-                        icon: icons.info
-                      }
-                    }
+                    name: 'Feed'
                   }
                 }
               ]
             }
           },
           {
-            component: {
-              name: 'Feed',
-              options: {
-                bottomTab: {
-                  badge: '5',
-                  badgeColor: colors.bottomBarBadgeColor,
-                  icon: icons.chat
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: 'Info'
+                  }
                 }
-              }
+              ]
             }
           },
           {
-            component: {
-              name: 'Profile',
-              options: {
-                bottomTab: {
-                  icon: icons.user
+            stack: {
+              children: [
+                {
+                  component: {
+                    name: 'Profile'
+                  }
                 }
-              }
+              ]
             }
           }
         ]

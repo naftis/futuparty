@@ -2,24 +2,23 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 import { goAuth, goHome } from '../../navigation';
+import { isLoggedIn } from '../../auth';
 
 export default class Initial extends React.Component {
   async componentDidMount() {
-    const isLoggedIn = true;
+    const isAuthed = await isLoggedIn();
 
-    if (!isLoggedIn) {
+    if (isAuthed) {
+      goHome();
+    } else {
       goAuth();
-
-      return;
     }
-
-    goHome();
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Loading</Text>
+        <Text style={styles.welcome}>Ladataan...</Text>
       </View>
     );
   }

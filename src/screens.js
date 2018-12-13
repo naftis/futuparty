@@ -6,6 +6,7 @@ import SignIn from './containers/SignIn';
 import Initial from './containers/Initial';
 import Profile from './containers/Profile';
 import Food from './containers/Food';
+import Program from './containers/Program';
 
 export function registerScreens() {
   /*
@@ -22,6 +23,7 @@ export function registerScreens() {
    * Signed in view
    */
   Navigation.registerComponent('Food', () => Food);
+  Navigation.registerComponent('Program', () => Program);
 
   Navigation.registerComponent('Profile', () => Profile);
   Navigation.registerComponent('Feed', () => Feed);

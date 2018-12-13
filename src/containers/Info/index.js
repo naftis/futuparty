@@ -4,60 +4,57 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  Platform,
   Image,
   Linking
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { PropTypes } from 'prop-types';
 
-import calendar from '../../../assets/icons/calendar.png';
-import food from '../../../assets/icons/fork.png';
-import link from '../../../assets/icons/link.png';
+import fonts from '../../theme/fonts';
+import icons from '../../theme/icons';
 
 const pages = [
   {
     component: 'Food',
     name: 'Ruokalista',
-    icon: food
+    icon: icons.food
   },
   {
     component: 'Program',
     name: 'Ohjelma',
-    icon: calendar
+    icon: icons.calendar
   },
   {
     component: 'https://luuppi50.fi',
     name: 'Luuppi50.fi',
-    icon: link
+    icon: icons.link
   }
 ];
 
 export default class Info extends React.Component {
+  static get options() {
+    return {
+      topBar: {
+        visible: false,
+        drawBehind: false
+      },
+      bottomTab: {
+        icon: icons.info
+      }
+    };
+  }
+
   static propTypes = {
     componentId: PropTypes.string
   };
 
-  _onPress = name => async () => {
+  _onPress = name => {
     if (name.startsWith('http')) {
       Linking.openURL(name);
       return;
     }
 
-    await Navigation.push(this.props.componentId, {
-      component: {
-        name,
-        options: {
-          topBar: {
-            title: {
-              text: name,
-              color: '#000'
-            }
-          },
-          preview: true
-        }
-      }
-    });
+    Navigation.push(this.props.componentId, { component: { name } });
   };
 
   render() {
@@ -69,13 +66,7 @@ export default class Info extends React.Component {
 
             <View style={styles.opacityWrapper}>
               <TouchableOpacity
-                onPress={() => {
-                  Navigation.push(this.props.componentId, {
-                    component: {
-                      name: 'Food'
-                    }
-                  });
-                }}
+                onPress={() => this._onPress(item.component)}
                 activeOpacity={0.8}
                 style={styles.item}
               >
@@ -85,8 +76,6 @@ export default class Info extends React.Component {
             </View>
           </React.Fragment>
         ))}
-
-        <View style={styles.separator} />
       </View>
     );
   }
@@ -108,7 +97,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    fontFamily: Platform.OS === 'ios' ? 'Iowan Old Style' : 'serif'
+    fontFamily: fonts.default
   },
   opacityWrapper: {
     borderRadius: 4,
