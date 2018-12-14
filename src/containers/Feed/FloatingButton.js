@@ -1,15 +1,14 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated,
+  Easing,
   Platform,
+  StyleSheet,
   TouchableNativeFeedback,
   TouchableOpacity,
-  View,
-  StyleSheet,
-  Easing
+  View
 } from 'react-native';
-import PropTypes from 'prop-types';
-
 import colors from '../../theme/colors';
 
 class FloatingButton extends React.Component {
@@ -23,26 +22,20 @@ class FloatingButton extends React.Component {
     lineAnim: new Animated.Value(0)
   };
 
-  static getDerivedStateFromProps = props => {
-    const { isScrollTop } = props;
+  componentDidUpdate(prevProps) {
+    const { isScrollTop } = this.props;
 
-    if (isScrollTop) {
-      return {
-        lineAnim: new Animated.Value(1)
-      };
-    } else {
-      return {
-        lineAnim: new Animated.Value(0)
-      };
+    if (prevProps.isScrollTop !== isScrollTop) {
+      this._animateLines();
     }
-  };
+  }
 
   _animateLines = () => {
     const { isScrollTop } = this.props;
     const { lineAnim } = this.state;
 
     Animated.timing(lineAnim, {
-      toValue: isScrollTop ? 0 : 1,
+      toValue: isScrollTop ? 1 : 0,
       easing: Easing.ease,
       duration: 200
     }).start();
@@ -149,7 +142,7 @@ const styles = StyleSheet.create({
   wrapper: {
     borderRadius: 50,
     overflow: 'hidden',
-    backgroundColor: colors.signInButton,
+    backgroundColor: colors.floatingButton,
     width: 50,
     height: 50,
 

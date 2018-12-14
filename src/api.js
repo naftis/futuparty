@@ -8,33 +8,38 @@ export async function getFeed() {
   return [
     {
       key: '1',
-      name: 'Pyry Rouvila',
+      author: 'Pyry Rouvila',
       time: '5 hours ago',
       text: 'Hello!'
     },
     {
       key: '2',
-      name: 'Pyry Rouvila',
+      author: 'Pyry Rouvila',
       time: '5 hours ago',
       text: 'Hello!'
     },
     {
       key: '3',
-      name: 'Pyry Rouvila',
+      author: 'Pyry Rouvila',
       time: '5 hours ago',
-      imageUrl: 'https://placehold.it/350x350'
+      imageUrl: 'https://placehold.it/350x350',
+      text: 'Moro! Mukava kun kaikki pääsitte paikalle!!!'
     },
     {
       key: '2x',
-      name: 'Pyry Rouvila',
+      author: 'Pyry Rouvila',
       time: '5 hours ago',
       text: 'Hello!'
     },
     {
       key: '3xx',
-      name: 'Pyry Rouvila',
+      author: 'Pyry Rouvila',
       time: '5 hours ago',
       imageUrl: 'https://placehold.it/350x350'
     }
   ];
+}
+
+export function getProfileImageUrl() {
+  return 'https://placeimg.com/640/480/nature';
 }

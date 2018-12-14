@@ -2,16 +2,15 @@ export default {
   background: '#fff',
 
   bottomBar: '#000',
-  bottomBarText: '#fff',
+  bottomBarText: '#afafaf',
   bottomBarTextSelected: '#E0B400',
-  bottomBarBadgeColor: '#bc9600',
 
   refreshButton: '#000',
   refreshButtonText: '#fff',
   refreshButtonTextSelected: '#E0B400',
 
-  signInButton: '#bc9600',
-  signInButtonSelected: '#826801',
+  button: '#bc9600',
+  buttonSelected: '#826801',
 
   profileTabBarSelected: '#826801',
 
@@ -21,6 +20,10 @@ export default {
   foodPrimaryColor: '#000',
   foodSecondaryColor: '#444',
 
-  postSecondaryText: '#7f7f7f',
-  postBorderBottom: '#ddd'
+  feedItemSecondaryText: '#7f7f7f',
+  feedItemBorderBottom: '#ddd',
+
+  floatingButton: '#E0B400',
+
+  author: '#826801'
 };

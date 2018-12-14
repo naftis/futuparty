@@ -1,14 +1,14 @@
 import React from 'react';
-import { View, Image, Text, StyleSheet } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view-universal';
-
-import Pictures from '../../components/Pictures';
-import Settings from '../../components/Settings';
-import icons from '../../theme/icons';
-import fonts from '../../theme/fonts';
+import { getProfileImageUrl } from '../../api';
 import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
+import icons from '../../theme/icons';
+import Pictures from './Pictures';
+import Settings from './Settings';
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
   state = {
     selectedTab: 0
   };
@@ -17,7 +17,7 @@ export default class Profile extends React.Component {
     return {
       topBar: {
         visible: false,
-        drawBehind: false
+        drawBehind: true
       },
       bottomTab: {
         icon: icons.user
@@ -33,7 +33,7 @@ export default class Profile extends React.Component {
             style={styles.image}
             resizeMode="cover"
             blurRadius={10}
-            source={{ uri: 'https://placeimg.com/640/480/nature' }}
+            source={{ uri: getProfileImageUrl() }}
           />
         </View>
 
@@ -74,3 +74,5 @@ const styles = StyleSheet.create({
     flex: 1
   }
 });
+
+export default Profile;

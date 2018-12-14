@@ -1,22 +1,21 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  StyleSheet,
-  View,
-  TouchableHighlight,
+  Animated,
   Image,
+  StyleSheet,
   TextInput,
-  Animated
+  TouchableHighlight,
+  View
 } from 'react-native';
-import PropTypes from 'prop-types';
-
 import luuppi from '../../../assets/luuppi.png';
-import fonts from '../../theme/fonts';
-import colors from '../../theme/colors';
-import icons from '../../theme/icons';
-import { login, isLoggedIn } from '../../auth';
+import { isLoggedIn, login } from '../../auth';
 import { goHome } from '../../navigation';
+import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
+import icons from '../../theme/icons';
 
-export default class SignIn extends React.Component {
+class SignIn extends React.Component {
   state = {
     text: '',
     errorAnim: new Animated.Value(0)
@@ -87,13 +86,12 @@ export default class SignIn extends React.Component {
             onChangeText={text => this.setState({ text })}
             value={this.state.text}
             placeholder="Kutsukoodisi"
-            placeholderTextColor="rgba(0,0,0,0.5)"
             style={styles.input}
             autoCapitalize="characters"
           />
 
           <TouchableHighlight
-            underlayColor={colors.signInButtonSelected}
+            underlayColor={colors.buttonSelected}
             onPress={this._onPress}
             style={styles.button}
             accessibilityLabel="Kirjaudu kutsukoodilla"
@@ -143,7 +141,7 @@ const styles = StyleSheet.create({
   button: {
     height: 50,
     width: 50,
-    backgroundColor: colors.signInButton,
+    backgroundColor: colors.button,
     borderRadius: 5,
     justifyContent: 'center',
     alignItems: 'center'
@@ -153,3 +151,5 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '180deg' }]
   }
 });
+
+export default SignIn;

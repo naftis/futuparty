@@ -1,17 +1,15 @@
 import React from 'react';
 import {
   Image,
-  View,
+  StyleSheet,
   Text,
   TouchableHighlight,
-  StyleSheet
+  View
 } from 'react-native';
-
-import fonts from '../../theme/fonts';
-// import colors from '../../theme/colors';
-import icons from '../../theme/icons';
 import { logout } from '../../auth';
 import { goAuth } from '../../navigation';
+import fonts from '../../theme/fonts';
+import icons from '../../theme/icons';
 
 const SETTINGS_ITEMS = [
   {

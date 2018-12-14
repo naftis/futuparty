@@ -1,24 +1,28 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  SafeAreaView,
-  Text,
-  View,
   FlatList,
   RefreshControl,
-  StyleSheet
+  SafeAreaView,
+  StyleSheet,
+  Text
 } from 'react-native';
-
+import { Navigation } from 'react-native-navigation';
+import { getFeed } from '../../api';
 import colors from '../../theme/colors';
 import icons from '../../theme/icons';
-import { getFeed } from '../../api';
-import Post from '../../components/Post';
-import FloatingButton from '../../components/FloatingButton';
+import FloatingButton from './FloatingButton';
+import Item from './Item';
 
-export default class Feed extends React.Component {
+class Feed extends React.Component {
   state = {
     refreshing: false,
     showScrollTopButton: false,
     items: []
+  };
+
+  static propTypes = {
+    componentId: PropTypes.string
   };
 
   flatListRef = React.createRef();
@@ -27,7 +31,7 @@ export default class Feed extends React.Component {
     return {
       topBar: {
         visible: false,
-        drawBehind: false
+        drawBehind: true
       },
       bottomTab: {
         icon: icons.chats
@@ -60,18 +64,49 @@ export default class Feed extends React.Component {
   };
 
   _scrollTop = () => {
-    this.flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+    if (this.flatListRef && this.flatListRef.current) {
+      this.flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+    }
   };
 
-  _addPost = () => {};
+  _addPost = () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'Post'
+      }
+    });
+  };
+
+  _onPressComment = item => () => {
+    Navigation.push(this.props.componentId, {
+      component: {
+        name: 'Comment',
+        passProps: {
+          item
+        },
+        options: {
+          topBar: {
+            title: {
+              component: {
+                passProps: {
+                  item
+                }
+              }
+            }
+          }
+        }
+      }
+    });
+  };
 
   _renderItem = ({ item }) => (
-    <Post
+    <Item
       key={`${item.key}`}
       imageUrl={item.imageUrl}
       text={item.text}
       time={item.time}
-      author={item.name}
+      author={item.author}
+      onComment={this._onPressComment(item)}
     />
   );
 
@@ -122,3 +157,5 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
+
+export default Feed;

@@ -2,7 +2,9 @@
 
 Event app with a picture feed from users, authentication with invitation codes, info about event and profiles.
 
-## Installation
+## Prerequisites
+
+**Node**: v11.4.0
 
 ### iOS with XCode
 
@@ -37,6 +39,9 @@ If you don't have Android Studio, you can get it from [android.com](https://deve
 ```
 # App uses this key + suffix to create storage key:values
 APP_STORAGE_KEY=futuparty
+
+# App saves images to this folder on end-users phone
+APP_IMAGES_PATH=futuparty
 ```
 
 ### Navigation flow
@@ -46,13 +51,17 @@ Please visit `screens.js`. The chart references those containers.
 ```
 Initial
 ├── SignIn
-└── Feed ────────Info ───────Profile
-    ├── Comments ├── Food    ├── Licenses
-    └── Post     └── Program ├── Terms
-                             └── Privacy
+└── Feed ───────Info ───────Profile
+    ├── Comment ├── Food    ├── Licenses
+    └── Post    └── Program ├── Terms
+                            └── Privacy
 ```
 
 ## Todo
 
 - Rewrite backend
 - Scrollable tab view library "react-native-scrollable-tab-view-universal" is not very popular, but "react-native-scrollable-tab-view" was broken currently on Android. Can be implemented without a library fairly simply too.
+- react-native-dotenv --> dotenv
+- `Info.plist` last permissions might not be needed
+- `AndroidManifest.xml` android.permission.WRITE_EXTERNAL_STORAGE might not be needed
+- react-native-navigation animations

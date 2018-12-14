@@ -1,32 +1,33 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
   Dimensions,
-  TouchableOpacity
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import PropTypes from 'prop-types';
-
-import fonts from '../../theme/fonts';
+import { getProfileImageUrl } from '../../api';
 import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 
-const requiredPropsCheck = (props, _, componentName) => {
+function requiredPropsCheck(props, _, componentName) {
   if (!props.text && !props.imageUrl) {
     return new Error(
       `One of 'text' or 'imageUrl' is required by '${componentName}' component.`
     );
   }
-};
+}
 
-export default class Post extends React.Component {
+class Item extends React.Component {
   static propTypes = {
     text: requiredPropsCheck,
     imageUrl: requiredPropsCheck,
     time: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired
+    author: PropTypes.string.isRequired,
+    onComment: PropTypes.func
   };
 
   _renderImage = () => {
@@ -39,9 +40,6 @@ export default class Post extends React.Component {
     );
   };
 
-  /*
-   * Renders like & comment buttons
-   */
   _renderIcons = () => (
     <View style={styles.icons}>
       <TouchableOpacity style={styles.iconPress} onPress={() => {}}>
@@ -49,7 +47,7 @@ export default class Post extends React.Component {
         <Text style={styles.iconText}>0</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.iconPress} onPress={() => {}}>
+      <TouchableOpacity style={styles.iconPress} onPress={this.props.onComment}>
         <Image source={icons.chat} style={[styles.icon, { marginRight: -4 }]} />
         <Text style={styles.iconText}>0</Text>
       </TouchableOpacity>
@@ -64,7 +62,7 @@ export default class Post extends React.Component {
         <View style={styles.info}>
           <Image
             style={styles.profilePicture}
-            source={{ uri: 'https://placeimg.com/640/480/nature' }}
+            source={{ uri: getProfileImageUrl() }}
           />
 
           <Text style={styles.username}>{author}</Text>
@@ -93,7 +91,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     borderBottomWidth: 1,
-    borderBottomColor: colors.postBorderBottom
+    borderBottomColor: colors.feedItemBorderBottom
   },
   info: {
     flexDirection: 'row',
@@ -107,16 +105,17 @@ const styles = StyleSheet.create({
     resizeMode: 'cover'
   },
   username: {
+    marginRight: 10,
     fontFamily: fonts.monospace,
     fontWeight: '500',
-    marginRight: 10
+    color: colors.author
   },
   dot: {
     marginRight: 10
   },
   time: {
     fontFamily: fonts.monospace,
-    color: colors.postSecondaryText
+    color: colors.feedItemSecondaryText
   },
   imageContainer: {
     alignItems: 'center',
@@ -143,12 +142,14 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 5,
-    tintColor: colors.postSecondaryText,
+    tintColor: colors.feedItemSecondaryText,
     height: 15,
     resizeMode: 'contain'
   },
   iconText: {
     fontFamily: fonts.monospace,
-    color: colors.postSecondaryText
+    color: colors.feedItemSecondaryText
   }
 });
+
+export default Item;

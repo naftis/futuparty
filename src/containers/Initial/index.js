@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
-import { goAuth, goHome } from '../../navigation';
+import { StyleSheet, Text, View } from 'react-native';
 import { isLoggedIn } from '../../auth';
+import { goAuth, goHome } from '../../navigation';
 
-export default class Initial extends React.Component {
+class Initial extends React.Component {
   async componentDidMount() {
     const isAuthed = await isLoggedIn();
 
@@ -34,3 +33,5 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
+
+export default Initial;

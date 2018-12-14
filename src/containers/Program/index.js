@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
-
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import fonts from '../../theme/fonts';
 
 const PROGRAM_ITEMS = [

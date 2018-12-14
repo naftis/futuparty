@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Markdown from 'react-native-markdown-renderer';
-
-import fonts from '../../theme/fonts';
 import colors from '../../theme/colors';
+import fonts from '../../theme/fonts';
 
 const content = `
 # Vegaani
