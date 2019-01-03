@@ -12,14 +12,15 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { format } from 'timeago.js';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 
 function requiredPropsCheck(props, _, componentName) {
-  if (!props.text && !props.imageUrl) {
+  if (!props.description && !props.image) {
     return new Error(
-      `One of 'text' or 'imageUrl' is required by '${componentName}' component.`
+      `One of 'description' or 'image' is required by '${componentName}' component.`
     );
   }
 }
@@ -27,10 +28,10 @@ function requiredPropsCheck(props, _, componentName) {
 class Comment extends React.Component {
   static propTypes = {
     item: PropTypes.shape({
-      author: PropTypes.string.isRequired,
-      text: requiredPropsCheck,
-      imageUrl: requiredPropsCheck,
-      time: PropTypes.string
+      name: PropTypes.string.isRequired,
+      description: requiredPropsCheck,
+      image: requiredPropsCheck,
+      updated_at: PropTypes.string
     }).isRequired
   };
 
@@ -140,16 +141,18 @@ class Comment extends React.Component {
   };
 
   _renderImageWithText = () => {
-    const { imageUrl, text, time } = this.props.item;
+    const { image, description, updated_at } = this.props.item;
+
+    const parsedTime = format(new Date(updated_at));
 
     return (
       <>
-        <Image style={styles.image} source={{ uri: imageUrl }} />
+        <Image style={styles.image} source={{ uri: image }} />
 
-        {text && (
+        {description && (
           <View style={styles.imageTextWrapper}>
-            <Text style={styles.imageText}>{text}</Text>
-            <Text style={styles.imageTextTime}>{time.toUpperCase()}</Text>
+            <Text style={styles.imageText}>{description}</Text>
+            <Text style={styles.imageTextTime}>{parsedTime.toUpperCase()}</Text>
           </View>
         )}
       </>
@@ -157,23 +160,19 @@ class Comment extends React.Component {
   };
 
   _renderTextOnly = () => {
-    const { text } = this.props.item;
+    const { description } = this.props.item;
 
-    return (
-      <Text style={styles.text}>
-        {text}daksjdalks aklsdja lskdja sldkajslkd ajslkdja ls djalks jalksj
-        dalksjdlka jsdlka jsldajs lasjd alsjd laksjdlasj alksdj alksjd alksjdal
-        ksjdalks jalks jdals jalksj l
-      </Text>
-    );
+    return <Text style={styles.text}>{description}</Text>;
   };
 
   _renderComment({ item }) {
+    const parsedTime = format(new Date(item.updated_at));
+
     return (
       <View style={styles.comment}>
         <View style={styles.commentInfo}>
-          <Text style={styles.commentAuthor}>{item.author}</Text>
-          <Text style={styles.commentTime}>{item.time.toUpperCase()}</Text>
+          <Text style={styles.commentAuthor}>{item.name}</Text>
+          <Text style={styles.commentTime}>{parsedTime.toUpperCase()}</Text>
         </View>
         <Text style={styles.commentText}>{item.text}</Text>
       </View>
@@ -181,7 +180,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    const { imageUrl } = this.props.item;
+    const { image } = this.props.item;
     const { refreshing, comments, text } = this.state;
 
     return (
@@ -202,7 +201,7 @@ class Comment extends React.Component {
           renderItem={this._renderComment}
           contentContainerStyle={styles.comments}
           ListHeaderComponent={
-            imageUrl ? this._renderImageWithText : this._renderTextOnly
+            image ? this._renderImageWithText : this._renderTextOnly
           }
         />
 
@@ -213,6 +212,7 @@ class Comment extends React.Component {
             value={text}
             style={styles.textField}
           />
+
           <TouchableOpacity onPress={this._sendComment}>
             <Image source={icons.leftArrow} style={styles.arrowButton} />
           </TouchableOpacity>

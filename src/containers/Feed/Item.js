@@ -1,22 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getProfileImageUrl } from '../../api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
+import Picture from './Picture';
 
 function requiredPropsCheck(props, _, componentName) {
-  if (!props.text && !props.imageUrl) {
+  if (!props.text && !props.image) {
     return new Error(
-      `One of 'text' or 'imageUrl' is required by '${componentName}' component.`
+      `One of 'text' or 'image' is required by '${componentName}' component.`
     );
   }
 }
@@ -24,20 +18,12 @@ function requiredPropsCheck(props, _, componentName) {
 class Item extends React.Component {
   static propTypes = {
     text: requiredPropsCheck,
-    imageUrl: requiredPropsCheck,
+    image: requiredPropsCheck,
     time: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    likes: PropTypes.string.isRequired,
+    comments: PropTypes.string.isRequired,
     onComment: PropTypes.func
-  };
-
-  _renderImage = () => {
-    const { imageUrl } = this.props;
-
-    return (
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: imageUrl }} style={styles.image} />
-      </View>
-    );
   };
 
   _renderIcons = () => (
@@ -55,7 +41,7 @@ class Item extends React.Component {
   );
 
   render() {
-    const { text, imageUrl, time, author } = this.props;
+    const { text, image, time, name } = this.props;
 
     return (
       <View style={styles.container}>
@@ -65,13 +51,13 @@ class Item extends React.Component {
             source={{ uri: getProfileImageUrl() }}
           />
 
-          <Text style={styles.username}>{author}</Text>
+          <Text style={styles.username}>{name}</Text>
           <Text style={styles.dot}>·</Text>
           <Text style={styles.time}>{time}</Text>
         </View>
 
-        {imageUrl ? (
-          this._renderImage()
+        {image ? (
+          <Picture uri={image} />
         ) : (
           <Text style={styles.text}>{text}</Text>
         )}
@@ -81,8 +67,6 @@ class Item extends React.Component {
     );
   }
 }
-
-const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -126,15 +110,6 @@ const styles = StyleSheet.create({
   time: {
     fontFamily: fonts.monospace,
     color: colors.feedItemSecondaryText
-  },
-  imageContainer: {
-    alignItems: 'center',
-    padding: 10
-  },
-  image: {
-    width: width - 44,
-    height: width - 44,
-    resizeMode: 'cover'
   },
   text: {
     paddingLeft: 50,

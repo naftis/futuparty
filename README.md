@@ -42,6 +42,8 @@ APP_STORAGE_KEY=futuparty
 
 # App saves images to this folder on end-users phone
 APP_IMAGES_PATH=futuparty
+
+API_URL=http://localhost:9000/api/
 ```
 
 ### Navigation flow

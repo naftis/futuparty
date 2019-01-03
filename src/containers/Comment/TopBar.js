@@ -7,12 +7,12 @@ import fonts from '../../theme/fonts';
 class CommentTopBar extends React.Component {
   static propTypes = {
     item: PropTypes.shape({
-      author: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired
     }).isRequired
   };
 
   render() {
-    const { author } = this.props.item;
+    const { name } = this.props.item;
 
     return (
       <View style={styles.container}>
@@ -23,7 +23,7 @@ class CommentTopBar extends React.Component {
           />
         )}
 
-        <Text style={styles.author}>{author}</Text>
+        <Text style={styles.name}>{name}</Text>
       </View>
     );
   }
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginLeft: Platform.OS === 'ios' ? 10 : 0,
     overflow: 'hidden'
   },
-  author: {
+  name: {
     fontFamily: fonts.monospace,
     fontWeight: 'bold'
   }

@@ -1,50 +1,10 @@
-// import { API_URL } from './config';
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+import config from './config';
 
 export async function getFeed() {
-  /*  const request = await fetch(`${API_URL}/feed`);
+  const request = await fetch(`${config.API_URL}/feed`);
   const response = await request.json();
 
-  return response; */
-
-  await sleep(500);
-
-  return [
-    {
-      key: '1',
-      author: 'Pyry Rouvila',
-      time: '5 hours ago',
-      text: 'Hello!'
-    },
-    {
-      key: '2',
-      author: 'Pyry Rouvila',
-      time: '5 hours ago',
-      text: 'Hello!'
-    },
-    {
-      key: '3',
-      author: 'Pyry Rouvila',
-      time: '5 hours ago',
-      imageUrl: 'https://placehold.it/350x350',
-      text: 'Moro! Mukava kun kaikki pääsitte paikalle!!!'
-    },
-    {
-      key: '2x',
-      author: 'Pyry Rouvila',
-      time: '5 hours ago',
-      text: 'Hello!'
-    },
-    {
-      key: '3xx',
-      author: 'Pyry Rouvila',
-      time: '5 hours ago',
-      imageUrl: 'https://placehold.it/350x350'
-    }
-  ];
+  return response;
 }
 
 export function getProfileImageUrl() {

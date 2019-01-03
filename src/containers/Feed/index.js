@@ -9,6 +9,7 @@ import {
   Text
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { format } from 'timeago.js';
 import { getFeed } from '../../api';
 import colors from '../../theme/colors';
 import icons from '../../theme/icons';
@@ -109,11 +110,12 @@ class Feed extends React.Component {
 
   _renderItem = ({ item }) => (
     <Item
-      key={`${item.key}`}
-      imageUrl={item.imageUrl}
-      text={item.text}
-      time={item.time}
-      author={item.author}
+      image={item.image}
+      text={item.description}
+      time={format(new Date(item.updated_at))}
+      name={item.name}
+      likes={item.likes}
+      comments={item.comments[0].count}
       onComment={this._onPressComment(item)}
     />
   );
@@ -129,6 +131,20 @@ class Feed extends React.Component {
       );
     }
 
+    const itemsWithKeys = items.map(item => ({
+      key: item.id,
+      ...item
+    }));
+
+    const refreshControl = (
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={this._onRefresh}
+        progressBackgroundColor={colors.refreshButton}
+        colors={[colors.refreshButtonText, colors.refreshButtonTextSelected]}
+      />
+    );
+
     return (
       <View style={{ flex: 1 }}>
         <Background />
@@ -137,18 +153,8 @@ class Feed extends React.Component {
           <FlatList
             ref={this.flatListRef}
             contentContainerStyle={styles.container}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={this._onRefresh}
-                progressBackgroundColor={colors.refreshButton}
-                colors={[
-                  colors.refreshButtonText,
-                  colors.refreshButtonTextSelected
-                ]}
-              />
-            }
-            data={items}
+            refreshControl={refreshControl}
+            data={itemsWithKeys}
             renderItem={this._renderItem}
             onScroll={this._onScroll}
           />
