@@ -12,7 +12,7 @@ Navigation.events().registerAppLaunchedListener(() => {
     },
 
     bottomTabs: {
-      animate: true,
+      animate: false,
       barStyle: 'black',
       backgroundColor: colors.bottomBar,
       titleDisplayMode: 'alwaysHide'

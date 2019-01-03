@@ -16,10 +16,12 @@ class CommentTopBar extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.profileImage}
-          source={{ uri: getProfileImageUrl() }}
-        />
+        {Platform.OS === 'ios' && (
+          <Image
+            style={styles.profileImage}
+            source={{ uri: getProfileImageUrl() }}
+          />
+        )}
 
         <Text style={styles.author}>{author}</Text>
       </View>

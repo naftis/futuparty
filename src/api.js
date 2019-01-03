@@ -1,8 +1,15 @@
+// import { API_URL } from './config';
+
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 export async function getFeed() {
+  /*  const request = await fetch(`${API_URL}/feed`);
+  const response = await request.json();
+
+  return response; */
+
   await sleep(500);
 
   return [
@@ -41,5 +48,5 @@ export async function getFeed() {
 }
 
 export function getProfileImageUrl() {
-  return 'https://placeimg.com/640/480/nature';
+  return 'https://placehold.it/350x350';
 }

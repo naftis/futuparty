@@ -1,7 +1,8 @@
 import { Navigation } from 'react-native-navigation';
 import Comment from './containers/Comment';
-import CommentTopBar from './containers/Comment/CommentTopBar';
+import CommentTopBar from './containers/Comment/TopBar';
 import Feed from './containers/Feed';
+import FeedTopBar from './containers/Feed/TopBar';
 import Food from './containers/Food';
 import Info from './containers/Info';
 import Initial from './containers/Initial';
@@ -38,5 +39,6 @@ export function registerScreens() {
   /*
    * UI Components
    */
+  Navigation.registerComponent('FeedTopBar', () => FeedTopBar);
   Navigation.registerComponent('CommentTopBar', () => CommentTopBar);
 }

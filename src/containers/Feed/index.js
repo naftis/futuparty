@@ -3,6 +3,7 @@ import React from 'react';
 import {
   FlatList,
   RefreshControl,
+  View,
   SafeAreaView,
   StyleSheet,
   Text
@@ -11,10 +12,29 @@ import { Navigation } from 'react-native-navigation';
 import { getFeed } from '../../api';
 import colors from '../../theme/colors';
 import icons from '../../theme/icons';
+import fonts from '../../theme/fonts';
 import FloatingButton from './FloatingButton';
 import Item from './Item';
+import Background from '../../components/Background';
 
 class Feed extends React.Component {
+  static get options() {
+    return {
+      topBar: {
+        visible: true,
+        title: {
+          component: {
+            name: 'FeedTopBar',
+            alignment: 'fill'
+          }
+        }
+      },
+      bottomTab: {
+        icon: icons.chats
+      }
+    };
+  }
+
   state = {
     refreshing: false,
     showScrollTopButton: false,
@@ -26,18 +46,6 @@ class Feed extends React.Component {
   };
 
   flatListRef = React.createRef();
-
-  static get options() {
-    return {
-      topBar: {
-        visible: false,
-        drawBehind: true
-      },
-      bottomTab: {
-        icon: icons.chats
-      }
-    };
-  }
 
   async componentDidMount() {
     const items = await getFeed();
@@ -116,38 +124,42 @@ class Feed extends React.Component {
     if (items.length === 0) {
       return (
         <SafeAreaView style={styles.noPosts}>
-          <Text>Ei viestejä!</Text>
+          <Text style={styles.noPostsText}>Ei viestejä!</Text>
         </SafeAreaView>
       );
     }
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <FlatList
-          ref={this.flatListRef}
-          contentContainerStyle={styles.container}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={this._onRefresh}
-              progressBackgroundColor={colors.refreshButton}
-              colors={[
-                colors.refreshButtonText,
-                colors.refreshButtonTextSelected
-              ]}
-            />
-          }
-          data={items}
-          renderItem={this._renderItem}
-          onScroll={this._onScroll}
-        />
+      <View style={{ flex: 1 }}>
+        <Background />
 
-        <FloatingButton
-          isScrollTop={showScrollTopButton}
-          scrollTop={this._scrollTop}
-          addPost={this._addPost}
-        />
-      </SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
+          <FlatList
+            ref={this.flatListRef}
+            contentContainerStyle={styles.container}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={this._onRefresh}
+                progressBackgroundColor={colors.refreshButton}
+                colors={[
+                  colors.refreshButtonText,
+                  colors.refreshButtonTextSelected
+                ]}
+              />
+            }
+            data={items}
+            renderItem={this._renderItem}
+            onScroll={this._onScroll}
+          />
+
+          <FloatingButton
+            isScrollTop={showScrollTopButton}
+            scrollTop={this._scrollTop}
+            addPost={this._addPost}
+          />
+        </SafeAreaView>
+      </View>
     );
   }
 }
@@ -155,6 +167,9 @@ class Feed extends React.Component {
 const styles = StyleSheet.create({
   noPosts: {
     alignItems: 'center'
+  },
+  noPostsText: {
+    fontFamily: fonts.monospace
   }
 });
 

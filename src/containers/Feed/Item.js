@@ -88,10 +88,20 @@ const styles = StyleSheet.create({
   container: {
     marginLeft: 10,
     marginRight: 10,
-    paddingTop: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.feedItemBorderBottom
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#fff',
+    borderRadius: 8,
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowOpacity: 0.08,
+    shadowRadius: 3,
+
+    elevation: -6
   },
   info: {
     flexDirection: 'row',
@@ -130,7 +140,8 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     marginBottom: 15,
     fontSize: 18,
-    fontFamily: fonts.monospace
+    fontFamily: fonts.monospace,
+    color: colors.text
   },
   icons: {
     paddingLeft: 50,

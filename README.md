@@ -65,3 +65,4 @@ Initial
 - `Info.plist` last permissions might not be needed
 - `AndroidManifest.xml` android.permission.WRITE_EXTERNAL_STORAGE might not be needed
 - react-native-navigation animations
+- `TopBar.js` elements work properly with only one child for some reason.

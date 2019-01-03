@@ -76,6 +76,7 @@ class SignIn extends React.Component {
     return (
       <View style={styles.container}>
         <Image source={luuppi} style={styles.image} />
+
         <Animated.View
           style={[
             styles.inputContainer,
