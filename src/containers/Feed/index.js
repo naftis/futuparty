@@ -57,9 +57,9 @@ class Feed extends React.Component {
   _onRefresh = async () => {
     this.setState({ refreshing: true });
 
-    await getFeed();
+    const items = await getFeed();
 
-    this.setState({ refreshing: false });
+    this.setState({ items, refreshing: false });
   };
 
   _onScroll = event => {
@@ -81,7 +81,10 @@ class Feed extends React.Component {
   _addPost = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'Post'
+        name: 'Post',
+        passProps: {
+          onPostSuccess: this._onRefresh
+        }
       }
     });
   };

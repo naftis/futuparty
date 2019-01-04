@@ -10,10 +10,14 @@ import {
   Text
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
+import { PropTypes } from 'prop-types';
+
 import Background from '../../components/Background';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import colors from '../../theme/colors';
+import { postFeedItem } from '../../api';
+import { Navigation } from 'react-native-navigation';
 
 class Post extends React.Component {
   state = {
@@ -34,6 +38,11 @@ class Post extends React.Component {
       }
     };
   }
+
+  static propTypes = {
+    componentId: PropTypes.string,
+    onPostSuccess: PropTypes.func
+  };
 
   _onImagePress = () => {
     ImagePicker.showImagePicker(
@@ -60,8 +69,20 @@ class Post extends React.Component {
     );
   };
 
+  _onPost = async () => {
+    const { imageSource, text } = this.state;
+    const { componentId, onPostSuccess } = this.props;
+
+    await postFeedItem(imageSource, text);
+
+    Navigation.pop(componentId);
+    onPostSuccess();
+  };
+
   render() {
-    const { imageSource } = this.state;
+    const { imageSource, text } = this.state;
+
+    const buttonDisabled = !imageSource && !text;
 
     return (
       <View style={styles.container}>
@@ -83,7 +104,7 @@ class Post extends React.Component {
               multiline={true}
               numberOfLines={4}
               onChangeText={text => this.setState({ text })}
-              value={this.state.text}
+              value={text}
               style={styles.textInput}
               placeholder="Kirjoita..."
             />
@@ -92,9 +113,10 @@ class Post extends React.Component {
 
         <TouchableHighlight
           underlayColor={colors.buttonSelected}
-          onPress={() => {}}
-          style={styles.button}
+          onPress={this._onPost}
+          style={buttonDisabled ? styles.buttonDisabled : styles.button}
           accessibilityLabel="Lähetä"
+          disabled={buttonDisabled}
         >
           <Text style={styles.buttonText}>Lähetä</Text>
         </TouchableHighlight>
@@ -150,6 +172,13 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 15,
     backgroundColor: colors.button
+  },
+  buttonDisabled: {
+    marginTop: 10,
+    width: width - 40,
+    borderRadius: 5,
+    padding: 15,
+    backgroundColor: colors.buttonDisabled
   },
   buttonText: {
     color: '#fff',
