@@ -91,6 +91,30 @@ export async function getComments(feedItemId) {
   return await request.json();
 }
 
+export async function addLike(feedItemId) {
+  const request = await apiFetch(`/feed/${feedItemId}/like`, {
+    method: 'POST'
+  });
+
+  if (!request.ok) {
+    throw new Error('Error when adding like.');
+  }
+
+  return await request.json();
+}
+
+export async function removeLike(feedItemId) {
+  const request = await apiFetch(`/feed/${feedItemId}/like`, {
+    method: 'DELETE'
+  });
+
+  if (!request.ok) {
+    throw new Error('Error when removing like.');
+  }
+
+  return await request.json();
+}
+
 export function getProfileImageUrl() {
   return 'https://placehold.it/350x350';
 }

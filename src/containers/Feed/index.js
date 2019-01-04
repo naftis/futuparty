@@ -113,11 +113,13 @@ class Feed extends React.Component {
 
   _renderItem = ({ item }) => (
     <Item
+      id={item.id}
       image={item.image}
       text={item.description}
       time={format(new Date(item.updated_at))}
       name={item.name}
-      likes={item.likes}
+      likes={parseInt(item.likes)}
+      liked={item.liked}
       comments={item.comments}
       onComment={this._onPressComment(item)}
     />
@@ -178,6 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   noPostsText: {
+    marginTop: 50,
     fontFamily: fonts.monospace
   }
 });

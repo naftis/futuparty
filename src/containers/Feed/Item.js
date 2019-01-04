@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getProfileImageUrl } from '../../services/api';
+import { getProfileImageUrl, addLike, removeLike } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
@@ -17,31 +17,59 @@ function requiredPropsCheck(props, _, componentName) {
 
 class Item extends React.Component {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     text: requiredPropsCheck,
     image: requiredPropsCheck,
     time: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    likes: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    liked: PropTypes.bool.isRequired,
     comments: PropTypes.array.isRequired,
     onComment: PropTypes.func
   };
 
-  _renderIcons = () => (
-    <View style={styles.icons}>
-      <TouchableOpacity style={styles.iconPress} onPress={() => { }}>
-        <Image source={icons.like} style={styles.icon} />
-        <Text style={styles.iconText}>0</Text>
-      </TouchableOpacity>
+  state = {
+    likes: this.props.likes,
+    liked: this.props.liked
+  }
 
-      <TouchableOpacity style={styles.iconPress} onPress={this.props.onComment}>
-        <Image source={icons.chat} style={[styles.icon, { marginRight: -4 }]} />
-        <Text style={styles.iconText}>{this.props.comments.length}</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  _onLikePress = async () => {
+    const { id } = this.props;
+    const { likes, liked } = this.state;
+
+    if (!liked) {
+      await addLike(id);
+      this.setState({ likes: likes + 1, liked: true });
+    } else {
+      await removeLike(id);
+      this.setState({ likes: likes - 1, liked: false });
+    }
+  }
+
+  _renderIcons = () => {
+    const { comments } = this.props;
+    const { likes, liked } = this.state;
+    const commentsCount = comments.length;
+
+    return (
+      <View style={styles.icons}>
+        <TouchableOpacity style={styles.iconPress} onPress={this._onLikePress}>
+          <Image source={liked ? icons.likeSelected : icons.like} style={styles.icon} />
+          <Text style={styles.iconText}>{likes}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.iconPress} onPress={this.props.onComment}>
+          <Image source={icons.chat} style={[styles.icon, { marginRight: -4 }]} />
+          <Text style={styles.iconText}>{commentsCount}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  };
 
   render() {
     const { text, image, time, name } = this.props;
+
+    const content = image ? <Picture uri={image} /> : <Text style={styles.text}>{text}</Text>;
 
     return (
       <View style={styles.container}>
@@ -56,11 +84,7 @@ class Item extends React.Component {
           <Text style={styles.time}>{time}</Text>
         </View>
 
-        {image ? (
-          <Picture uri={image} />
-        ) : (
-            <Text style={styles.text}>{text}</Text>
-          )}
+        {content}
 
         {this._renderIcons()}
       </View>
