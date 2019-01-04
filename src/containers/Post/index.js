@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   View,
+  ScrollView,
   Text
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
@@ -27,10 +28,6 @@ class Post extends React.Component {
         title: {
           text: 'Lähetä'
         }
-      },
-      bottomTabs: {
-        visible: false,
-        drawBehind: true
       }
     };
   }
@@ -67,37 +64,39 @@ class Post extends React.Component {
       <View style={styles.container}>
         <Background />
 
-        <View style={styles.backgroundColor}>
-          <TouchableOpacity
-            onPress={this._onImagePress}
-            style={styles.imageContainer}
-          >
-            {imageSource ? (
-              <Image source={imageSource} style={styles.photo} />
-            ) : (
-              <Image source={icons.addPhoto} style={styles.addPhotoIcon} />
-            )}
-          </TouchableOpacity>
-          <View style={styles.textInputWrapper}>
-            <TextInput
-              multiline={true}
-              numberOfLines={4}
-              onChangeText={text => this.setState({ text })}
-              value={this.state.text}
-              style={styles.textInput}
-              placeholder="Kirjoita..."
-            />
-          </View>
-        </View>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.backgroundColor}>
+            <TouchableOpacity
+              onPress={this._onImagePress}
+              style={styles.imageContainer}
+            >
+              {imageSource ? (
+                <Image source={imageSource} style={styles.photo} />
+              ) : (
+                <Image source={icons.addPhoto} style={styles.addPhotoIcon} />
+              )}
+            </TouchableOpacity>
 
-        <TouchableHighlight
-          underlayColor={colors.buttonSelected}
-          onPress={() => {}}
-          style={styles.button}
-          accessibilityLabel="Lähetä"
-        >
-          <Text style={styles.buttonText}>Lähetä</Text>
-        </TouchableHighlight>
+            <View style={styles.textInputWrapper}>
+              <TextInput
+                multiline={true}
+                onChangeText={text => this.setState({ text })}
+                value={this.state.text}
+                style={styles.textInput}
+                placeholder="Kirjoita..."
+              />
+            </View>
+          </View>
+
+          <TouchableHighlight
+            underlayColor={colors.buttonSelected}
+            onPress={() => {}}
+            style={styles.button}
+            accessibilityLabel="Lähetä"
+          >
+            <Text style={styles.buttonText}>Lähetä</Text>
+          </TouchableHighlight>
+        </ScrollView>
       </View>
     );
   }
@@ -108,6 +107,11 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  scrollContainer: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
