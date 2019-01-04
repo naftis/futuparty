@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { format } from 'timeago.js';
-import { getFeed } from '../../api';
+import { getFeed } from '../../services/api';
 import colors from '../../theme/colors';
 import icons from '../../theme/icons';
 import fonts from '../../theme/fonts';
@@ -118,10 +118,10 @@ class Feed extends React.Component {
       time={format(new Date(item.updated_at))}
       name={item.name}
       likes={item.likes}
-      comments={item.comments[0].count}
+      comments={item.comments}
       onComment={this._onPressComment(item)}
     />
-  );
+  )
 
   render() {
     const { items, showScrollTopButton, refreshing } = this.state;

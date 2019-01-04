@@ -1,9 +1,8 @@
 import { apiFetch } from './api';
 
 export const getPreSignedUrl = (image, folder) => {
-  const link = `/sign-s3?file-name=${folder}/${
-    image.itemName
-  }&file-type=image/jpeg`;
+  const link = `/sign-s3?file-name=${folder}/${image.itemName}&file-type=image/jpeg`;
+
   return apiFetch(link)
     .then(resp => resp.json())
     .then(response => {

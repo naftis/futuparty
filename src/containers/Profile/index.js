@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import ScrollableTabView from 'react-native-scrollable-tab-view-universal';
-import { getProfileImageUrl } from '../../api';
+import { getProfileImageUrl } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';

@@ -1,4 +1,4 @@
-import config from './config';
+import config from '../config';
 import { getPreSignedUrl } from './aws';
 
 function makeId() {
@@ -52,12 +52,40 @@ export async function postFeedItem(image, text) {
   });
 
   const request = await apiFetch('/feed', {
-    body: body,
+    body,
     method: 'POST'
   });
 
   if (!request.ok) {
     throw new Error('Error when posting item.');
+  }
+
+  return await request.json();
+}
+
+export async function postComment(text, feedItemId) {
+  const body = JSON.stringify({
+    text
+  });
+
+  const request = await apiFetch(`/feed/${feedItemId}/comment`, {
+    body,
+    method: 'POST'
+  });
+
+  if (!request.ok) {
+    throw new Error('Error when posting comment.');
+  }
+
+  return await request.json();
+}
+
+export async function getComments(feedItemId) {
+
+  const request = await apiFetch(`/feed/${feedItemId}/comments`);
+
+  if (!request.ok) {
+    throw new Error('Error when fetching comments.');
   }
 
   return await request.json();

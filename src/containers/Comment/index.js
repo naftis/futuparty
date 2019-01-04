@@ -16,6 +16,7 @@ import { format } from 'timeago.js';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
+import { postComment, getComments } from '../../services/api';
 
 function requiredPropsCheck(props, _, componentName) {
   if (!props.description && !props.image) {
@@ -31,7 +32,8 @@ class Comment extends React.Component {
       name: PropTypes.string.isRequired,
       description: requiredPropsCheck,
       image: requiredPropsCheck,
-      updated_at: PropTypes.string
+      updated_at: PropTypes.string,
+      id: PropTypes.string.isRequired
     }).isRequired
   };
 
@@ -59,85 +61,23 @@ class Comment extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({
-      comments: [
-        {
-          key: 'A',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'A2',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text:
-            'Aivan huikaiseva sovellus! Uskomatoxxnta! Uskomatoxxnta!Uskomatoxxnta!Uskomatoxx nta!Uskomatoxxnta!Uskomatoxxnta!Usk omatoxxnta!Uskomatoxxnta!'
-        },
-        {
-          key: 'Aa',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1v',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'Ac',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1d',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'Ae',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1f',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'Ag',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1h',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        }
-      ]
-    });
+    await this._onRefresh();
   }
 
-  _onRefresh = () => {
-    // TODO: get new comments
+  _onRefresh = async () => {
+    const feedItemId = this.props.item.id;
+    const comments = await getComments(feedItemId);
+
+    this.setState({ comments });
   };
 
-  _sendComment = () => {
-    // TODO: send comment
+  _sendComment = async () => {
+    const { text } = this.state;
+    const feedId = this.props.item.id;
+    await postComment(text, feedId);
+    await this._onRefresh();
+    this.setState({ text: '' });
+    this.commentList.scrollToEnd();
   };
 
   _renderImageWithText = () => {
@@ -169,12 +109,12 @@ class Comment extends React.Component {
     const parsedTime = format(new Date(item.updated_at));
 
     return (
-      <View style={styles.comment}>
+      <View key={item.id} style={styles.comment}>
         <View style={styles.commentInfo}>
           <Text style={styles.commentAuthor}>{item.name}</Text>
           <Text style={styles.commentTime}>{parsedTime.toUpperCase()}</Text>
         </View>
-        <Text style={styles.commentText}>{item.text}</Text>
+        <Text style={styles.commentText}>{item.description}</Text>
       </View>
     );
   }
@@ -186,6 +126,7 @@ class Comment extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
+          ref={(ref) => this.commentList = ref}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -213,7 +154,7 @@ class Comment extends React.Component {
             style={styles.textField}
           />
 
-          <TouchableOpacity onPress={this._sendComment}>
+          <TouchableOpacity onPress={this._sendComment} disabled={!text}>
             <Image source={icons.leftArrow} style={styles.arrowButton} />
           </TouchableOpacity>
         </View>

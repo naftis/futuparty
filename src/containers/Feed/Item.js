@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getProfileImageUrl } from '../../api';
+import { getProfileImageUrl } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
@@ -22,20 +22,20 @@ class Item extends React.Component {
     time: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     likes: PropTypes.string.isRequired,
-    comments: PropTypes.string.isRequired,
+    comments: PropTypes.array.isRequired,
     onComment: PropTypes.func
   };
 
   _renderIcons = () => (
     <View style={styles.icons}>
-      <TouchableOpacity style={styles.iconPress} onPress={() => {}}>
+      <TouchableOpacity style={styles.iconPress} onPress={() => { }}>
         <Image source={icons.like} style={styles.icon} />
         <Text style={styles.iconText}>0</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.iconPress} onPress={this.props.onComment}>
         <Image source={icons.chat} style={[styles.icon, { marginRight: -4 }]} />
-        <Text style={styles.iconText}>0</Text>
+        <Text style={styles.iconText}>{this.props.comments.length}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -59,8 +59,8 @@ class Item extends React.Component {
         {image ? (
           <Picture uri={image} />
         ) : (
-          <Text style={styles.text}>{text}</Text>
-        )}
+            <Text style={styles.text}>{text}</Text>
+          )}
 
         {this._renderIcons()}
       </View>

@@ -16,7 +16,7 @@ import Background from '../../components/Background';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import colors from '../../theme/colors';
-import { postFeedItem } from '../../api';
+import { postFeedItem } from '../../services/api';
 import { Navigation } from 'react-native-navigation';
 
 class Post extends React.Component {
@@ -96,8 +96,8 @@ class Post extends React.Component {
             {imageSource ? (
               <Image source={imageSource} style={styles.photo} />
             ) : (
-              <Image source={icons.addPhoto} style={styles.addPhotoIcon} />
-            )}
+                <Image source={icons.addPhoto} style={styles.addPhotoIcon} />
+              )}
           </TouchableOpacity>
           <View style={styles.textInputWrapper}>
             <TextInput
