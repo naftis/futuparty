@@ -128,14 +128,6 @@ class Feed extends React.Component {
   render() {
     const { items, showScrollTopButton, refreshing } = this.state;
 
-    if (items.length === 0) {
-      return (
-        <SafeAreaView style={styles.noPosts}>
-          <Text style={styles.noPostsText}>Ei viestejä!</Text>
-        </SafeAreaView>
-      );
-    }
-
     const itemsWithKeys = items.map(item => ({
       key: item.id,
       ...item
@@ -155,14 +147,17 @@ class Feed extends React.Component {
         <Background />
 
         <SafeAreaView style={{ flex: 1 }}>
-          <FlatList
-            ref={this.flatListRef}
-            contentContainerStyle={styles.container}
-            refreshControl={refreshControl}
-            data={itemsWithKeys}
-            renderItem={this._renderItem}
-            onScroll={this._onScroll}
-          />
+          {items.length === 0
+            ? <Text style={styles.noPostsText}>Ei viestejä!</Text>
+            : <FlatList
+              ref={this.flatListRef}
+              contentContainerStyle={styles.container}
+              refreshControl={refreshControl}
+              data={itemsWithKeys}
+              renderItem={this._renderItem}
+              onScroll={this._onScroll}
+            />
+          }
 
           <FloatingButton
             isScrollTop={showScrollTopButton}
@@ -176,11 +171,9 @@ class Feed extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  noPosts: {
-    alignItems: 'center'
-  },
   noPostsText: {
     marginTop: 50,
+    alignSelf: 'center',
     fontFamily: fonts.monospace
   }
 });

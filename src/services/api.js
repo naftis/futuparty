@@ -1,3 +1,5 @@
+import DeviceInfo from 'react-native-device-info';
+
 import config from '../config';
 import { getPreSignedUrl } from './aws';
 
@@ -24,6 +26,23 @@ export const apiFetch = (url, opts) => {
   opts.headers['x-token'] = 'token';
   return fetch(`${config.API_URL}${url}`, opts);
 };
+
+export async function registerUser(code) {
+  const response = await apiFetch('/register', {
+    method: 'PUT',
+    body: JSON.stringify({
+      code,
+      uuid: DeviceInfo.getUniqueID()
+    })
+  });
+
+  if (response.status !== 200) {
+    throw new Error('Error registering user');
+  }
+
+  const responseBody = await response.json();
+  return responseBody.user;
+}
 
 export async function getFeed() {
   const request = await apiFetch('/feed');

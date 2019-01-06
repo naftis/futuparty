@@ -61,11 +61,17 @@ class SignIn extends React.Component {
       return;
     }
 
-    await login('', text);
+    try {
+      await login(text);
 
-    if (isLoggedIn()) {
-      goHome();
-    } else {
+      const userIsLogged = await isLoggedIn();
+      if (userIsLogged) {
+        goHome();
+      }
+
+    } catch (e) {
+      console.log('Error logging in.');
+      console.log(e);
       this._shakeContainer();
     }
   };
