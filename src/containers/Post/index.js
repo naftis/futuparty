@@ -22,7 +22,8 @@ import { Navigation } from 'react-native-navigation';
 class Post extends React.Component {
   state = {
     imageSource: null,
-    text: ''
+    text: '',
+    sending: false,
   };
 
   static get options() {
@@ -73,16 +74,23 @@ class Post extends React.Component {
     const { imageSource, text } = this.state;
     const { componentId, onPostSuccess } = this.props;
 
-    await postFeedItem(imageSource, text);
-
-    Navigation.pop(componentId);
-    onPostSuccess();
+    try {
+      this.setState({ sending: true });
+      await postFeedItem(imageSource, text);
+      this.setState({ sending: false });
+      Navigation.pop(componentId);
+      onPostSuccess();
+    } catch (e) {
+      console.log('Failed sending post:');
+      console.log(e);
+      this.setState({ sending: false });
+    }
   };
 
   render() {
-    const { imageSource, text } = this.state;
+    const { imageSource, text, sending } = this.state;
 
-    const buttonDisabled = !imageSource && !text;
+    const buttonActive = (imageSource || text) && !sending;
 
     return (
       <View style={styles.container}>
@@ -114,11 +122,11 @@ class Post extends React.Component {
         <TouchableHighlight
           underlayColor={colors.buttonSelected}
           onPress={this._onPost}
-          style={buttonDisabled ? styles.buttonDisabled : styles.button}
-          accessibilityLabel="Lähetä"
-          disabled={buttonDisabled}
+          style={buttonActive ? styles.button : styles.buttonDisabled}
+          accessibilityLabel={sending ? 'Lähetetään...' : 'Lähetä'}
+          disabled={!buttonActive}
         >
-          <Text style={styles.buttonText}>Lähetä</Text>
+          <Text style={styles.buttonText}>{sending ? 'Lähetetään...' : 'Lähetä'}</Text>
         </TouchableHighlight>
       </View>
     );

@@ -109,7 +109,7 @@ class Comment extends React.Component {
     const parsedTime = format(new Date(item.updated_at));
 
     return (
-      <View key={item.id} style={styles.comment}>
+      <View style={styles.comment}>
         <View style={styles.commentInfo}>
           <Text style={styles.commentAuthor}>{item.name}</Text>
           <Text style={styles.commentTime}>{parsedTime.toUpperCase()}</Text>
@@ -127,6 +127,7 @@ class Comment extends React.Component {
       <SafeAreaView style={styles.container}>
         <FlatList
           ref={(ref) => this.commentList = ref}
+          keyExtractor={(item, index) => index.toString()}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
