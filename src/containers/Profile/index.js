@@ -37,7 +37,7 @@ class Profile extends React.Component {
     Navigation.mergeOptions('settingsDrawer', {
       sideMenu: {
         right: {
-          visible: true
+          visible: !store.isDrawerOpen
         }
       }
     });

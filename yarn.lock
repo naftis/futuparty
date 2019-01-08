@@ -5112,10 +5112,10 @@ react-native-markdown-renderer@^3.2.8:
     prop-types "^15.5.10"
     react-native-fit-image "^1.5.2"
 
-react-native-navigation@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.5.0.tgz#418d9296da5bf38b17b0503f72b0726c663d39fd"
-  integrity sha512-Gzt3NFnxNXvSW1dX7n4agDUFngrN0g5tzN6wEHa0/tkbXXsVu2lMDAEmu5G1Y5v3s5tecCG3+zG4IoHxK9zMXA==
+react-native-navigation@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-2.5.1.tgz#98072ce387b2f352b58110352e446bc6fd7de397"
+  integrity sha512-v1S18F7GuWX4MduU56MqebNvkvrh8OvTYUWgRwx6iSWJXV8Td4Optwdp20iB4wMUuA4dZ7gXf+4fIKye9TSnBA==
   dependencies:
     hoist-non-react-statics "3.x.x"
     lodash "4.17.x"

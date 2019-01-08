@@ -7,27 +7,43 @@ import {
   View,
   SafeAreaView
 } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { logout } from '../../services/auth';
 import { goAuth } from '../../navigation';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
+import store from './store';
 
 const SETTINGS_ITEMS = [
   {
+    text: 'Vaihda profiilikuva',
+    icon: icons.addPhoto,
+    onPress: () => {
+      // TODO
+      alert('change photo');
+    }
+  },
+  {
     text: 'Lisenssit',
     icon: icons.licenses,
-    onPress: () => {}
+    onPress: () => {
+      // TODO
+    }
   },
   {
     text: 'Käyttöehdot',
     icon: icons.tos,
-    onPress: () => {}
+    onPress: () => {
+      // TODO
+    }
   },
   {
     text: 'Yksityisyys',
     icon: icons.privacy,
-    onPress: () => {}
+    onPress: () => {
+      // TODO
+    }
   },
   {
     text: 'Kirjaudu ulos',
@@ -40,6 +56,21 @@ const SETTINGS_ITEMS = [
 ];
 
 class Settings extends React.Component {
+  constructor(props) {
+    super(props);
+    Navigation.events().bindComponent(this);
+  }
+
+  // Drawer opening button cannot be toggled by RNN so
+  // we need to store the information about it's open state
+  componentDidAppear() {
+    store.isDrawerOpen = true;
+  }
+
+  componentDidDisappear() {
+    store.isDrawerOpen = false;
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
