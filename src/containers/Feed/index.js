@@ -180,6 +180,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
     alignSelf: 'center',
     fontFamily: fonts.monospace
+  },
+  container: {
+    paddingBottom: 10
   }
 });
 

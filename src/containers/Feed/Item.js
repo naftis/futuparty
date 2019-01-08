@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { getProfileImageUrl, addLike, removeLike } from '../../services/api';
 import FastImage from 'react-native-fast-image';
+import { addLike, getProfileImageUrl, removeLike } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
+import sizes from '../../theme/sizes';
 import Picture from './Picture';
 
 function requiredPropsCheck(props, _, componentName) {
@@ -152,7 +153,7 @@ const styles = StyleSheet.create({
   text: {
     paddingLeft: 50,
     marginBottom: 15,
-    fontSize: 18,
+    fontSize: sizes.TEXT_LARGE,
     fontFamily: fonts.monospace,
     color: colors.text
   },

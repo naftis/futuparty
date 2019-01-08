@@ -10,6 +10,7 @@ import { logout } from '../../services/auth';
 import { goAuth } from '../../navigation';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
+import sizes from '../../theme/sizes';
 
 const SETTINGS_ITEMS = [
   {
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   },
   linkText: {
     fontFamily: fonts.default,
-    fontSize: 16
+    fontSize: sizes.TEXT_MEDIUM
   },
   icon: {
     marginRight: 10,

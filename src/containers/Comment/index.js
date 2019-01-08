@@ -15,6 +15,7 @@ import {
 import { format } from 'timeago.js';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+import sizes from '../../theme/sizes';
 import icons from '../../theme/icons';
 import { postComment, getComments } from '../../services/api';
 import Picture from './Picture';
@@ -172,7 +173,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: fonts.default,
-    fontSize: 22,
+    fontSize: sizes.TEXT_LARGE,
     textAlign: 'center',
     padding: 10,
     paddingTop: 20,
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   imageTextTime: {
     fontFamily: fonts.monospace,
     color: '#bbb',
-    fontSize: 11,
+    fontSize: sizes.TEXT_TINY,
     fontWeight: 'bold'
   },
   comments: {
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
   commentTime: {
     fontFamily: fonts.monospace,
     color: '#bbb',
-    fontSize: 11
+    fontSize: sizes.TEXT_TINY
   },
   commentText: {
     lineHeight: 20,

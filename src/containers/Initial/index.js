@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { isLoggedIn } from '../../services/auth';
 import { goAuth, goHome } from '../../navigation';
+import sizes from '../../theme/sizes';
 
 class Initial extends React.Component {
   async componentDidMount() {
@@ -25,7 +26,7 @@ class Initial extends React.Component {
 
 const styles = StyleSheet.create({
   welcome: {
-    fontSize: 28
+    fontSize: sizes.TEXT_HUGE
   },
   container: {
     flex: 1,

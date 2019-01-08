@@ -1,8 +1,9 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { getProfileImageUrl } from '../../services/api';
 import { Navigation } from 'react-native-navigation';
+import { getProfileImageUrl } from '../../services/api';
 import fonts from '../../theme/fonts';
+import sizes from '../../theme/sizes';
 import Pictures from './Pictures';
 
 const SIDEMENU_ID = 'sideMenu';
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontFamily: fonts.default,
-    fontSize: 26,
+    fontSize: sizes.TEXT_HUGE,
     margin: 8
   },
   tabs: {
