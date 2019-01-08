@@ -37,7 +37,7 @@ class Feed extends React.Component {
   }
 
   state = {
-    refreshing: false,
+    refreshing: true,
     showScrollTopButton: false,
     items: []
   };
@@ -51,7 +51,7 @@ class Feed extends React.Component {
   async componentDidMount() {
     const items = await getFeed();
 
-    this.setState({ items });
+    this.setState({ items, refreshing: false });
   }
 
   _onRefresh = async () => {
