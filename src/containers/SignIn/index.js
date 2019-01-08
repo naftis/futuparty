@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 import luuppi from '../../../assets/luuppi.png';
-import { isLoggedIn, login } from '../../auth';
+import { isLoggedIn, login } from '../../services/auth';
 import { goHome } from '../../navigation';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -61,11 +61,17 @@ class SignIn extends React.Component {
       return;
     }
 
-    await login('', text);
+    try {
+      await login(text);
 
-    if (isLoggedIn()) {
-      goHome();
-    } else {
+      const userIsLogged = await isLoggedIn();
+      if (userIsLogged) {
+        goHome();
+      }
+
+    } catch (e) {
+      console.log('Error logging in.');
+      console.log(e);
       this._shakeContainer();
     }
   };

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { format } from 'timeago.js';
-import { getFeed } from '../../api';
+import { getFeed } from '../../services/api';
 import colors from '../../theme/colors';
 import icons from '../../theme/icons';
 import fonts from '../../theme/fonts';
@@ -57,9 +57,9 @@ class Feed extends React.Component {
   _onRefresh = async () => {
     this.setState({ refreshing: true });
 
-    await getFeed();
+    const items = await getFeed();
 
-    this.setState({ refreshing: false });
+    this.setState({ items, refreshing: false });
   };
 
   _onScroll = event => {
@@ -81,7 +81,10 @@ class Feed extends React.Component {
   _addPost = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'Post'
+        name: 'Post',
+        passProps: {
+          onPostSuccess: this._onRefresh
+        }
       }
     });
   };
@@ -110,26 +113,20 @@ class Feed extends React.Component {
 
   _renderItem = ({ item }) => (
     <Item
+      id={item.id}
       image={item.image}
       text={item.description}
       time={format(new Date(item.updated_at))}
       name={item.name}
-      likes={item.likes}
-      comments={item.comments[0].count}
+      likes={parseInt(item.likes)}
+      liked={item.liked}
+      comments={item.comments}
       onComment={this._onPressComment(item)}
     />
-  );
+  )
 
   render() {
     const { items, showScrollTopButton, refreshing } = this.state;
-
-    if (items.length === 0) {
-      return (
-        <SafeAreaView style={styles.noPosts}>
-          <Text style={styles.noPostsText}>Ei viestejä!</Text>
-        </SafeAreaView>
-      );
-    }
 
     const itemsWithKeys = items.map(item => ({
       key: item.id,
@@ -150,14 +147,17 @@ class Feed extends React.Component {
         <Background />
 
         <SafeAreaView style={{ flex: 1 }}>
-          <FlatList
-            ref={this.flatListRef}
-            contentContainerStyle={styles.container}
-            refreshControl={refreshControl}
-            data={itemsWithKeys}
-            renderItem={this._renderItem}
-            onScroll={this._onScroll}
-          />
+          {items.length === 0
+            ? <Text style={styles.noPostsText}>Ei viestejä!</Text>
+            : <FlatList
+              ref={this.flatListRef}
+              contentContainerStyle={styles.container}
+              refreshControl={refreshControl}
+              data={itemsWithKeys}
+              renderItem={this._renderItem}
+              onScroll={this._onScroll}
+            />
+          }
 
           <FloatingButton
             isScrollTop={showScrollTopButton}
@@ -171,10 +171,9 @@ class Feed extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  noPosts: {
-    alignItems: 'center'
-  },
   noPostsText: {
+    marginTop: 50,
+    alignSelf: 'center',
     fontFamily: fonts.monospace
   }
 });

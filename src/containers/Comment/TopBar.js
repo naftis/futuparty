@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, Platform, StyleSheet, Text, View } from 'react-native';
-import { getProfileImageUrl } from '../../api';
+import { getProfileImageUrl } from '../../services/api';
 import fonts from '../../theme/fonts';
 
 class CommentTopBar extends React.Component {
