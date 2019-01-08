@@ -1,10 +1,13 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { getProfileImageUrl } from '../../services/api';
-import fonts from '../../theme/fonts';
-import sizes from '../../theme/sizes';
 import Pictures from './Pictures';
+import PropTypes from 'prop-types';
+import icons from '../../theme/icons';
+import fonts from '../../theme/fonts';
+import FastImage from 'react-native-fast-image';
+import store from '../Settings/store';
 
 const SIDEMENU_ID = 'sideMenu';
 
@@ -15,14 +18,24 @@ class Profile extends React.Component {
         rightButtons: [
           {
             id: SIDEMENU_ID,
-            component: {
-              name: 'Burger'
-            }
+            // TODO: change corresponding icon
+            icon: icons.privacy,
+            color: '#000',
+            disableColorTint: false
           }
-        ]
+        ],
+        title: {
+          text: 'TODO: Nimi',
+          fontFamily: fonts.monospace,
+          alignment: 'fill'
+        }
       }
     };
   }
+
+  static propTypes = {
+    componentId: PropTypes.string.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -43,21 +56,30 @@ class Profile extends React.Component {
     });
   }
 
+  _changeProfilePicture() {
+    alert('TODO: Change profile picture');
+  }
+
   render() {
+    const { componentId } = this.props;
+
     return (
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            blurRadius={10}
-            source={{ uri: getProfileImageUrl() }}
-          />
-        </View>
-
-        <Text style={styles.name}>Pyry Rouvila</Text>
-
-        <Pictures />
+        <Pictures
+          header={
+            <TouchableOpacity
+              onPress={this._changeProfilePicture}
+              style={styles.imageContainer}
+            >
+              <FastImage
+                style={styles.image}
+                resizeMode="cover"
+                source={{ uri: getProfileImageUrl() }}
+              />
+            </TouchableOpacity>
+          }
+          componentId={componentId}
+        />
       </View>
     );
   }
@@ -71,12 +93,8 @@ const styles = StyleSheet.create({
     height: 240
   },
   image: {
-    flex: 1
-  },
-  name: {
-    fontFamily: fonts.default,
-    fontSize: sizes.TEXT_HUGE,
-    margin: 8
+    flex: 1,
+    marginBottom: -65
   },
   tabs: {
     flex: 1

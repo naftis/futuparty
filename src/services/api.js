@@ -51,6 +51,11 @@ export async function getFeed() {
   return response;
 }
 
+export async function getUserFeed() {
+  // TODO: get current user feed
+  return getFeed();
+}
+
 export async function postFeedItem(image, text) {
   let imageUrl;
 
@@ -100,7 +105,6 @@ export async function postComment(text, feedItemId) {
 }
 
 export async function getComments(feedItemId) {
-
   const request = await apiFetch(`/feed/${feedItemId}/comments`);
 
   if (!request.ok) {
@@ -135,5 +139,5 @@ export async function removeLike(feedItemId) {
 }
 
 export function getProfileImageUrl() {
-  return 'https://placehold.it/350x350';
+  return 'https://placeimg.com/640/480/any';
 }
