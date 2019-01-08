@@ -17,6 +17,7 @@ import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import { postComment, getComments } from '../../services/api';
+import Picture from './Picture';
 
 function requiredPropsCheck(props, _, componentName) {
   if (!props.description && !props.image) {
@@ -87,7 +88,7 @@ class Comment extends React.Component {
 
     return (
       <>
-        <Image style={styles.image} source={{ uri: image }} />
+        <Picture uri={image} />
 
         {description && (
           <View style={styles.imageTextWrapper}>
@@ -126,8 +127,8 @@ class Comment extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
-          ref={(ref) => this.commentList = ref}
-          keyExtractor={(item, index) => index.toString()}
+          ref={ref => (this.commentList = ref)}
+          keyExtractor={(_, index) => index.toString()}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}

@@ -8,7 +8,9 @@ import Info from './containers/Info';
 import Initial from './containers/Initial';
 import Post from './containers/Post';
 import Profile from './containers/Profile';
+import Burger from './containers/Profile/Burger';
 import Program from './containers/Program';
+import Settings from './containers/Settings';
 import SignIn from './containers/SignIn';
 
 export function registerScreens() {
@@ -29,6 +31,7 @@ export function registerScreens() {
   Navigation.registerComponent('Program', () => Program);
 
   Navigation.registerComponent('Profile', () => Profile);
+  Navigation.registerComponent('Settings', () => Settings);
 
   Navigation.registerComponent('Feed', () => Feed);
   Navigation.registerComponent('Comment', () => Comment);
@@ -41,4 +44,5 @@ export function registerScreens() {
    */
   Navigation.registerComponent('FeedTopBar', () => FeedTopBar);
   Navigation.registerComponent('CommentTopBar', () => CommentTopBar);
+  Navigation.registerComponent('Burger', () => Burger);
 }

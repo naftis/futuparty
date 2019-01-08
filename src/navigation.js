@@ -1,5 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 import colors from './theme/colors';
+import icons from './theme/icons';
 
 Navigation.events().registerAppLaunchedListener(() => {
   Navigation.setDefaultOptions({
@@ -100,14 +101,34 @@ export const goHome = async () =>
             }
           },
           {
-            stack: {
-              children: [
-                {
-                  component: {
-                    name: 'Profile'
-                  }
+            sideMenu: {
+              center: {
+                stack: {
+                  children: [
+                    {
+                      component: {
+                        name: 'Profile'
+                      }
+                    }
+                  ]
                 }
-              ]
+              },
+              right: {
+                component: {
+                  name: 'Settings',
+                  id: 'settingsDrawer'
+                }
+              },
+
+              /*
+               * Due to Profile-page having side menu,
+               * we need to set the icon here
+               */
+              options: {
+                bottomTab: {
+                  icon: icons.user
+                }
+              }
             }
           }
         ]

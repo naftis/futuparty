@@ -1,28 +1,45 @@
 import React from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view-universal';
 import { getProfileImageUrl } from '../../services/api';
-import colors from '../../theme/colors';
+import { Navigation } from 'react-native-navigation';
 import fonts from '../../theme/fonts';
-import icons from '../../theme/icons';
 import Pictures from './Pictures';
-import Settings from './Settings';
+
+const SIDEMENU_ID = 'sideMenu';
 
 class Profile extends React.Component {
-  state = {
-    selectedTab: 0
-  };
-
   static get options() {
     return {
       topBar: {
-        visible: false,
-        drawBehind: true
-      },
-      bottomTab: {
-        icon: icons.user
+        rightButtons: [
+          {
+            id: SIDEMENU_ID,
+            component: {
+              name: 'Burger'
+            }
+          }
+        ]
       }
     };
+  }
+
+  constructor(props) {
+    super(props);
+    Navigation.events().bindComponent(this);
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId !== SIDEMENU_ID) {
+      return;
+    }
+
+    Navigation.mergeOptions('settingsDrawer', {
+      sideMenu: {
+        right: {
+          visible: true
+        }
+      }
+    });
   }
 
   render() {
@@ -38,18 +55,8 @@ class Profile extends React.Component {
         </View>
 
         <Text style={styles.name}>Pyry Rouvila</Text>
-        <View style={styles.tabs}>
-          <ScrollableTabView
-            tabBarTextStyle={{ fontFamily: fonts.default, fontSize: 16 }}
-            tabBarUnderlineStyle={{
-              backgroundColor: colors.profileTabBarSelected
-            }}
-            tabBarActiveTextColor={colors.profileTabBarSelected}
-          >
-            <Pictures tabLabel="Kuvat" />
-            <Settings tabLabel="Asetukset" />
-          </ScrollableTabView>
-        </View>
+
+        <Pictures />
       </View>
     );
   }

@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Image, Platform, StyleSheet, Text, View } from 'react-native';
 import { getProfileImageUrl } from '../../services/api';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import fonts from '../../theme/fonts';
+import FastImage from 'react-native-fast-image';
 
 class CommentTopBar extends React.Component {
   static propTypes = {
@@ -17,7 +18,7 @@ class CommentTopBar extends React.Component {
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && (
-          <Image
+          <FastImage
             style={styles.profileImage}
             source={{ uri: getProfileImageUrl() }}
           />
@@ -40,7 +41,8 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 10,
     marginLeft: Platform.OS === 'ios' ? 10 : 0,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: 20
   },
   name: {
     fontFamily: fonts.monospace,

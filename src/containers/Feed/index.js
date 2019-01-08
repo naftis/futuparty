@@ -123,7 +123,7 @@ class Feed extends React.Component {
       comments={item.comments}
       onComment={this._onPressComment(item)}
     />
-  )
+  );
 
   render() {
     const { items, showScrollTopButton, refreshing } = this.state;
@@ -147,9 +147,10 @@ class Feed extends React.Component {
         <Background />
 
         <SafeAreaView style={{ flex: 1 }}>
-          {items.length === 0
-            ? <Text style={styles.noPostsText}>Ei viestejä!</Text>
-            : <FlatList
+          {items.length === 0 ? (
+            <Text style={styles.noPostsText}>Ei viestejä!</Text>
+          ) : (
+            <FlatList
               ref={this.flatListRef}
               contentContainerStyle={styles.container}
               refreshControl={refreshControl}
@@ -157,7 +158,7 @@ class Feed extends React.Component {
               renderItem={this._renderItem}
               onScroll={this._onScroll}
             />
-          }
+          )}
 
           <FloatingButton
             isScrollTop={showScrollTopButton}
@@ -171,6 +172,10 @@ class Feed extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  noPosts: {
+    alignItems: 'center',
+    marginTop: 20
+  },
   noPostsText: {
     marginTop: 50,
     alignSelf: 'center',

@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { getProfileImageUrl, addLike, removeLike } from '../../services/api';
+import FastImage from 'react-native-fast-image';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
@@ -31,7 +32,7 @@ class Item extends React.Component {
   state = {
     likes: this.props.likes,
     liked: this.props.liked
-  }
+  };
 
   _onLikePress = async () => {
     const { id } = this.props;
@@ -44,7 +45,7 @@ class Item extends React.Component {
       await removeLike(id);
       this.setState({ likes: likes - 1, liked: false });
     }
-  }
+  };
 
   _renderIcons = () => {
     const { comments } = this.props;
@@ -54,12 +55,21 @@ class Item extends React.Component {
     return (
       <View style={styles.icons}>
         <TouchableOpacity style={styles.iconPress} onPress={this._onLikePress}>
-          <Image source={liked ? icons.likeSelected : icons.like} style={styles.icon} />
+          <Image
+            source={liked ? icons.likeSelected : icons.like}
+            style={styles.icon}
+          />
           <Text style={styles.iconText}>{likes}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.iconPress} onPress={this.props.onComment}>
-          <Image source={icons.chat} style={[styles.icon, { marginRight: -4 }]} />
+        <TouchableOpacity
+          style={styles.iconPress}
+          onPress={this.props.onComment}
+        >
+          <Image
+            source={icons.chat}
+            style={[styles.icon, { marginRight: -4 }]}
+          />
           <Text style={styles.iconText}>{commentsCount}</Text>
         </TouchableOpacity>
       </View>
@@ -69,14 +79,19 @@ class Item extends React.Component {
   render() {
     const { text, image, time, name } = this.props;
 
-    const content = image ? <Picture uri={image} /> : <Text style={styles.text}>{text}</Text>;
+    const content = image ? (
+      <Picture uri={image} />
+    ) : (
+      <Text style={styles.text}>{text}</Text>
+    );
 
     return (
       <View style={styles.container}>
         <View style={styles.info}>
-          <Image
+          <FastImage
             style={styles.profilePicture}
             source={{ uri: getProfileImageUrl() }}
+            resizeMode="cover"
           />
 
           <Text style={styles.username}>{name}</Text>
@@ -119,8 +134,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     marginRight: 10,
-    borderRadius: 20,
-    resizeMode: 'cover'
+    borderRadius: 20
   },
   username: {
     marginRight: 10,

@@ -15,17 +15,17 @@ const SETTINGS_ITEMS = [
   {
     text: 'Lisenssit',
     icon: icons.licenses,
-    onPress: () => { }
+    onPress: () => {}
   },
   {
     text: 'Käyttöehdot',
     icon: icons.tos,
-    onPress: () => { }
+    onPress: () => {}
   },
   {
     text: 'Yksityisyys',
     icon: icons.privacy,
-    onPress: () => { }
+    onPress: () => {}
   },
   {
     text: 'Kirjaudu ulos',
