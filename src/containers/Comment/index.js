@@ -45,6 +45,8 @@ class Comment extends React.Component {
     text: ''
   };
 
+  commentListRef = React.createRef();
+
   static get options() {
     return {
       topBar: {
@@ -79,7 +81,7 @@ class Comment extends React.Component {
     await postComment(text, feedId);
     await this._onRefresh();
     this.setState({ text: '' });
-    this.commentList.scrollToEnd();
+    this.commentListRef.current.scrollToEnd();
   };
 
   _renderImageWithText = () => {
@@ -128,7 +130,7 @@ class Comment extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
-          ref={ref => (this.commentList = ref)}
+          ref={this.commentListRef}
           keyExtractor={(_, index) => index.toString()}
           refreshControl={
             <RefreshControl
