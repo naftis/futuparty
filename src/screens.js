@@ -11,7 +11,6 @@ import Info from './containers/Info';
 import Initial from './containers/Initial';
 import Post from './containers/Post';
 import Profile from './containers/Profile/ProfileContainer';
-import Burger from './containers/Profile/Burger';
 import Program from './containers/Program';
 import Settings from './containers/Settings';
 import SignIn from './containers/SignIn/SignInContainer';
@@ -86,12 +85,6 @@ export function registerScreens() {
   Navigation.registerComponentWithRedux(
     'CommentTopBar',
     () => CommentTopBar,
-    Provider,
-    store
-  );
-  Navigation.registerComponentWithRedux(
-    'Burger',
-    () => Burger,
     Provider,
     store
   );

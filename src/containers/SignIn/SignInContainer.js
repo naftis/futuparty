@@ -5,6 +5,15 @@ import SignIn from './SignIn';
 import { initFetchUser } from '../../redux/modules/auth/actions';
 
 class SignInContainer extends React.Component {
+  static get options() {
+    return {
+      topBar: {
+        visible: false,
+        drawBehind: true
+      }
+    };
+  }
+
   render() {
     return <SignIn {...this.props} />;
   }
