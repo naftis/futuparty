@@ -1,4 +1,7 @@
 import { Navigation } from 'react-native-navigation';
+import { Provider } from 'react-redux';
+import { configureStore } from './redux/configureStore';
+
 import Comment from './containers/Comment';
 import CommentTopBar from './containers/Comment/TopBar';
 import Feed from './containers/Feed';
@@ -7,42 +10,89 @@ import Food from './containers/Food';
 import Info from './containers/Info';
 import Initial from './containers/Initial';
 import Post from './containers/Post';
-import Profile from './containers/Profile';
+import Profile from './containers/Profile/ProfileContainer';
 import Burger from './containers/Profile/Burger';
 import Program from './containers/Program';
 import Settings from './containers/Settings';
-import SignIn from './containers/SignIn';
+import SignIn from './containers/SignIn/SignInContainer';
+
+const store = configureStore();
 
 export function registerScreens() {
   /*
    * Initial app load
    */
-  Navigation.registerComponent('Initial', () => Initial);
+  Navigation.registerComponentWithRedux(
+    'Initial',
+    () => Initial,
+    Provider,
+    store
+  );
 
   /*
    * Unauthorized user
    */
-  Navigation.registerComponent('SignIn', () => SignIn);
+  Navigation.registerComponentWithRedux(
+    'SignIn',
+    () => SignIn,
+    Provider,
+    store
+  );
 
   /*
    * Signed in view
    */
-  Navigation.registerComponent('Food', () => Food);
-  Navigation.registerComponent('Program', () => Program);
+  Navigation.registerComponentWithRedux('Food', () => Food, Provider, store);
+  Navigation.registerComponentWithRedux(
+    'Program',
+    () => Program,
+    Provider,
+    store
+  );
 
-  Navigation.registerComponent('Profile', () => Profile);
-  Navigation.registerComponent('Settings', () => Settings);
+  Navigation.registerComponentWithRedux(
+    'Profile',
+    () => Profile,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    'Settings',
+    () => Settings,
+    Provider,
+    store
+  );
 
-  Navigation.registerComponent('Feed', () => Feed);
-  Navigation.registerComponent('Comment', () => Comment);
-  Navigation.registerComponent('Post', () => Post);
+  Navigation.registerComponentWithRedux('Feed', () => Feed, Provider, store);
+  Navigation.registerComponentWithRedux(
+    'Comment',
+    () => Comment,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux('Post', () => Post, Provider, store);
 
-  Navigation.registerComponent('Info', () => Info);
+  Navigation.registerComponentWithRedux('Info', () => Info, Provider, store);
 
   /*
    * UI Components
    */
-  Navigation.registerComponent('FeedTopBar', () => FeedTopBar);
-  Navigation.registerComponent('CommentTopBar', () => CommentTopBar);
-  Navigation.registerComponent('Burger', () => Burger);
+  Navigation.registerComponentWithRedux(
+    'FeedTopBar',
+    () => FeedTopBar,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    'CommentTopBar',
+    () => CommentTopBar,
+    Provider,
+    store
+  );
+  Navigation.registerComponentWithRedux(
+    'Burger',
+    () => Burger,
+    Provider,
+    store
+  );
 }
