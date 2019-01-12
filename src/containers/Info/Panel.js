@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import fonts from '../../theme/fonts';
-import PropTypes from 'prop-types';
+import sizes from '../../theme/sizes';
 
 const Panel = ({ icon, name, onPress }) => (
   <View style={styles.opacityWrapper}>
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     tintColor: '#000'
   },
   text: {
-    fontSize: 20,
+    fontSize: sizes.TEXT_LARGE,
     fontFamily: fonts.default
   }
 });

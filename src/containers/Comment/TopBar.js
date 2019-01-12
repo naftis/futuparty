@@ -1,29 +1,30 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Image, Platform, StyleSheet, Text, View } from 'react-native';
-import { getProfileImageUrl } from '../../api';
+import { getProfileImageUrl } from '../../services/api';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import fonts from '../../theme/fonts';
+import FastImage from 'react-native-fast-image';
 
 class CommentTopBar extends React.Component {
   static propTypes = {
     item: PropTypes.shape({
-      author: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired
     }).isRequired
   };
 
   render() {
-    const { author } = this.props.item;
+    const { name } = this.props.item;
 
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && (
-          <Image
+          <FastImage
             style={styles.profileImage}
             source={{ uri: getProfileImageUrl() }}
           />
         )}
 
-        <Text style={styles.author}>{author}</Text>
+        <Text style={styles.name}>{name}</Text>
       </View>
     );
   }
@@ -40,9 +41,10 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 10,
     marginLeft: Platform.OS === 'ios' ? 10 : 0,
-    overflow: 'hidden'
+    overflow: 'hidden',
+    borderRadius: 20
   },
-  author: {
+  name: {
     fontFamily: fonts.monospace,
     fontWeight: 'bold'
   }

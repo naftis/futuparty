@@ -1,6 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import fonts from '../../theme/fonts';
+import sizes from '../../theme/sizes';
 
 const PROGRAM_ITEMS = [
   {
@@ -96,16 +97,16 @@ const styles = StyleSheet.create({
     padding: 16
   },
   heading: {
-    fontSize: 20,
+    fontSize: sizes.TEXT_LARGE,
     fontFamily: fonts.default
   },
   time: {
     marginBottom: 8,
-    fontSize: 12,
+    fontSize: sizes.TEXT_TINY,
     fontFamily: fonts.default
   },
   description: {
-    fontSize: 14,
+    fontSize: sizes.TEXT_SMALL,
     fontFamily: fonts.default,
     marginBottom: 16
   },

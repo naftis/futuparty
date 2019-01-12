@@ -12,6 +12,7 @@ export default {
 
   button: '#bc9600',
   buttonSelected: '#826801',
+  buttonDisabled: '#afafaf',
 
   profileTabBarSelected: '#826801',
 

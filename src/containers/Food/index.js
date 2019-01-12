@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import Markdown from 'react-native-markdown-renderer';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+import sizes from '../../theme/sizes';
 
 const content = `
 # Vegaani
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    fontSize: 20
+    fontSize: sizes.TEXT_LARGE
   },
   scrollView: {
     justifyContent: 'center',
@@ -93,14 +94,14 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   heading1: {
-    fontSize: 32,
+    fontSize: sizes.TEXT_HUGE,
     marginBottom: 10
   },
   heading2: {
-    fontSize: 24
+    fontSize: sizes.TEXT_LARGE
   },
   heading3: {
-    fontSize: 18,
+    fontSize: sizes.TEXT_MEDIUM,
     color: colors.foodSecondaryColor
   },
   hr: {
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
   em: {
     color: colors.foodPrimaryColor,
     fontFamily: fonts.default,
-    fontSize: 15
+    fontSize: sizes.TEXT_MEDIUM
   }
 });
 

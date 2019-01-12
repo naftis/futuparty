@@ -9,11 +9,12 @@ import {
   View
 } from 'react-native';
 import luuppi from '../../../assets/luuppi.png';
-import { isLoggedIn, login } from '../../auth';
+import { isLoggedIn, login } from '../../services/auth';
 import { goHome } from '../../navigation';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
+import sizes from '../../theme/sizes';
 
 class SignIn extends React.Component {
   state = {
@@ -61,11 +62,16 @@ class SignIn extends React.Component {
       return;
     }
 
-    await login('', text);
+    try {
+      await login(text);
 
-    if (isLoggedIn()) {
-      goHome();
-    } else {
+      const userIsLogged = await isLoggedIn();
+      if (userIsLogged) {
+        goHome();
+      }
+    } catch (e) {
+      console.log('Error logging in.');
+      console.log(e);
       this._shakeContainer();
     }
   };
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: fonts.default,
-    fontSize: 16
+    fontSize: sizes.TEXT_MEDIUM
   },
   image: {
     height: 100,
@@ -129,7 +135,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     backgroundColor: 'rgba(0,0,0,0.1)',
     fontFamily: fonts.monospace,
-    fontSize: 20
+    fontSize: sizes.TEXT_LARGE
   },
   inputContainer: {
     backgroundColor: 'rgba(0,0,0,0.05)',

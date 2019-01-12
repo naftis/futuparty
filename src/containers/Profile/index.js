@@ -1,55 +1,85 @@
 import React from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-import ScrollableTabView from 'react-native-scrollable-tab-view-universal';
-import { getProfileImageUrl } from '../../api';
-import colors from '../../theme/colors';
-import fonts from '../../theme/fonts';
-import icons from '../../theme/icons';
+import { TouchableOpacity, StyleSheet, View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { getProfileImageUrl } from '../../services/api';
 import Pictures from './Pictures';
-import Settings from './Settings';
+import PropTypes from 'prop-types';
+import icons from '../../theme/icons';
+import fonts from '../../theme/fonts';
+import FastImage from 'react-native-fast-image';
+import store from '../Settings/store';
+
+const SIDEMENU_ID = 'sideMenu';
 
 class Profile extends React.Component {
-  state = {
-    selectedTab: 0
-  };
-
   static get options() {
     return {
       topBar: {
-        visible: false,
-        drawBehind: true
-      },
-      bottomTab: {
-        icon: icons.user
+        rightButtons: [
+          {
+            id: SIDEMENU_ID,
+            // TODO: change corresponding icon
+            icon: icons.privacy,
+            color: '#000',
+            disableColorTint: false
+          }
+        ],
+        title: {
+          text: 'TODO: Nimi',
+          fontFamily: fonts.monospace,
+          alignment: 'fill'
+        }
       }
     };
   }
 
+  static propTypes = {
+    componentId: PropTypes.string.isRequired
+  };
+
+  constructor(props) {
+    super(props);
+    Navigation.events().bindComponent(this);
+  }
+
+  navigationButtonPressed({ buttonId }) {
+    if (buttonId !== SIDEMENU_ID) {
+      return;
+    }
+
+    Navigation.mergeOptions('settingsDrawer', {
+      sideMenu: {
+        right: {
+          visible: !store.isDrawerOpen
+        }
+      }
+    });
+  }
+
+  _changeProfilePicture() {
+    alert('TODO: Change profile picture');
+  }
+
   render() {
+    const { componentId } = this.props;
+
     return (
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
-          <Image
-            style={styles.image}
-            resizeMode="cover"
-            blurRadius={10}
-            source={{ uri: getProfileImageUrl() }}
-          />
-        </View>
-
-        <Text style={styles.name}>Pyry Rouvila</Text>
-        <View style={styles.tabs}>
-          <ScrollableTabView
-            tabBarTextStyle={{ fontFamily: fonts.default, fontSize: 16 }}
-            tabBarUnderlineStyle={{
-              backgroundColor: colors.profileTabBarSelected
-            }}
-            tabBarActiveTextColor={colors.profileTabBarSelected}
-          >
-            <Pictures tabLabel="Kuvat" />
-            <Settings tabLabel="Asetukset" />
-          </ScrollableTabView>
-        </View>
+        <Pictures
+          header={
+            <TouchableOpacity
+              onPress={this._changeProfilePicture}
+              style={styles.imageContainer}
+            >
+              <FastImage
+                style={styles.image}
+                resizeMode="cover"
+                source={{ uri: getProfileImageUrl() }}
+              />
+            </TouchableOpacity>
+          }
+          componentId={componentId}
+        />
       </View>
     );
   }
@@ -63,12 +93,8 @@ const styles = StyleSheet.create({
     height: 240
   },
   image: {
-    flex: 1
-  },
-  name: {
-    fontFamily: fonts.default,
-    fontSize: 26,
-    margin: 8
+    flex: 1,
+    marginBottom: -65
   },
   tabs: {
     flex: 1

@@ -9,7 +9,8 @@ import {
   Text
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { getFeed } from '../../api';
+import { format } from 'timeago.js';
+import { getFeed } from '../../services/api';
 import colors from '../../theme/colors';
 import icons from '../../theme/icons';
 import fonts from '../../theme/fonts';
@@ -36,7 +37,7 @@ class Feed extends React.Component {
   }
 
   state = {
-    refreshing: false,
+    refreshing: true,
     showScrollTopButton: false,
     items: []
   };
@@ -50,15 +51,15 @@ class Feed extends React.Component {
   async componentDidMount() {
     const items = await getFeed();
 
-    this.setState({ items });
+    this.setState({ items, refreshing: false });
   }
 
   _onRefresh = async () => {
     this.setState({ refreshing: true });
 
-    await getFeed();
+    const items = await getFeed();
 
-    this.setState({ refreshing: false });
+    this.setState({ items, refreshing: false });
   };
 
   _onScroll = event => {
@@ -80,7 +81,10 @@ class Feed extends React.Component {
   _addPost = () => {
     Navigation.push(this.props.componentId, {
       component: {
-        name: 'Post'
+        name: 'Post',
+        passProps: {
+          onPostSuccess: this._onRefresh
+        }
       }
     });
   };
@@ -109,11 +113,14 @@ class Feed extends React.Component {
 
   _renderItem = ({ item }) => (
     <Item
-      key={`${item.key}`}
-      imageUrl={item.imageUrl}
-      text={item.text}
-      time={item.time}
-      author={item.author}
+      id={item.id}
+      image={item.image}
+      text={item.description}
+      time={format(new Date(item.updated_at))}
+      name={item.name}
+      likes={parseInt(item.likes)}
+      liked={item.liked}
+      comments={item.comments}
       onComment={this._onPressComment(item)}
     />
   );
@@ -121,37 +128,37 @@ class Feed extends React.Component {
   render() {
     const { items, showScrollTopButton, refreshing } = this.state;
 
-    if (items.length === 0) {
-      return (
-        <SafeAreaView style={styles.noPosts}>
-          <Text style={styles.noPostsText}>Ei viestejä!</Text>
-        </SafeAreaView>
-      );
-    }
+    const itemsWithKeys = items.map(item => ({
+      key: item.id,
+      ...item
+    }));
+
+    const refreshControl = (
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={this._onRefresh}
+        progressBackgroundColor={colors.refreshButton}
+        colors={[colors.refreshButtonText, colors.refreshButtonTextSelected]}
+      />
+    );
 
     return (
       <View style={{ flex: 1 }}>
         <Background />
 
         <SafeAreaView style={{ flex: 1 }}>
-          <FlatList
-            ref={this.flatListRef}
-            contentContainerStyle={styles.container}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={this._onRefresh}
-                progressBackgroundColor={colors.refreshButton}
-                colors={[
-                  colors.refreshButtonText,
-                  colors.refreshButtonTextSelected
-                ]}
-              />
-            }
-            data={items}
-            renderItem={this._renderItem}
-            onScroll={this._onScroll}
-          />
+          {items.length === 0 ? (
+            <Text style={styles.noPostsText}>Ei viestejä!</Text>
+          ) : (
+            <FlatList
+              ref={this.flatListRef}
+              contentContainerStyle={styles.container}
+              refreshControl={refreshControl}
+              data={itemsWithKeys}
+              renderItem={this._renderItem}
+              onScroll={this._onScroll}
+            />
+          )}
 
           <FloatingButton
             isScrollTop={showScrollTopButton}
@@ -166,10 +173,16 @@ class Feed extends React.Component {
 
 const styles = StyleSheet.create({
   noPosts: {
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 20
   },
   noPostsText: {
+    marginTop: 50,
+    alignSelf: 'center',
     fontFamily: fonts.monospace
+  },
+  container: {
+    paddingBottom: 10
   }
 });
 

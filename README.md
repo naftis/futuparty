@@ -34,6 +34,8 @@ If you don't have Android Studio, you can get it from [android.com](https://deve
 
 - app/build.gradle implementation has `implementation "com.android.support:design:${rootProject.ext.supportLibVersion}"` added to fix some error
 
+- `API_URL` doesn't work with `localhost`? Try using your local IP.
+
 ### Environment variables
 
 ```
@@ -42,11 +44,13 @@ APP_STORAGE_KEY=futuparty
 
 # App saves images to this folder on end-users phone
 APP_IMAGES_PATH=futuparty
+
+API_URL=http://localhost:9000/api/
 ```
 
 ### Navigation flow
 
-Please visit `screens.js`. The chart references those containers.
+Please visit `screens.js`. This chart references those containers.
 
 ```
 Initial

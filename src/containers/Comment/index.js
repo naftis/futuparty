@@ -12,14 +12,18 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { format } from 'timeago.js';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
+import sizes from '../../theme/sizes';
 import icons from '../../theme/icons';
+import { postComment, getComments } from '../../services/api';
+import Picture from './Picture';
 
 function requiredPropsCheck(props, _, componentName) {
-  if (!props.text && !props.imageUrl) {
+  if (!props.description && !props.image) {
     return new Error(
-      `One of 'text' or 'imageUrl' is required by '${componentName}' component.`
+      `One of 'description' or 'image' is required by '${componentName}' component.`
     );
   }
 }
@@ -27,10 +31,11 @@ function requiredPropsCheck(props, _, componentName) {
 class Comment extends React.Component {
   static propTypes = {
     item: PropTypes.shape({
-      author: PropTypes.string.isRequired,
-      text: requiredPropsCheck,
-      imageUrl: requiredPropsCheck,
-      time: PropTypes.string
+      name: PropTypes.string.isRequired,
+      description: requiredPropsCheck,
+      image: requiredPropsCheck,
+      updated_at: PropTypes.string,
+      id: PropTypes.string.isRequired
     }).isRequired
   };
 
@@ -39,6 +44,8 @@ class Comment extends React.Component {
     comments: [],
     text: ''
   };
+
+  commentListRef = React.createRef();
 
   static get options() {
     return {
@@ -58,98 +65,38 @@ class Comment extends React.Component {
   }
 
   async componentDidMount() {
-    this.setState({
-      comments: [
-        {
-          key: 'A',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'A2',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text:
-            'Aivan huikaiseva sovellus! Uskomatoxxnta! Uskomatoxxnta!Uskomatoxxnta!Uskomatoxx nta!Uskomatoxxnta!Uskomatoxxnta!Usk omatoxxnta!Uskomatoxxnta!'
-        },
-        {
-          key: 'Aa',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1v',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'Ac',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1d',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'Ae',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1f',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        },
-        {
-          key: 'Ag',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomatonta!'
-        },
-        {
-          key: 'A1h',
-          author: 'Cihan Bebek',
-          time: '5m ago',
-          text: 'Aivan huikaiseva sovellus! Uskomaxtonta!'
-        }
-      ]
-    });
+    await this._onRefresh();
   }
 
-  _onRefresh = () => {
-    // TODO: get new comments
+  _onRefresh = async () => {
+    const feedItemId = this.props.item.id;
+    const comments = await getComments(feedItemId);
+
+    this.setState({ comments });
   };
 
-  _sendComment = () => {
-    // TODO: send comment
+  _sendComment = async () => {
+    const { text } = this.state;
+    const feedId = this.props.item.id;
+    await postComment(text, feedId);
+    await this._onRefresh();
+    this.setState({ text: '' });
+    this.commentListRef.current.scrollToEnd();
   };
 
   _renderImageWithText = () => {
-    const { imageUrl, text, time } = this.props.item;
+    const { image, description, updated_at } = this.props.item;
+
+    const parsedTime = format(new Date(updated_at));
 
     return (
       <>
-        <Image style={styles.image} source={{ uri: imageUrl }} />
+        <Picture uri={image} />
 
-        {text && (
+        {description && (
           <View style={styles.imageTextWrapper}>
-            <Text style={styles.imageText}>{text}</Text>
-            <Text style={styles.imageTextTime}>{time.toUpperCase()}</Text>
+            <Text style={styles.imageText}>{description}</Text>
+            <Text style={styles.imageTextTime}>{parsedTime.toUpperCase()}</Text>
           </View>
         )}
       </>
@@ -157,36 +104,34 @@ class Comment extends React.Component {
   };
 
   _renderTextOnly = () => {
-    const { text } = this.props.item;
+    const { description } = this.props.item;
 
-    return (
-      <Text style={styles.text}>
-        {text}daksjdalks aklsdja lskdja sldkajslkd ajslkdja ls djalks jalksj
-        dalksjdlka jsdlka jsldajs lasjd alsjd laksjdlasj alksdj alksjd alksjdal
-        ksjdalks jalks jdals jalksj l
-      </Text>
-    );
+    return <Text style={styles.text}>{description}</Text>;
   };
 
   _renderComment({ item }) {
+    const parsedTime = format(new Date(item.updated_at));
+
     return (
       <View style={styles.comment}>
         <View style={styles.commentInfo}>
-          <Text style={styles.commentAuthor}>{item.author}</Text>
-          <Text style={styles.commentTime}>{item.time.toUpperCase()}</Text>
+          <Text style={styles.commentAuthor}>{item.name}</Text>
+          <Text style={styles.commentTime}>{parsedTime.toUpperCase()}</Text>
         </View>
-        <Text style={styles.commentText}>{item.text}</Text>
+        <Text style={styles.commentText}>{item.description}</Text>
       </View>
     );
   }
 
   render() {
-    const { imageUrl } = this.props.item;
+    const { image } = this.props.item;
     const { refreshing, comments, text } = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
         <FlatList
+          ref={this.commentListRef}
+          keyExtractor={(_, index) => index.toString()}
           refreshControl={
             <RefreshControl
               refreshing={refreshing}
@@ -202,7 +147,7 @@ class Comment extends React.Component {
           renderItem={this._renderComment}
           contentContainerStyle={styles.comments}
           ListHeaderComponent={
-            imageUrl ? this._renderImageWithText : this._renderTextOnly
+            image ? this._renderImageWithText : this._renderTextOnly
           }
         />
 
@@ -213,7 +158,8 @@ class Comment extends React.Component {
             value={text}
             style={styles.textField}
           />
-          <TouchableOpacity onPress={this._sendComment}>
+
+          <TouchableOpacity onPress={this._sendComment} disabled={!text}>
             <Image source={icons.leftArrow} style={styles.arrowButton} />
           </TouchableOpacity>
         </View>
@@ -229,7 +175,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: fonts.default,
-    fontSize: 22,
+    fontSize: sizes.TEXT_LARGE,
     textAlign: 'center',
     padding: 10,
     paddingTop: 20,
@@ -254,7 +200,7 @@ const styles = StyleSheet.create({
   imageTextTime: {
     fontFamily: fonts.monospace,
     color: '#bbb',
-    fontSize: 11,
+    fontSize: sizes.TEXT_TINY,
     fontWeight: 'bold'
   },
   comments: {
@@ -281,7 +227,7 @@ const styles = StyleSheet.create({
   commentTime: {
     fontFamily: fonts.monospace,
     color: '#bbb',
-    fontSize: 11
+    fontSize: sizes.TEXT_TINY
   },
   commentText: {
     lineHeight: 20,

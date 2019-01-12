@@ -1,88 +1,112 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
-import { getProfileImageUrl } from '../../api';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import FastImage from 'react-native-fast-image';
+import { addLike, getProfileImageUrl, removeLike } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
+import sizes from '../../theme/sizes';
+import Picture from './Picture';
 
 function requiredPropsCheck(props, _, componentName) {
-  if (!props.text && !props.imageUrl) {
+  if (!props.text && !props.image) {
     return new Error(
-      `One of 'text' or 'imageUrl' is required by '${componentName}' component.`
+      `One of 'text' or 'image' is required by '${componentName}' component.`
     );
   }
 }
 
 class Item extends React.Component {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     text: requiredPropsCheck,
-    imageUrl: requiredPropsCheck,
+    image: requiredPropsCheck,
     time: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    likes: PropTypes.number.isRequired,
+    liked: PropTypes.bool.isRequired,
+    comments: PropTypes.array.isRequired,
     onComment: PropTypes.func
   };
 
-  _renderImage = () => {
-    const { imageUrl } = this.props;
+  state = {
+    likes: this.props.likes,
+    liked: this.props.liked
+  };
+
+  _onLikePress = async () => {
+    const { id } = this.props;
+    const { likes, liked } = this.state;
+
+    if (!liked) {
+      await addLike(id);
+      this.setState({ likes: likes + 1, liked: true });
+    } else {
+      await removeLike(id);
+      this.setState({ likes: likes - 1, liked: false });
+    }
+  };
+
+  _renderIcons = () => {
+    const { comments } = this.props;
+    const { likes, liked } = this.state;
+    const commentsCount = comments.length;
 
     return (
-      <View style={styles.imageContainer}>
-        <Image source={{ uri: imageUrl }} style={styles.image} />
+      <View style={styles.icons}>
+        <TouchableOpacity style={styles.iconPress} onPress={this._onLikePress}>
+          <Image
+            source={liked ? icons.likeSelected : icons.like}
+            style={styles.icon}
+          />
+          <Text style={styles.iconText}>{likes}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.iconPress}
+          onPress={this.props.onComment}
+        >
+          <Image
+            source={icons.chat}
+            style={[styles.icon, { marginRight: -4 }]}
+          />
+          <Text style={styles.iconText}>{commentsCount}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
 
-  _renderIcons = () => (
-    <View style={styles.icons}>
-      <TouchableOpacity style={styles.iconPress} onPress={() => {}}>
-        <Image source={icons.like} style={styles.icon} />
-        <Text style={styles.iconText}>0</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.iconPress} onPress={this.props.onComment}>
-        <Image source={icons.chat} style={[styles.icon, { marginRight: -4 }]} />
-        <Text style={styles.iconText}>0</Text>
-      </TouchableOpacity>
-    </View>
-  );
-
   render() {
-    const { text, imageUrl, time, author } = this.props;
+    const { text, image, time, name } = this.props;
+
+    const content = image ? (
+      <Picture uri={image} />
+    ) : (
+      <Text style={styles.text}>{text}</Text>
+    );
 
     return (
       <View style={styles.container}>
         <View style={styles.info}>
-          <Image
+          <FastImage
             style={styles.profilePicture}
             source={{ uri: getProfileImageUrl() }}
+            resizeMode="cover"
           />
 
-          <Text style={styles.username}>{author}</Text>
+          <Text style={styles.username}>{name}</Text>
           <Text style={styles.dot}>·</Text>
           <Text style={styles.time}>{time}</Text>
         </View>
 
-        {imageUrl ? (
-          this._renderImage()
-        ) : (
-          <Text style={styles.text}>{text}</Text>
-        )}
+        {content}
 
         {this._renderIcons()}
       </View>
     );
   }
 }
-
-const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -111,8 +135,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     marginRight: 10,
-    borderRadius: 20,
-    resizeMode: 'cover'
+    borderRadius: 20
   },
   username: {
     marginRight: 10,
@@ -127,19 +150,10 @@ const styles = StyleSheet.create({
     fontFamily: fonts.monospace,
     color: colors.feedItemSecondaryText
   },
-  imageContainer: {
-    alignItems: 'center',
-    padding: 10
-  },
-  image: {
-    width: width - 44,
-    height: width - 44,
-    resizeMode: 'cover'
-  },
   text: {
     paddingLeft: 50,
     marginBottom: 15,
-    fontSize: 18,
+    fontSize: sizes.TEXT_LARGE,
     fontFamily: fonts.monospace,
     color: colors.text
   },
