@@ -40,8 +40,6 @@ class Profile extends React.Component {
   render() {
     const { componentId } = this.props;
 
-    console.log(this.props);
-
     return (
       <View style={styles.container}>
         <Pictures

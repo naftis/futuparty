@@ -1,13 +1,18 @@
-import { createStore, compose } from 'redux';
-import { install } from 'redux-loop';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 
-import rootReducer from './modules';
+import { rootReducer, rootSaga } from './modules';
+
+const sagaMiddleware = createSagaMiddleware();
 
 export function configureStore(initialState?) {
-  const enhancer = compose(install());
+  const store = createStore(
+    rootReducer,
+    initialState,
+    applyMiddleware(sagaMiddleware)
+  );
 
-  // @ts-ignore
-  const store = createStore(rootReducer, initialState, enhancer);
+  sagaMiddleware.run(rootSaga);
 
   return store;
 }

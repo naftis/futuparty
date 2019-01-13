@@ -78,8 +78,6 @@ class Post extends React.Component {
       Navigation.pop(componentId);
       onPostSuccess();
     } catch (e) {
-      console.log('Failed sending post:');
-      console.log(e);
       this.setState({ sending: false });
     }
   };

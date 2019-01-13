@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -14,19 +15,26 @@ class SignInContainer extends React.Component {
     };
   }
 
+  static propTypes = {
+    fetchUser: PropTypes.func,
+    error: PropTypes.any,
+    user: PropTypes.any
+  };
+
   render() {
-    return <SignIn {...this.props} />;
+    const { fetchUser, error, user } = this.props;
+    return <SignIn onLogin={fetchUser} error={error} user={user} />;
   }
 }
 
 const mapStateToProps = state => {
-  const { user } = state.auth;
-  return { user };
+  const { user, error } = state.auth;
+  return { user, error };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    fetchUser: () => dispatch(initFetchUser())
+    fetchUser: code => dispatch(initFetchUser(code))
   };
 };
 

@@ -1,7 +1,7 @@
 export class HttpError extends Error {
-  status: number;
+  status;
 
-  constructor(props: { status: number, message: string }) {
+  constructor(props) {
     super(props.message);
 
     this.status = props.status;

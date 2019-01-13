@@ -1,32 +1,31 @@
-import { loop } from 'redux-loop';
-
 import {
   USER_FETCH_START,
   USER_FETCH_SUCCESS,
   USER_FETCH_FAIL
 } from './actions';
-import { fetchUser } from './service';
-import { runLoopFetch } from '../../utils/reduxLoop';
 
 const defaultState = {
   user: null,
-  fetching: false
+  fetching: false,
+  error: null
 };
 
 export function auth(state = defaultState, action) {
+  console.log(action);
   switch (action.type) {
     case USER_FETCH_START: {
-      return loop(
-        { ...state, fetching: true },
-        runLoopFetch(fetchUser, USER_FETCH_SUCCESS, USER_FETCH_FAIL)
-      );
+      return { ...state, fetching: true, error: null };
     }
 
     case USER_FETCH_SUCCESS:
-      return { ...state, fetching: false, user: action.payload };
+      return { ...state, fetching: false, user: action.payload, error: null };
 
     case USER_FETCH_FAIL:
-      return { ...state, fetching: false };
+      return { ...state, fetching: false, error: action.error };
+
+    case USER_LOGOUT: {
+      return { ...state, fetching: false, error: null, user: null };
+    }
 
     default:
       return state;

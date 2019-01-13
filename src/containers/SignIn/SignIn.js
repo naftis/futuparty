@@ -23,8 +23,24 @@ class SignIn extends React.Component {
   };
 
   static propTypes = {
-    componentId: PropTypes.string
+    componentId: PropTypes.string,
+    onLogin: PropTypes.func,
+    error: PropTypes.any,
+    user: PropTypes.any
   };
+
+  componentDidUpdate(prevProps) {
+    const { error, user } = this.props;
+    const prevError = prevProps.error;
+
+    if (!prevError && error) {
+      this._shakeContainer();
+    }
+
+    if (user) {
+      goHome();
+    }
+  }
 
   _shakeContainer = () => {
     const { errorAnim } = this.state;
@@ -47,24 +63,14 @@ class SignIn extends React.Component {
 
   _onPress = async () => {
     const { text } = this.state;
+    const { onLogin } = this.props;
 
     if (text.length < 4) {
       this._shakeContainer();
       return;
     }
 
-    try {
-      await login(text);
-
-      const userIsLogged = await isLoggedIn();
-      if (userIsLogged) {
-        goHome();
-      }
-    } catch (e) {
-      console.log('Error logging in.');
-      console.log(e);
-      this._shakeContainer();
-    }
+    await onLogin(text);
   };
 
   render() {

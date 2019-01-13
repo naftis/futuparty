@@ -1,16 +1,26 @@
 import * as R from 'ramda';
 
-import { HttpError } from './HttpError';
+import config from '../../config';
 
 // Generic fetch function to be used with our backend
-export async function apiFetch(endpoint, options = {}) {
-  const defaultFetchOpts = { credentials: 'same-origin' };
+export async function apiFetch(url, options = {}) {
+  const defaultFetchOpts = {
+    credentials: 'same-origin',
+    headers: {
+      'x-user-uuid': 'fjsdlfjas',
+      'Content-Type': 'application/json',
+      'x-token': 'token'
+    }
+  };
 
-  const res = await fetch(endpoint, R.merge(defaultFetchOpts, options));
+  const res = await fetch(
+    `${config.API_URL}${url}`,
+    R.merge(defaultFetchOpts, options)
+  );
 
   if (!res.ok) {
-    throw new HttpError({ status: res.status, message: res.statusText });
+    throw new Error('Error with request.');
   }
 
-  return res.json();
+  return await res.json();
 }
