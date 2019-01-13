@@ -1,5 +1,3 @@
-import * as R from 'ramda';
-
 import config from '../../config';
 
 // Generic fetch function to be used with our backend
@@ -13,10 +11,10 @@ export async function apiFetch(url, options = {}) {
     }
   };
 
-  const res = await fetch(
-    `${config.API_URL}${url}`,
-    R.merge(defaultFetchOpts, options)
-  );
+  const res = await fetch(`${config.API_URL}${url}`, {
+    ...defaultFetchOpts,
+    ...options
+  });
 
   if (!res.ok) {
     throw new Error('Error with request.');

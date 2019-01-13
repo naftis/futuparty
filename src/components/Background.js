@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, Image } from 'react-native';
-import pattern from '../../../assets/Logo-pattern.png';
+import pattern from '../../assets/Logo-pattern.png';
 
 const { height, width } = Dimensions.get('window');
 
