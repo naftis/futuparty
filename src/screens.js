@@ -1,7 +1,5 @@
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
-import { configureStore } from './redux/configureStore';
-
 import Comment from './containers/Comment';
 import CommentTopBar from './containers/Comment/TopBar';
 import Feed from './containers/Feed';
@@ -9,11 +7,15 @@ import FeedTopBar from './containers/Feed/TopBar';
 import Food from './containers/Food';
 import Info from './containers/Info';
 import Initial from './containers/Initial';
+import License from './containers/License';
 import Post from './containers/Post';
+import Privacy from './containers/Privacy';
 import Profile from './containers/Profile/ProfileContainer';
 import Program from './containers/Program';
 import Settings from './containers/Settings';
 import SignIn from './containers/SignIn/SignInContainer';
+import Terms from './containers/Terms';
+import { configureStore } from './redux/configureStore';
 
 const store = configureStore();
 
@@ -61,6 +63,9 @@ export function registerScreens() {
     Provider,
     store
   );
+  Navigation.registerComponent('Terms', () => Terms);
+  Navigation.registerComponent('License', () => License);
+  Navigation.registerComponent('Privacy', () => Privacy);
 
   Navigation.registerComponentWithRedux('Feed', () => Feed, Provider, store);
   Navigation.registerComponentWithRedux(

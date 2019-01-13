@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import ModalBackButton from '../../components/ModalBackButton';
+import fonts from '../../theme/fonts';
 
 class Terms extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
+        <ModalBackButton title={'Terms and Conditions ("Terms")'} />
+
         <View style={styles.content}>
-          <Text style={styles.paragraph}>
-            <Text style={styles.bold}>{'Terms and Conditions ("Terms")'}</Text>
-          </Text>
           <Text style={styles.paragraph}>Last updated: Sep 5, 2017</Text>
           <Text style={styles.paragraph}>
             Please read these Terms and Conditions ({'"Terms", "Terms and'}
@@ -261,8 +262,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  paragraph: {},
-  bold: {}
+  content: {
+    flex: 1
+  },
+  paragraph: {
+    padding: 10
+  },
+  bold: {
+    fontFamily: fonts.monospace,
+    fontWeight: 'bold'
+  }
 });
 
 export default Terms;
