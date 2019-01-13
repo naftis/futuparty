@@ -18,18 +18,19 @@ class SignInContainer extends React.Component {
   static propTypes = {
     fetchUser: PropTypes.func,
     error: PropTypes.any,
-    user: PropTypes.any
+    user: PropTypes.any,
+    code: PropTypes.string
   };
 
   render() {
-    const { fetchUser, error, user } = this.props;
-    return <SignIn onLogin={fetchUser} error={error} user={user} />;
+    const { fetchUser, error, user, code } = this.props;
+    return <SignIn onLogin={fetchUser} error={error} user={user} code={code} />;
   }
 }
 
 const mapStateToProps = state => {
-  const { user, error } = state.auth;
-  return { user, error };
+  const { user, code, error } = state.auth;
+  return { user, error, code };
 };
 
 const mapDispatchToProps = (dispatch: any) => {

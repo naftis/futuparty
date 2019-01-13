@@ -10,7 +10,7 @@ import { fetchUser } from './service';
 function* fetchUserSaga(action) {
   try {
     const data = yield call(fetchUser, action.code);
-    yield put({ type: USER_FETCH_SUCCESS, payload: data.user });
+    yield put({ type: USER_FETCH_SUCCESS, user: data.user, code: action.code });
   } catch (error) {
     yield put({ type: USER_FETCH_FAIL, error });
   }

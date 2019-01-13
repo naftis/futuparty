@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Navigation } from 'react-native-navigation';
 
 import Profile from './Profile';
 import icons from '../../theme/icons';
@@ -21,12 +22,19 @@ class ProfileContainer extends React.Component {
           }
         ],
         title: {
-          text: 'TODO: Nimi',
           fontFamily: fonts.monospace,
           alignment: 'fill'
         }
       }
     };
+  }
+
+  componentDidMount() {
+    const { user } = this.props;
+
+    Navigation.mergeOptions(this.props.componentId, {
+      topBar: { title: { text: user.name } }
+    });
   }
 
   render() {

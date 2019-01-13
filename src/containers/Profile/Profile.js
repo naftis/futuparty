@@ -11,7 +11,8 @@ const SIDEMENU_ID = 'sideMenu';
 
 class Profile extends React.Component {
   static propTypes = {
-    componentId: PropTypes.string.isRequired
+    componentId: PropTypes.string.isRequired,
+    user: PropTypes.any
   };
 
   constructor(props) {
@@ -38,7 +39,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { componentId } = this.props;
+    const { componentId, user } = this.props;
 
     return (
       <View style={styles.container}>
