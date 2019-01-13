@@ -64,9 +64,8 @@ Initial
 ## Todo
 
 - Rewrite backend
-- Scrollable tab view library "react-native-scrollable-tab-view-universal" is not very popular, but "react-native-scrollable-tab-view" was broken currently on Android. Can be implemented without a library fairly simply too.
-- react-native-dotenv --> dotenv
-- `Info.plist` last permissions might not be needed
-- `AndroidManifest.xml` android.permission.WRITE_EXTERNAL_STORAGE might not be needed
+- **Check permissions**
+  - `Info.plist` last permissions might not be needed
+  - `AndroidManifest.xml` android.permission.WRITE_EXTERNAL_STORAGE might not be needed
 - react-native-navigation animations
-- `TopBar.js` elements work properly with only one child for some reason.
+- `TopBar.js` elements work properly with only one child for some reason **on Android**
