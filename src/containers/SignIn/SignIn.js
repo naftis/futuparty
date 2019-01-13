@@ -8,8 +8,9 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+import { getCode } from '../../services/auth';
+
 import luuppi from '../../../assets/luuppi.png';
-import { isLoggedIn, login } from '../../services/auth';
 import { goHome } from '../../navigation';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -26,18 +27,20 @@ class SignIn extends React.Component {
     componentId: PropTypes.string,
     onLogin: PropTypes.func,
     error: PropTypes.any,
-    user: PropTypes.any
+    user: PropTypes.any,
+    code: PropTypes.string
   };
 
-  componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps) {
     const { error, user } = this.props;
     const prevError = prevProps.error;
+    const code = await getCode();
 
     if (!prevError && error) {
       this._shakeContainer();
     }
 
-    if (user) {
+    if (user && code) {
       goHome();
     }
   }
