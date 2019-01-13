@@ -24,7 +24,8 @@ function showModal(componentName) {
             name: componentName,
             options: {
               topBar: {
-                visible: false
+                visible: false,
+                drawBehind: true
               }
             }
           }
@@ -38,7 +39,7 @@ const SETTINGS_ITEMS = [
   {
     text: 'Vaihda profiilikuva',
     icon: icons.addPhoto,
-    onPress: () => () => {
+    onPress: () => {
       // TODO
       alert('change photo');
     }
@@ -61,7 +62,7 @@ const SETTINGS_ITEMS = [
   {
     text: 'Kirjaudu ulos',
     icon: icons.logout,
-    onPress: () => async () => {
+    onPress: async () => {
       await logout();
       goAuth();
     }

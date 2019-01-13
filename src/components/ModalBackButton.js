@@ -1,6 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Platform,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import colors from '../theme/colors';
 import fonts from '../theme/fonts';
@@ -38,7 +45,8 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   iconContainer: {
-    position: 'absolute'
+    position: 'absolute',
+    paddingTop: Platform.OS === 'android' ? 2 : undefined // Minor styling effect
   },
   icon: {
     tintColor: colors.text,
