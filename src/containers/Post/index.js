@@ -13,7 +13,7 @@ import {
 import ImagePicker from 'react-native-image-picker';
 import { PropTypes } from 'prop-types';
 
-import Background from '../../components/Background';
+import Background from '../common/Background';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import colors from '../../theme/colors';
@@ -78,8 +78,6 @@ class Post extends React.Component {
       Navigation.pop(componentId);
       onPostSuccess();
     } catch (e) {
-      console.log('Failed sending post:');
-      console.log(e);
       this.setState({ sending: false });
     }
   };

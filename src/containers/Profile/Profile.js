@@ -4,37 +4,15 @@ import { Navigation } from 'react-native-navigation';
 import { getProfileImageUrl } from '../../services/api';
 import Pictures from './Pictures';
 import PropTypes from 'prop-types';
-import icons from '../../theme/icons';
-import fonts from '../../theme/fonts';
 import FastImage from 'react-native-fast-image';
 import store from '../Settings/store';
 
 const SIDEMENU_ID = 'sideMenu';
 
 class Profile extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        rightButtons: [
-          {
-            id: SIDEMENU_ID,
-            // TODO: change corresponding icon
-            icon: icons.privacy,
-            color: '#000',
-            disableColorTint: false
-          }
-        ],
-        title: {
-          text: 'TODO: Nimi',
-          fontFamily: fonts.monospace,
-          alignment: 'fill'
-        }
-      }
-    };
-  }
-
   static propTypes = {
-    componentId: PropTypes.string.isRequired
+    componentId: PropTypes.string.isRequired,
+    user: PropTypes.any
   };
 
   constructor(props) {
@@ -61,7 +39,7 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { componentId } = this.props;
+    const { componentId, user } = this.props;
 
     return (
       <View style={styles.container}>

@@ -8,8 +8,9 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
+import { getCode } from '../../services/auth';
+
 import luuppi from '../../../assets/luuppi.png';
-import { isLoggedIn, login } from '../../services/auth';
 import { goHome } from '../../navigation';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -23,16 +24,25 @@ class SignIn extends React.Component {
   };
 
   static propTypes = {
-    componentId: PropTypes.string
+    componentId: PropTypes.string,
+    onLogin: PropTypes.func,
+    error: PropTypes.any,
+    user: PropTypes.any,
+    code: PropTypes.string
   };
 
-  static get options() {
-    return {
-      topBar: {
-        visible: false,
-        drawBehind: true
-      }
-    };
+  async componentDidUpdate(prevProps) {
+    const { error, user } = this.props;
+    const prevError = prevProps.error;
+    const code = await getCode();
+
+    if (!prevError && error) {
+      this._shakeContainer();
+    }
+
+    if (user && code) {
+      goHome();
+    }
   }
 
   _shakeContainer = () => {
@@ -56,24 +66,14 @@ class SignIn extends React.Component {
 
   _onPress = async () => {
     const { text } = this.state;
+    const { onLogin } = this.props;
 
     if (text.length < 4) {
       this._shakeContainer();
       return;
     }
 
-    try {
-      await login(text);
-
-      const userIsLogged = await isLoggedIn();
-      if (userIsLogged) {
-        goHome();
-      }
-    } catch (e) {
-      console.log('Error logging in.');
-      console.log(e);
-      this._shakeContainer();
-    }
+    await onLogin(text);
   };
 
   render() {

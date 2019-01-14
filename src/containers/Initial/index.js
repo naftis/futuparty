@@ -1,17 +1,35 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { isLoggedIn } from '../../services/auth';
+import { connect } from 'react-redux';
+
+import { getCode } from '../../services/auth';
 import { goAuth, goHome } from '../../navigation';
 import sizes from '../../theme/sizes';
+import { initFetchUser } from '../../redux/modules/auth/actions';
 
 class Initial extends React.Component {
   async componentDidMount() {
-    const isAuthed = await isLoggedIn();
+    const { user, fetchUser } = this.props;
+    const code = await getCode();
 
-    if (isAuthed) {
-      goHome();
-    } else {
+    if (!code) {
       goAuth();
+      return;
+    }
+
+    if (!user) {
+      await fetchUser(code);
+      return;
+    }
+
+    goHome();
+  }
+
+  componentDidUpdate() {
+    const { user } = this.props;
+
+    if (user) {
+      goHome();
     }
   }
 
@@ -35,4 +53,18 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Initial;
+const mapStateToProps = state => {
+  const { user } = state.auth;
+  return { user };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchUser: code => dispatch(initFetchUser(code))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Initial);

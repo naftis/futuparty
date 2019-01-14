@@ -3,6 +3,8 @@ import DeviceInfo from 'react-native-device-info';
 import config from '../config';
 import { getPreSignedUrl } from './aws';
 
+const USER_UUID = DeviceInfo.getUniqueID();
+
 function makeId() {
   var text = '';
   var possible =
@@ -18,10 +20,7 @@ export const apiFetch = (url, opts) => {
   opts = opts || {};
   opts.headers = opts.headers || {};
 
-  // TODO correct x-user-uuid & token from env
-
-  // opts.headers['x-client-version'] = VERSION_NUMBER;
-  opts.headers['x-user-uuid'] = 'fjsdlfjas';
+  opts.headers['x-user-uuid'] = USER_UUID;
   opts.headers['Content-Type'] = 'application/json';
   opts.headers['x-token'] = 'token';
   return fetch(`${config.API_URL}${url}`, opts);
@@ -70,7 +69,7 @@ export async function postFeedItem(image, text) {
   }
 
   const body = JSON.stringify({
-    user: 'fjsdlfjas',
+    user: USER_UUID,
     description: text,
     image: imageUrl
   });
