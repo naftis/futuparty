@@ -1,13 +1,17 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-
-import { getCode } from '../../services/auth';
 import { goAuth, goHome } from '../../navigation';
-import sizes from '../../theme/sizes';
 import { initFetchUser } from '../../redux/modules/auth/actions';
+import { getCode } from '../../services/auth';
+import sizes from '../../theme/sizes';
 
 class Initial extends React.Component {
+  static propTypes = {
+    user: PropTypes.string
+  };
+
   async componentDidMount() {
     const { user, fetchUser } = this.props;
     const code = await getCode();
@@ -58,7 +62,7 @@ const mapStateToProps = state => {
   return { user };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchUser: code => dispatch(initFetchUser(code))
   };
