@@ -1,19 +1,39 @@
 import React from 'react';
 import {
   Image,
+  SafeAreaView,
   StyleSheet,
   Text,
   TouchableHighlight,
-  View,
-  SafeAreaView
+  View
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { logout } from '../../services/auth';
 import { goAuth } from '../../navigation';
+import { logout } from '../../services/auth';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
 import store from './store';
+
+function showModal(componentName) {
+  Navigation.showModal({
+    stack: {
+      children: [
+        {
+          component: {
+            name: componentName,
+            options: {
+              topBar: {
+                visible: false,
+                drawBehind: true
+              }
+            }
+          }
+        }
+      ]
+    }
+  });
+}
 
 const SETTINGS_ITEMS = [
   {
@@ -27,23 +47,17 @@ const SETTINGS_ITEMS = [
   {
     text: 'Lisenssit',
     icon: icons.licenses,
-    onPress: () => {
-      // TODO
-    }
+    onPress: () => showModal('License')
   },
   {
     text: 'Käyttöehdot',
     icon: icons.tos,
-    onPress: () => {
-      // TODO
-    }
+    onPress: () => showModal('Terms')
   },
   {
     text: 'Yksityisyys',
     icon: icons.privacy,
-    onPress: () => {
-      // TODO
-    }
+    onPress: () => showModal('Privacy')
   },
   {
     text: 'Kirjaudu ulos',

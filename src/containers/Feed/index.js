@@ -16,7 +16,7 @@ import icons from '../../theme/icons';
 import fonts from '../../theme/fonts';
 import FloatingButton from './FloatingButton';
 import Item from './Item';
-import Background from '../common/Background';
+import Background from '../../components/Background';
 
 class Feed extends React.Component {
   static get options() {
