@@ -1,57 +1,8 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import Markdown from 'react-native-markdown-renderer';
+import { Text, ScrollView, StyleSheet, View } from 'react-native';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import sizes from '../../theme/sizes';
-
-const content = `
-# Vegaani
-
-### Alkuruoka
-
-*Paahdettua maa-artisokkaa, osterivinokkaita ja marinoitua papusalaattia*
-
-### Pääruoka
-
-*Kurpitsarisottoa, kylmäsavustettua tofua ja salviaöljyä*
-
-### Jälkiruoka
-
-*Manteli-suklaamoussea, vaniljacrumblea ja vadelmaa*
-
----
-
-# Liha
-
-### Alkuruoka
-
-*Sokerisuolattua siikaa, ruista ja kananmunaa*
-
-### Pääruoka
-
-*Kotimaista naudan entrecotea, grillattua maa-artisokkaa ja karamellisoitua porkkanaa*
-
-### Jälkiruoka
-
-*Mustikkaleivos, kauracrumblea ja marenkia*
-
----
-
-# Kala
-
-### Alkuruoka
-
-*Sokerisuolattua siikaa, ruista ja kananmunaa*
-
-### Pääruoka
-
-*Paistettua nieriää, kukkakaalia ja savustettua fenkolivoikastiketta*
-
-### Jälkiruoka
-
-*Mustikkaleivos, kauracrumblea ja marenkia*
-`;
 
 class Food extends React.Component {
   static options = {
@@ -68,7 +19,75 @@ class Food extends React.Component {
     return (
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollView}>
-          <Markdown style={styles}>{content}</Markdown>
+          <Text style={styles.heading}>Vegaani</Text>
+
+          <Text style={styles.heading2}>Alkuruoka</Text>
+
+          <Text style={styles.em}>
+            Paahdettua maa-artisokkaa, osterivinokkaita ja marinoitua
+            papusalaattia
+          </Text>
+
+          <Text style={styles.heading2}>Pääruoka</Text>
+
+          <Text style={styles.em}>
+            Kurpitsarisottoa, kylmäsavustettua tofua ja salviaöljyä
+          </Text>
+
+          <Text style={styles.heading2}>Jälkiruoka</Text>
+
+          <Text style={styles.em}>
+            Manteli-suklaamoussea, vaniljacrumblea ja vadelmaa
+          </Text>
+
+          <Text style={styles.divider}>
+            - - - - - - - - - - - - - - - - - -
+          </Text>
+
+          <Text style={styles.heading}>Liha</Text>
+
+          <Text style={styles.heading2}>Alkuruoka</Text>
+
+          <Text style={styles.em}>
+            Sokerisuolattua siikaa, ruista ja kananmunaa
+          </Text>
+
+          <Text style={styles.heading2}>Pääruoka</Text>
+
+          <Text style={styles.em}>
+            Kotimaista naudan entrecotea, grillattua maa-artisokkaa ja
+            karamellisoitua porkkanaa
+          </Text>
+
+          <Text style={styles.heading2}>Jälkiruoka</Text>
+
+          <Text style={styles.em}>
+            Mustikkaleivos, kauracrumblea ja marenkia
+          </Text>
+
+          <Text style={styles.divider}>
+            - - - - - - - - - - - - - - - - - -
+          </Text>
+
+          <Text style={styles.heading}>Kala</Text>
+
+          <Text style={styles.heading2}>Alkuruoka</Text>
+
+          <Text style={styles.em}>
+            Sokerisuolattua siikaa, ruista ja kananmunaa
+          </Text>
+
+          <Text style={styles.heading2}>Pääruoka</Text>
+
+          <Text style={styles.em}>
+            Paistettua nieriää, kukkakaalia ja savustettua fenkolivoikastiketta
+          </Text>
+
+          <Text style={styles.heading2}>Jälkiruoka</Text>
+
+          <Text style={styles.em}>
+            Mustikkaleivos, kauracrumblea ja marenkia
+          </Text>
         </ScrollView>
       </View>
     );
@@ -76,14 +95,11 @@ class Food extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  root: {
-    alignItems: 'center',
-    color: colors.foodPrimaryColor
-  },
   view: {
     alignItems: 'center'
   },
   container: {
+    alignItems: 'center',
     flex: 1,
     fontSize: sizes.TEXT_LARGE
   },
@@ -95,27 +111,27 @@ const styles = StyleSheet.create({
   },
   heading: {
     fontFamily: fonts.default,
-    textAlign: 'center'
-  },
-  heading1: {
-    fontSize: sizes.TEXT_HUGE,
+    fontSize: sizes.TEXT_ENORMOUS,
+    textAlign: 'center',
+    color: colors.text,
     marginBottom: 10
   },
   heading2: {
-    fontSize: sizes.TEXT_LARGE
+    fontFamily: fonts.default,
+    fontSize: sizes.TEXT_LARGE,
+    marginBottom: 10,
+    marginTop: 10
   },
-  heading3: {
-    fontSize: sizes.TEXT_MEDIUM,
-    color: colors.foodSecondaryColor
-  },
-  hr: {
-    height: 20,
-    width: 0
+  divider: {
+    marginTop: 15,
+    marginBottom: 15
   },
   em: {
     color: colors.foodPrimaryColor,
     fontFamily: fonts.default,
-    fontSize: sizes.TEXT_MEDIUM
+    fontSize: sizes.TEXT_MEDIUM,
+    textAlign: 'center',
+    flex: 1
   }
 });
 
