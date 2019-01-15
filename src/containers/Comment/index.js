@@ -64,6 +64,8 @@ class Comment extends React.Component {
   };
 
   commentListRef = React.createRef();
+  contentHeight = 0;
+  layoutHeight = 0;
 
   async componentDidMount() {
     await this._onRefresh();
@@ -79,10 +81,13 @@ class Comment extends React.Component {
   _sendComment = async () => {
     const { text } = this.state;
     const feedId = this.props.item.id;
+
     await postComment(text, feedId);
     await this._onRefresh();
+
     this.setState({ text: '' });
-    this.commentListRef.current.scrollToEnd();
+
+    /* TODO: Scroll 2 bottom */
   };
 
   _renderImageWithText = () => {
@@ -94,20 +99,26 @@ class Comment extends React.Component {
       <>
         <Picture uri={image} />
 
-        {description && (
+        {description ? (
           <View style={styles.imageTextWrapper}>
             <Text style={styles.imageText}>{description}</Text>
             <Text style={styles.imageTextTime}>{parsedTime.toUpperCase()}</Text>
           </View>
-        )}
+        ) : null}
       </>
     );
   };
 
   _renderTextOnly = () => {
-    const { description } = this.props.item;
+    const { description, updated_at } = this.props.item;
+    const parsedTime = format(new Date(updated_at));
 
-    return <Text style={styles.text}>{description}</Text>;
+    return (
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{description}</Text>
+        <Text style={styles.textTime}>{parsedTime}</Text>
+      </View>
+    );
   };
 
   _renderComment({ item }) {
@@ -150,6 +161,13 @@ class Comment extends React.Component {
           ListHeaderComponent={
             image ? this._renderImageWithText : this._renderTextOnly
           }
+          /* workaround for scrolling to bottom */
+          onContentSizeChange={(_, contentHeight) => {
+            this.contentHeight = contentHeight;
+          }}
+          onLayout={event => {
+            this.layoutHeight = event.nativeEvent.layout.height;
+          }}
         />
 
         <View style={styles.addComment}>
@@ -172,17 +190,28 @@ const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: colors.background
+  },
+  textContainer: {
+    backgroundColor: colors.text,
+    padding: 10,
+    paddingTop: 20,
+    paddingBottom: 0
   },
   text: {
     fontFamily: fonts.default,
     fontSize: sizes.TEXT_LARGE,
     textAlign: 'center',
-    padding: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    backgroundColor: '#000',
-    color: '#fff'
+    color: colors.background
+  },
+  textTime: {
+    fontFamily: fonts.monospace,
+    color: '#bbb',
+    fontSize: sizes.TEXT_TINY,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    marginTop: 2
   },
   image: {
     width,

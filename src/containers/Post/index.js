@@ -1,24 +1,24 @@
+import { PropTypes } from 'prop-types';
 import React from 'react';
 import {
   Dimensions,
   Image,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
-  View,
   ScrollView,
-  Text
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { PropTypes } from 'prop-types';
-
+import { Navigation } from 'react-native-navigation';
 import Background from '../../components/Background';
+import { postFeedItem } from '../../services/api';
+import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
-import colors from '../../theme/colors';
-import { postFeedItem } from '../../services/api';
-import { Navigation } from 'react-native-navigation';
+import sizes from '../../theme/sizes';
 
 class Post extends React.Component {
   state = {
@@ -30,7 +30,9 @@ class Post extends React.Component {
   static options = {
     topBar: {
       title: {
-        text: 'Lähetä'
+        text: 'Lähetä',
+        fontFamily: fonts.monospaceBold,
+        fontSize: sizes.TEXT_SMALL
       }
     }
   };

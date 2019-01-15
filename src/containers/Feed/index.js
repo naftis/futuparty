@@ -16,7 +16,6 @@ import icons from '../../theme/icons';
 import fonts from '../../theme/fonts';
 import FloatingButton from './FloatingButton';
 import Item from './Item';
-import Background from '../../components/Background';
 
 class Feed extends React.Component {
   static options = {
@@ -141,9 +140,7 @@ class Feed extends React.Component {
     );
 
     return (
-      <View style={{ flex: 1 }}>
-        <Background />
-
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <SafeAreaView style={{ flex: 1 }}>
           {items.length === 0 ? (
             <Text style={styles.noPostsText}>Ei viestejä!</Text>

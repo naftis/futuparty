@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginLeft: Platform.OS === 'ios' ? 10 : 0,
     overflow: 'hidden',
-    borderRadius: 20
+    borderRadius: 6
   },
   name: {
     fontFamily: fonts.monospace,
