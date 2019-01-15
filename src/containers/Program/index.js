@@ -37,11 +37,15 @@ const PROGRAM_ITEMS = [
 ];
 
 class Program extends React.Component {
-  static get options() {
-    return {
-      topBar: { title: { text: 'Ohjelma' } }
-    };
-  }
+  static options = {
+    topBar: {
+      title: {
+        fontFamily: fonts.monospaceBold,
+        fontSize: sizes.TEXT_SMALL,
+        text: 'Ohjelma'
+      }
+    }
+  };
 
   render() {
     const items = PROGRAM_ITEMS.map((item, key) => {

@@ -54,11 +54,15 @@ const content = `
 `;
 
 class Food extends React.Component {
-  static get options() {
-    return {
-      topBar: { title: { text: 'Ruokalista' } }
-    };
-  }
+  static options = {
+    topBar: {
+      title: {
+        fontFamily: fonts.monospaceBold,
+        fontSize: sizes.TEXT_SMALL,
+        text: 'Ruokalista'
+      }
+    }
+  };
 
   render() {
     return (

@@ -24,17 +24,15 @@ const pages = [
 ];
 
 class Info extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        visible: false,
-        drawBehind: true
-      },
-      bottomTab: {
-        icon: icons.info
-      }
-    };
-  }
+  static options = {
+    topBar: {
+      visible: false,
+      drawBehind: true
+    },
+    bottomTab: {
+      icon: icons.info
+    }
+  };
 
   static propTypes = {
     componentId: PropTypes.string

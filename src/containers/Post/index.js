@@ -27,15 +27,13 @@ class Post extends React.Component {
     sending: false
   };
 
-  static get options() {
-    return {
-      topBar: {
-        title: {
-          text: 'Lähetä'
-        }
+  static options = {
+    topBar: {
+      title: {
+        text: 'Lähetä'
       }
-    };
-  }
+    }
+  };
 
   static propTypes = {
     componentId: PropTypes.string,

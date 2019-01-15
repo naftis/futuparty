@@ -6,14 +6,12 @@ import SignIn from './SignIn';
 import { initFetchUser } from '../../redux/modules/auth/actions';
 
 class SignInContainer extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        visible: false,
-        drawBehind: true
-      }
-    };
-  }
+  static options = {
+    topBar: {
+      visible: false,
+      drawBehind: true
+    }
+  };
 
   static propTypes = {
     fetchUser: PropTypes.func,
@@ -33,7 +31,7 @@ const mapStateToProps = state => {
   return { user, error, code };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = dispatch => {
   return {
     fetchUser: code => dispatch(initFetchUser(code))
   };

@@ -13,7 +13,6 @@ import { logout } from '../../services/auth';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
-import store from './store';
 
 function showModal(componentName) {
   Navigation.showModal({
@@ -69,48 +68,29 @@ const SETTINGS_ITEMS = [
   }
 ];
 
-class Settings extends React.Component {
-  constructor(props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
-  // Drawer opening button cannot be toggled by RNN so
-  // we need to store the information about it's open state
-  componentDidAppear() {
-    store.isDrawerOpen = true;
-  }
-
-  componentDidDisappear() {
-    store.isDrawerOpen = false;
-  }
-
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={{ marginTop: 20 }}>
-          {SETTINGS_ITEMS.map(item => (
-            <TouchableHighlight
-              key={item.text}
-              underlayColor="rgba(0, 0, 0, 0.1)"
-              style={styles.link}
-              onPress={item.onPress}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image
-                  resizeMode="contain"
-                  source={item.icon}
-                  style={styles.icon}
-                />
-                <Text style={styles.linkText}>{item.text}</Text>
-              </View>
-            </TouchableHighlight>
-          ))}
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
+const Settings = () => (
+  <SafeAreaView style={styles.container}>
+    <View style={{ marginTop: 20 }}>
+      {SETTINGS_ITEMS.map(item => (
+        <TouchableHighlight
+          key={item.text}
+          underlayColor="rgba(0, 0, 0, 0.1)"
+          style={styles.link}
+          onPress={item.onPress}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image
+              resizeMode="contain"
+              source={item.icon}
+              style={styles.icon}
+            />
+            <Text style={styles.linkText}>{item.text}</Text>
+          </View>
+        </TouchableHighlight>
+      ))}
+    </View>
+  </SafeAreaView>
+);
 
 const styles = StyleSheet.create({
   container: {

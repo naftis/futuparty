@@ -19,22 +19,20 @@ import Item from './Item';
 import Background from '../../components/Background';
 
 class Feed extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        visible: true,
-        title: {
-          component: {
-            name: 'FeedTopBar',
-            alignment: 'fill'
-          }
+  static options = {
+    topBar: {
+      visible: true,
+      title: {
+        component: {
+          name: 'FeedTopBar',
+          alignment: 'fill'
         }
-      },
-      bottomTab: {
-        icon: icons.chats
       }
-    };
-  }
+    },
+    bottomTab: {
+      icon: icons.chats
+    }
+  };
 
   state = {
     refreshing: true,

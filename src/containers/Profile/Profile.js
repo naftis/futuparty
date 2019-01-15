@@ -5,7 +5,6 @@ import { getProfileImageUrl } from '../../services/api';
 import Pictures from './Pictures';
 import PropTypes from 'prop-types';
 import FastImage from 'react-native-fast-image';
-import store from '../Settings/store';
 
 const SIDEMENU_ID = 'sideMenu';
 
@@ -14,9 +13,27 @@ class Profile extends React.Component {
     componentId: PropTypes.string.isRequired
   };
 
+  isDrawerOpen = false;
+
   constructor(props) {
     super(props);
     Navigation.events().bindComponent(this);
+
+    Navigation.events().registerComponentDidAppearListener(
+      ({ componentId }) => {
+        if (componentId === 'settingsDrawer') {
+          this.isDrawerOpen = true;
+        }
+      }
+    );
+
+    Navigation.events().registerComponentDidDisappearListener(
+      ({ componentId }) => {
+        if (componentId === 'settingsDrawer') {
+          this.isDrawerOpen = false;
+        }
+      }
+    );
   }
 
   navigationButtonPressed({ buttonId }) {
@@ -27,7 +44,7 @@ class Profile extends React.Component {
     Navigation.mergeOptions('settingsDrawer', {
       sideMenu: {
         right: {
-          visible: !store.isDrawerOpen
+          visible: !this.isDrawerOpen
         }
       }
     });

@@ -29,6 +29,24 @@ function requiredPropsCheck(props, _, componentName) {
 }
 
 class Comment extends React.Component {
+  static options = {
+    topBar: {
+      title: {
+        component: {
+          name: 'CommentTopBar',
+          alignment: 'left'
+        }
+      },
+      backButton: {
+        showTitle: false
+      }
+    },
+    bottomTabs: {
+      visible: false,
+      drawBehind: true
+    }
+  };
+
   static propTypes = {
     item: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -46,23 +64,6 @@ class Comment extends React.Component {
   };
 
   commentListRef = React.createRef();
-
-  static get options() {
-    return {
-      topBar: {
-        title: {
-          component: {
-            name: 'CommentTopBar',
-            alignment: 'left'
-          }
-        }
-      },
-      bottomTabs: {
-        visible: false,
-        drawBehind: true
-      }
-    };
-  }
 
   async componentDidMount() {
     await this._onRefresh();

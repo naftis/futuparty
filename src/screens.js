@@ -10,7 +10,7 @@ import Initial from './containers/Initial';
 import License from './containers/License';
 import Post from './containers/Post';
 import Privacy from './containers/Privacy';
-import Profile from './containers/Profile/ProfileContainer';
+import Profile from './containers/Profile';
 import Program from './containers/Program';
 import Settings from './containers/Settings';
 import SignIn from './containers/SignIn/SignInContainer';

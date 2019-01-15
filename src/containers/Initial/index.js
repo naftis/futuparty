@@ -9,7 +9,7 @@ import sizes from '../../theme/sizes';
 
 class Initial extends React.Component {
   static propTypes = {
-    user: PropTypes.string
+    user: PropTypes.object
   };
 
   async componentDidMount() {
