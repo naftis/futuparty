@@ -64,8 +64,6 @@ class Comment extends React.Component {
   };
 
   commentListRef = React.createRef();
-  contentHeight = 0;
-  layoutHeight = 0;
 
   async componentDidMount() {
     await this._onRefresh();
@@ -161,13 +159,6 @@ class Comment extends React.Component {
           ListHeaderComponent={
             image ? this._renderImageWithText : this._renderTextOnly
           }
-          /* workaround for scrolling to bottom */
-          onContentSizeChange={(_, contentHeight) => {
-            this.contentHeight = contentHeight;
-          }}
-          onLayout={event => {
-            this.layoutHeight = event.nativeEvent.layout.height;
-          }}
         />
 
         <View style={styles.addComment}>
