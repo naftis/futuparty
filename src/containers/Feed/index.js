@@ -113,7 +113,7 @@ class Feed extends React.Component {
       id={item.id}
       image={item.image}
       text={item.description}
-      time={format(new Date(item.updated_at))}
+      time={format(new Date(item.updated_at), 'fi_FI')}
       name={item.name}
       likes={parseInt(item.likes)}
       liked={item.liked}
