@@ -14,6 +14,7 @@ import Profile from './containers/Profile';
 import Program from './containers/Program';
 import Settings from './containers/Settings';
 import SignIn from './containers/SignIn/SignInContainer';
+import SillisProgram from './containers/SillisProgram';
 import Terms from './containers/Terms';
 import { configureStore } from './redux/configureStore';
 
@@ -44,12 +45,8 @@ export function registerScreens() {
    * Signed in view
    */
   Navigation.registerComponentWithRedux('Food', () => Food, Provider, store);
-  Navigation.registerComponentWithRedux(
-    'Program',
-    () => Program,
-    Provider,
-    store
-  );
+  Navigation.registerComponent('Program', () => Program);
+  Navigation.registerComponent('SillisProgram', () => SillisProgram);
 
   Navigation.registerComponentWithRedux(
     'Profile',

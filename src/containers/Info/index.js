@@ -13,8 +13,13 @@ const pages = [
   },
   {
     component: 'Program',
-    name: 'Ohjelma',
+    name: 'Vuosijuhlien ohjelma',
     icon: icons.calendar
+  },
+  {
+    component: 'SillisProgram',
+    name: 'Silliaamiaisen ohjelma',
+    icon: icons.calendarFish
   },
   {
     component: 'https://luuppi50.fi',

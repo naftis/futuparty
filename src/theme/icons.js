@@ -1,6 +1,7 @@
 import addPhoto from '../../assets/icons/addPhoto.png';
 import burger from '../../assets/icons/burger.png';
 import calendar from '../../assets/icons/calendar.png';
+import calendarFish from '../../assets/icons/calendar_fish.png';
 import chat from '../../assets/icons/chat1.png';
 import chats from '../../assets/icons/chats.png';
 import food from '../../assets/icons/fork.png';
@@ -19,6 +20,7 @@ export default {
   addPhoto,
   burger,
   calendar,
+  calendarFish,
   chat,
   chats,
   food,
