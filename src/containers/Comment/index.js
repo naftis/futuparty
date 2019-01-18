@@ -4,6 +4,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Platform,
   RefreshControl,
   SafeAreaView,
   StyleSheet,
@@ -12,12 +13,13 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { KeyboardAccessoryView } from 'react-native-keyboard-accessory';
 import { format } from 'timeago.js';
+import { getComments, postComment } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import sizes from '../../theme/sizes';
 import icons from '../../theme/icons';
-import { postComment, getComments } from '../../services/api';
+import sizes from '../../theme/sizes';
 import Picture from './Picture';
 
 function requiredPropsCheck(props, _, componentName) {
@@ -91,7 +93,7 @@ class Comment extends React.Component {
   _renderImageWithText = () => {
     const { image, description, updated_at } = this.props.item;
 
-    const parsedTime = format(new Date(updated_at));
+    const parsedTime = format(new Date(updated_at), 'fi_FI');
 
     return (
       <>
@@ -109,7 +111,7 @@ class Comment extends React.Component {
 
   _renderTextOnly = () => {
     const { description, updated_at } = this.props.item;
-    const parsedTime = format(new Date(updated_at));
+    const parsedTime = format(new Date(updated_at), 'fi_FI');
 
     return (
       <View style={styles.textContainer}>
@@ -120,7 +122,7 @@ class Comment extends React.Component {
   };
 
   _renderComment({ item }) {
-    const parsedTime = format(new Date(item.updated_at));
+    const parsedTime = format(new Date(item.updated_at), 'fi_FI');
 
     return (
       <View style={styles.comment}>
@@ -138,7 +140,7 @@ class Comment extends React.Component {
     const { refreshing, comments, text } = this.state;
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={{ flex: 1 }}>
         <FlatList
           ref={this.commentListRef}
           keyExtractor={(_, index) => index.toString()}
@@ -161,18 +163,29 @@ class Comment extends React.Component {
           }
         />
 
-        <View style={styles.addComment}>
-          <TextInput
-            placeholder="Kommentoi"
-            onChangeText={text => this.setState({ text })}
-            value={text}
-            style={styles.textField}
-          />
+        <KeyboardAccessoryView
+          inSafeAreaView
+          alwaysVisible
+          hideBorder
+          androidAdjustResize
+          style={{
+            backgroundColor: '#ffffff',
+            marginBottom: Platform.OS === 'ios' ? -4 : 0
+          }}
+        >
+          <View style={styles.addComment}>
+            <TextInput
+              placeholder="Kommentoi"
+              onChangeText={text => this.setState({ text })}
+              value={text}
+              style={styles.textField}
+            />
 
-          <TouchableOpacity onPress={this._sendComment} disabled={!text}>
-            <Image source={icons.leftArrow} style={styles.arrowButton} />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={this._sendComment} disabled={!text}>
+              <Image source={icons.leftArrow} style={styles.arrowButton} />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAccessoryView>
       </SafeAreaView>
     );
   }

@@ -93,6 +93,14 @@ class Post extends React.Component {
 
         <ScrollView contentContainerStyle={styles.scrollContainer}>
           <View style={styles.backgroundColor}>
+            <View style={styles.textInputWrapper}>
+              <TextInput
+                onChangeText={text => this.setState({ text })}
+                value={text}
+                style={styles.textInput}
+                placeholder="Kirjoita..."
+              />
+            </View>
             <TouchableOpacity
               onPress={this._onImagePress}
               style={styles.imageContainer}
@@ -103,16 +111,6 @@ class Post extends React.Component {
                 <Image source={icons.addPhoto} style={styles.addPhotoIcon} />
               )}
             </TouchableOpacity>
-            <View style={styles.textInputWrapper}>
-              <TextInput
-                multiline={true}
-                numberOfLines={4}
-                onChangeText={text => this.setState({ text })}
-                value={text}
-                style={styles.textInput}
-                placeholder="Kirjoita..."
-              />
-            </View>
           </View>
 
           <TouchableHighlight
@@ -148,9 +146,8 @@ const styles = StyleSheet.create({
   imageContainer: {
     height: width - 40,
     width: width - 40,
-    borderRadius: 8,
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ddd'
@@ -166,8 +163,8 @@ const styles = StyleSheet.create({
   textInputWrapper: {
     padding: 20,
     width: width - 40,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
     backgroundColor: '#fff'
   },
   textInput: {
