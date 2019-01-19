@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { addLike, getProfileImageUrl, removeLike } from '../../services/api';
+
+import { addLike, removeLike } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
 import Picture from './Picture';
+import defaultProfileImage from '../../../assets/default-avatar1.png';
 
 function requiredPropsCheck(props, _, componentName) {
   if (!props.text && !props.image) {
@@ -24,6 +26,7 @@ class Item extends React.Component {
     image: requiredPropsCheck,
     time: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    picture: PropTypes.string,
     likes: PropTypes.number.isRequired,
     liked: PropTypes.bool.isRequired,
     comments: PropTypes.array.isRequired,
@@ -90,7 +93,9 @@ class Item extends React.Component {
   }
 
   render() {
-    const { text, image, time, name, onComment } = this.props;
+    const { text, image, time, name, onComment, picture } = this.props;
+
+    const userPic = picture ? { uri: picture } : defaultProfileImage;
 
     const content = image ? (
       <View>
@@ -108,7 +113,7 @@ class Item extends React.Component {
         <View style={styles.info}>
           <FastImage
             style={styles.profilePicture}
-            source={{ uri: getProfileImageUrl() }}
+            source={userPic}
             resizeMode="cover"
           />
 

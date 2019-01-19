@@ -112,6 +112,7 @@ class Feed extends React.Component {
     <Item
       id={item.id}
       image={item.image}
+      picture={item.picture}
       text={item.description}
       time={format(new Date(item.updated_at), 'fi_FI')}
       name={item.name}

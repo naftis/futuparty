@@ -8,11 +8,14 @@ import {
   View
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import ImagePicker from 'react-native-image-picker';
+
 import { goAuth } from '../../navigation';
 import { logout } from '../../services/auth';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
+import { updateProfileImage } from '../../services/api';
 
 function showModal(componentName) {
   Navigation.showModal({
@@ -39,8 +42,34 @@ const SETTINGS_ITEMS = [
     text: 'Vaihda profiilikuva',
     icon: icons.addPhoto,
     onPress: () => {
-      // TODO
-      alert('change photo');
+      ImagePicker.showImagePicker(
+        {
+          title: 'Valitse kuva',
+          storageOptions: {
+            skipBackup: true,
+            path: 'images'
+          }
+        },
+        async response => {
+          if (response.didCancel) {
+            return;
+          }
+
+          if (response.error) {
+            return;
+          }
+
+          const imageSource = {
+            uri: 'data:image/jpeg;base64,' + response.data
+          };
+
+          try {
+            await updateProfileImage(imageSource);
+          } catch (e) {
+            this.setState({ sending: false });
+          }
+        }
+      );
     }
   },
   {

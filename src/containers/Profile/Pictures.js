@@ -61,6 +61,7 @@ class Pictures extends React.Component {
       text={item.description}
       time={format(new Date(item.updated_at), 'fi_FI')}
       name={item.name}
+      picture={item.picture}
       likes={parseInt(item.likes)}
       liked={item.liked}
       comments={item.comments}
