@@ -15,8 +15,7 @@ class ProfileContainer extends React.Component {
       rightButtons: [
         {
           id: SIDEMENU_ID,
-          // TODO: change corresponding icon
-          icon: icons.privacy,
+          icon: icons.burger,
           systemItem: 'done',
           color: '#000',
           disableColorTint: false

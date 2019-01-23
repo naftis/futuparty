@@ -1,5 +1,5 @@
 import addPhoto from '../../assets/icons/addPhoto.png';
-import burger from '../../assets/icons/burger.png';
+import burger from '../../assets/icons/burgeri.png';
 import calendar from '../../assets/icons/calendar.png';
 import calendarFish from '../../assets/icons/calendar_fish.png';
 import chat from '../../assets/icons/chat1.png';
