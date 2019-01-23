@@ -51,8 +51,10 @@ export async function getFeed() {
 }
 
 export async function getUserFeed() {
-  // TODO: get current user feed
-  return getFeed();
+  const request = await apiFetch('/feed/user');
+  const response = await request.json();
+
+  return response;
 }
 
 export async function postFeedItem(image, text) {
