@@ -39,7 +39,8 @@ class ProfileContainer extends React.Component {
   }
 
   render() {
-    return <Profile {...this.props} />;
+    const { picture } = this.props.user;
+    return <Profile {...this.props} profileImageUrl={picture} />;
   }
 }
 

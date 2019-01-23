@@ -1,27 +1,28 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { getProfileImageUrl } from '../../services/api';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import fonts from '../../theme/fonts';
 import FastImage from 'react-native-fast-image';
 
+import defaultProfileImage from '../../../assets/default-avatar1.png';
+
 class CommentTopBar extends React.Component {
   static propTypes = {
     item: PropTypes.shape({
-      name: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired,
+      picture: PropTypes.string
     }).isRequired
   };
 
   render() {
-    const { name } = this.props.item;
+    const { name, picture } = this.props.item;
+
+    const image = picture ? { uri: picture } : defaultProfileImage;
 
     return (
       <View style={styles.container}>
         {Platform.OS === 'ios' && (
-          <FastImage
-            style={styles.profileImage}
-            source={{ uri: getProfileImageUrl() }}
-          />
+          <FastImage style={styles.profileImage} source={image} />
         )}
 
         <Text style={styles.name}>{name}</Text>

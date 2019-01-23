@@ -1,22 +1,31 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ActivityIndicator
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import ImagePicker from 'react-native-image-picker';
 import { Navigation } from 'react-native-navigation';
-import { getProfileImageUrl } from '../../services/api';
+
+import { updateProfileImage } from '../../services/api';
 import Pictures from './Pictures';
 import colors from '../../theme/colors';
+import defaultProfileImage from '../../../assets/default-avatar1.png';
 
 const SIDEMENU_ID = 'sideMenu';
 
 class Profile extends React.Component {
   static propTypes = {
-    componentId: PropTypes.string.isRequired
+    componentId: PropTypes.string.isRequired,
+    profileImageUrl: PropTypes.string
   };
 
   state = {
-    profileImageSource: undefined
+    updatingImage: false,
+    updatedImage: undefined
   };
 
   isDrawerOpen = false;
@@ -56,14 +65,6 @@ class Profile extends React.Component {
     });
   }
 
-  async componentDidMount() {
-    const profileImageUrl = await getProfileImageUrl();
-
-    this.setState({
-      profileImageSource: { uri: profileImageUrl }
-    });
-  }
-
   _changeProfilePicture = () => {
     ImagePicker.showImagePicker(
       {
@@ -73,7 +74,7 @@ class Profile extends React.Component {
           path: 'images'
         }
       },
-      response => {
+      async response => {
         if (response.didCancel) {
           return;
         }
@@ -86,15 +87,36 @@ class Profile extends React.Component {
           uri: 'data:image/jpeg;base64,' + response.data
         };
 
-        // TODO: Send profile pic to server
-        this.setState({ profileImageSource: imageSource });
+        try {
+          this.setState({ sending: true });
+          await updateProfileImage(imageSource);
+          this.setState({
+            updatedImage: imageSource,
+            sending: false
+          });
+        } catch (e) {
+          this.setState({ sending: false });
+        }
       }
     );
   };
 
   render() {
-    const { componentId } = this.props;
-    const { profileImageSource } = this.state;
+    const { componentId, profileImageUrl } = this.props;
+    const { updatedImage, sending } = this.state;
+
+    const userProfileImage = profileImageUrl
+      ? { uri: profileImageUrl }
+      : defaultProfileImage;
+
+    const image = updatedImage || userProfileImage;
+
+    const spinner = (
+      <ActivityIndicator
+        size="small"
+        color={colors.refreshButtonTextSelected}
+      />
+    );
 
     return (
       <View style={styles.container}>
@@ -104,11 +126,15 @@ class Profile extends React.Component {
               onPress={this._changeProfilePicture}
               style={styles.imageContainer}
             >
-              <FastImage
-                style={styles.image}
-                resizeMode="cover"
-                source={profileImageSource}
-              />
+              {sending ? (
+                spinner
+              ) : (
+                <FastImage
+                  style={styles.image}
+                  resizeMode="cover"
+                  source={image}
+                />
+              )}
             </TouchableOpacity>
           }
           componentId={componentId}
