@@ -8,7 +8,7 @@ import Panel from './Panel';
 const pages = [
   {
     component: 'Food',
-    name: 'Ruokalista',
+    name: 'Vuosijuhlien ruokalista',
     icon: icons.food
   },
   {

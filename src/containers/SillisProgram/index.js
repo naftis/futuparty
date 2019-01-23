@@ -5,34 +5,16 @@ import sizes from '../../theme/sizes';
 
 const PROGRAM_ITEMS = [
   {
-    title: 'Avausmalja',
-    time: '18.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Bussit lähtevät Tampere-talolta',
+    time: '12.00'
   },
   {
-    title: 'Avausmalja',
-    time: '20.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Bussit lähtevät jatkoille',
+    time: '19.00'
   },
   {
-    title: 'Avausmalja',
-    time: '21.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
-  },
-  {
-    title: 'Avausmalja',
-    time: '23.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
-  },
-  {
-    title: 'Avausmalja',
-    time: '00.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
-  },
-  {
-    title: 'Lopetusmalja',
-    time: '04.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Silliksen jatkot',
+    time: '19.30'
   }
 ];
 
