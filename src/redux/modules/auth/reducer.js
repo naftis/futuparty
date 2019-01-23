@@ -13,19 +13,18 @@ const defaultState = {
 };
 
 export function auth(state = defaultState, action) {
-  switch (action.type) {
-    case USER_FETCH_START: {
-      return { ...state, fetching: true, error: null };
-    }
-
-    case USER_FETCH_SUCCESS:
-      login(action.code);
-      return { ...state, fetching: false, user: action.user, error: null };
-
-    case USER_FETCH_FAIL:
-      return { ...state, fetching: false, error: action.error };
-
-    default:
-      return state;
+  if (action.type === USER_FETCH_START) {
+    return { ...state, fetching: true, error: null };
   }
+
+  if (action.type === USER_FETCH_SUCCESS) {
+    login(action.code);
+    return { ...state, fetching: false, user: action.user, error: null };
+  }
+
+  if (action.type === USER_FETCH_FAIL) {
+    return { ...state, fetching: false, error: action.error };
+  }
+
+  return state;
 }
