@@ -17,6 +17,8 @@ import fonts from '../../theme/fonts';
 import FloatingButton from './FloatingButton';
 import Item from './Item';
 
+const ITEMS_PER_VIEW = 20;
+
 class Feed extends React.Component {
   static options = {
     topBar: {
@@ -36,6 +38,7 @@ class Feed extends React.Component {
   state = {
     refreshing: true,
     showScrollTopButton: false,
+    allItems: [],
     items: []
   };
 
@@ -46,17 +49,19 @@ class Feed extends React.Component {
   flatListRef = React.createRef();
 
   async componentDidMount() {
-    const items = await getFeed();
+    const allItems = await getFeed();
+    const items = allItems.slice(0, ITEMS_PER_VIEW);
 
-    this.setState({ items, refreshing: false });
+    this.setState({ allItems, items, refreshing: false });
   }
 
   _onRefresh = async () => {
     this.setState({ refreshing: true });
 
-    const items = await getFeed();
+    const allItems = await getFeed();
+    const items = allItems.slice(0, ITEMS_PER_VIEW);
 
-    this.setState({ items, refreshing: false });
+    this.setState({ allItems, items, refreshing: false });
   };
 
   _onScroll = event => {
@@ -108,6 +113,22 @@ class Feed extends React.Component {
     });
   };
 
+  _onEndReached = () => {
+    const { allItems, items } = this.state;
+
+    const isMoreItems = allItems.length > items.length;
+
+    if (!isMoreItems) {
+      return;
+    }
+
+    const newItems = allItems.slice(0, items.length + ITEMS_PER_VIEW);
+
+    console.log(items.length + ITEMS_PER_VIEW);
+
+    this.setState({ items: newItems });
+  };
+
   _renderItem = ({ item }) => (
     <Item
       id={item.id}
@@ -153,6 +174,8 @@ class Feed extends React.Component {
               data={itemsWithKeys}
               renderItem={this._renderItem}
               onScroll={this._onScroll}
+              onEndReachedThreshold={0.5}
+              onEndReached={this._onEndReached}
             />
           )}
 
