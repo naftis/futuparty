@@ -124,8 +124,6 @@ class Feed extends React.Component {
 
     const newItems = allItems.slice(0, items.length + ITEMS_PER_VIEW);
 
-    console.log(items.length + ITEMS_PER_VIEW);
-
     this.setState({ items: newItems });
   };
 

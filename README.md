@@ -36,6 +36,8 @@ If you don't have Android Studio, you can get it from [android.com](https://deve
 
 - `API_URL` doesn't work with `localhost`? Try using your local IP.
 
+- [APK didn't build on `./gradlew assembleRelease`](https://github.com/wix/react-native-navigation/issues/3388#issuecomment-399071604)
+
 ### Environment variables
 
 ```

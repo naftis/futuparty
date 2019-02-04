@@ -4,7 +4,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import fonts from '../../theme/fonts';
 import FastImage from 'react-native-fast-image';
 
-import defaultProfileImage from '../../../assets/default-avatar1.png';
+import defaultProfileImage from '../../../assets/default-avatar1.jpg';
 
 class CommentTopBar extends React.Component {
   static propTypes = {

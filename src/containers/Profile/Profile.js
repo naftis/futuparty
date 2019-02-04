@@ -13,7 +13,7 @@ import { Navigation } from 'react-native-navigation';
 import { updateProfileImage } from '../../services/api';
 import Pictures from './Pictures';
 import colors from '../../theme/colors';
-import defaultProfileImage from '../../../assets/default-avatar1.png';
+import defaultProfileImage from '../../../assets/default-avatar1.jpg';
 
 const SIDEMENU_ID = 'sideMenu';
 

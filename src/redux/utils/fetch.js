@@ -7,7 +7,7 @@ export async function apiFetch(url, options = {}) {
     headers: {
       'x-user-uuid': 'fjsdlfjas',
       'Content-Type': 'application/json',
-      'x-token': 'token'
+      'x-token': config.API_TOKEN
     }
   };
 
@@ -20,5 +20,5 @@ export async function apiFetch(url, options = {}) {
     throw new Error('Error with request.');
   }
 
-  return await res.json();
+  return res.json();
 }

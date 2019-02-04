@@ -9,7 +9,7 @@ import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
 import Picture from './Picture';
-import defaultProfileImage from '../../../assets/default-avatar1.png';
+import defaultProfileImage from '../../../assets/default-avatar1.jpg';
 
 function requiredPropsCheck(props, _, componentName) {
   if (!props.text && !props.image) {

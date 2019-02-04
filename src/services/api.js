@@ -22,7 +22,7 @@ export const apiFetch = (url, opts) => {
 
   opts.headers['x-user-uuid'] = USER_UUID;
   opts.headers['Content-Type'] = 'application/json';
-  opts.headers['x-token'] = 'token';
+  opts.headers['x-token'] = config.API_TOKEN;
   return fetch(`${config.API_URL}${url}`, opts);
 };
 
