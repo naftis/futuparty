@@ -4,8 +4,9 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  View
+  TouchableOpacity,
+  View,
+  Platform
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
@@ -101,7 +102,7 @@ const Settings = () => (
   <SafeAreaView style={styles.container}>
     <View style={{ marginTop: 20 }}>
       {SETTINGS_ITEMS.map(item => (
-        <TouchableHighlight
+        <TouchableOpacity
           key={item.text}
           underlayColor="rgba(0, 0, 0, 0.1)"
           style={styles.link}
@@ -115,7 +116,7 @@ const Settings = () => (
             />
             <Text style={styles.linkText}>{item.text}</Text>
           </View>
-        </TouchableHighlight>
+        </TouchableOpacity>
       ))}
     </View>
   </SafeAreaView>
@@ -127,9 +128,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   link: {
-    padding: 22,
+    height: Platform.OS === 'android' ? 50 : 0,
     margin: 10,
-    marginTop: 0,
+    padding: Platform.OS === 'android' ? 0 : 10,
+    paddingLeft: 15,
+    paddingRight: 15,
     borderRadius: 3,
     flex: 1,
     justifyContent: 'center'
