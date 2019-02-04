@@ -8,13 +8,18 @@ import Panel from './Panel';
 const pages = [
   {
     component: 'Food',
-    name: 'Ruokalista',
+    name: 'Vuosijuhlien ruokalista',
     icon: icons.food
   },
   {
     component: 'Program',
-    name: 'Ohjelma',
+    name: 'Vuosijuhlien ohjelma',
     icon: icons.calendar
+  },
+  {
+    component: 'SillisProgram',
+    name: 'Silliaamiaisen ohjelma',
+    icon: icons.calendarFish
   },
   {
     component: 'https://luuppi50.fi',
@@ -24,17 +29,15 @@ const pages = [
 ];
 
 class Info extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        visible: false,
-        drawBehind: true
-      },
-      bottomTab: {
-        icon: icons.info
-      }
-    };
-  }
+  static options = {
+    topBar: {
+      visible: false,
+      drawBehind: true
+    },
+    bottomTab: {
+      icon: icons.info
+    }
+  };
 
   static propTypes = {
     componentId: PropTypes.string

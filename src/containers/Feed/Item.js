@@ -2,12 +2,14 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { addLike, getProfileImageUrl, removeLike } from '../../services/api';
+
+import { addLike, removeLike } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
 import Picture from './Picture';
+import defaultProfileImage from '../../../assets/default-avatar1.png';
 
 function requiredPropsCheck(props, _, componentName) {
   if (!props.text && !props.image) {
@@ -24,6 +26,7 @@ class Item extends React.Component {
     image: requiredPropsCheck,
     time: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    picture: PropTypes.string,
     likes: PropTypes.number.isRequired,
     liked: PropTypes.bool.isRequired,
     comments: PropTypes.array.isRequired,
@@ -77,13 +80,32 @@ class Item extends React.Component {
     );
   };
 
+  _renderText(text) {
+    if (!text) {
+      return null;
+    }
+
+    return (
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{text}</Text>
+      </View>
+    );
+  }
+
   render() {
-    const { text, image, time, name } = this.props;
+    const { text, image, time, name, onComment, picture } = this.props;
+
+    const userPic = picture ? { uri: picture } : defaultProfileImage;
 
     const content = image ? (
-      <Picture uri={image} />
+      <View>
+        <TouchableOpacity onPress={onComment}>
+          <Picture uri={image} />
+        </TouchableOpacity>
+        {this._renderText(text)}
+      </View>
     ) : (
-      <Text style={styles.text}>{text}</Text>
+      this._renderText(text)
     );
 
     return (
@@ -91,13 +113,14 @@ class Item extends React.Component {
         <View style={styles.info}>
           <FastImage
             style={styles.profilePicture}
-            source={{ uri: getProfileImageUrl() }}
+            source={userPic}
             resizeMode="cover"
           />
 
-          <Text style={styles.username}>{name}</Text>
-          <Text style={styles.dot}>·</Text>
-          <Text style={styles.time}>{time}</Text>
+          <View>
+            <Text style={styles.username}>{name}</Text>
+            <Text style={styles.time}>{time}</Text>
+          </View>
         </View>
 
         {content}
@@ -110,55 +133,53 @@ class Item extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginLeft: 10,
-    marginRight: 10,
-    marginTop: 10,
-    padding: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingTop: 10,
+    marginTop: 5,
+    marginLeft: 12,
+    marginRight: 12,
+    marginBottom: 15,
     backgroundColor: '#fff',
-    borderRadius: 8,
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 0
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 3,
-
-    elevation: -6
+    borderRadius: 8
   },
   info: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 15
   },
   profilePicture: {
     height: 40,
     width: 40,
     marginRight: 10,
-    borderRadius: 20
+    borderRadius: 6
   },
   username: {
-    marginRight: 10,
+    marginBottom: 3,
     fontFamily: fonts.monospace,
-    fontWeight: '500',
+    fontWeight: 'bold',
+    fontSize: sizes.TEXT_TINY,
     color: colors.author
-  },
-  dot: {
-    marginRight: 10
   },
   time: {
     fontFamily: fonts.monospace,
-    color: colors.feedItemSecondaryText
+    color: colors.feedItemSecondaryText,
+    fontSize: sizes.TEXT_TINY
+  },
+  textContainer: {
+    borderLeftColor: '#bbb',
+    borderLeftWidth: 1,
+    marginBottom: 10
   },
   text: {
-    paddingLeft: 50,
-    marginBottom: 15,
-    fontSize: sizes.TEXT_LARGE,
+    fontSize: sizes.TEXT_MEDIUM,
     fontFamily: fonts.monospace,
-    color: colors.text
+    color: colors.text,
+    paddingLeft: 10,
+    paddingTop: 4,
+    paddingBottom: 4
   },
   icons: {
-    paddingLeft: 50,
     flexDirection: 'row',
     alignItems: 'center'
   },
@@ -173,7 +194,8 @@ const styles = StyleSheet.create({
   },
   iconText: {
     fontFamily: fonts.monospace,
-    color: colors.feedItemSecondaryText
+    color: colors.feedItemSecondaryText,
+    fontSize: sizes.TEXT_TINY
   }
 });
 

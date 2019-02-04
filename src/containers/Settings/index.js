@@ -4,16 +4,18 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  TouchableHighlight,
+  TouchableOpacity,
   View
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import ImagePicker from 'react-native-image-picker';
+
 import { goAuth } from '../../navigation';
 import { logout } from '../../services/auth';
 import fonts from '../../theme/fonts';
 import icons from '../../theme/icons';
 import sizes from '../../theme/sizes';
-import store from './store';
+import { updateProfileImage } from '../../services/api';
 
 function showModal(componentName) {
   Navigation.showModal({
@@ -40,8 +42,34 @@ const SETTINGS_ITEMS = [
     text: 'Vaihda profiilikuva',
     icon: icons.addPhoto,
     onPress: () => {
-      // TODO
-      alert('change photo');
+      ImagePicker.showImagePicker(
+        {
+          title: 'Valitse kuva',
+          storageOptions: {
+            skipBackup: true,
+            path: 'images'
+          }
+        },
+        async response => {
+          if (response.didCancel) {
+            return;
+          }
+
+          if (response.error) {
+            return;
+          }
+
+          const imageSource = {
+            uri: 'data:image/jpeg;base64,' + response.data
+          };
+
+          try {
+            await updateProfileImage(imageSource);
+          } catch (e) {
+            this.setState({ sending: false });
+          }
+        }
+      );
     }
   },
   {
@@ -69,48 +97,29 @@ const SETTINGS_ITEMS = [
   }
 ];
 
-class Settings extends React.Component {
-  constructor(props) {
-    super(props);
-    Navigation.events().bindComponent(this);
-  }
-
-  // Drawer opening button cannot be toggled by RNN so
-  // we need to store the information about it's open state
-  componentDidAppear() {
-    store.isDrawerOpen = true;
-  }
-
-  componentDidDisappear() {
-    store.isDrawerOpen = false;
-  }
-
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <View style={{ marginTop: 20 }}>
-          {SETTINGS_ITEMS.map(item => (
-            <TouchableHighlight
-              key={item.text}
-              underlayColor="rgba(0, 0, 0, 0.1)"
-              style={styles.link}
-              onPress={item.onPress}
-            >
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Image
-                  resizeMode="contain"
-                  source={item.icon}
-                  style={styles.icon}
-                />
-                <Text style={styles.linkText}>{item.text}</Text>
-              </View>
-            </TouchableHighlight>
-          ))}
-        </View>
-      </SafeAreaView>
-    );
-  }
-}
+const Settings = () => (
+  <SafeAreaView style={styles.container}>
+    <View style={{ marginTop: 20 }}>
+      {SETTINGS_ITEMS.map(item => (
+        <TouchableOpacity
+          key={item.text}
+          underlayColor="rgba(0, 0, 0, 0.1)"
+          style={styles.link}
+          onPress={item.onPress}
+        >
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image
+              resizeMode="contain"
+              source={item.icon}
+              style={styles.icon}
+            />
+            <Text style={styles.linkText}>{item.text}</Text>
+          </View>
+        </TouchableOpacity>
+      ))}
+    </View>
+  </SafeAreaView>
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -118,9 +127,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   link: {
-    padding: 22,
     margin: 10,
-    marginTop: 0,
+    padding: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
     borderRadius: 3,
     flex: 1,
     justifyContent: 'center'

@@ -6,11 +6,13 @@ import {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  View
+  View,
+  Dimensions
 } from 'react-native';
 import { getCode } from '../../services/auth';
 
 import luuppi from '../../../assets/luuppi.png';
+import futurice from '../../../assets/futurice.png';
 import { goHome } from '../../navigation';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
@@ -106,10 +108,14 @@ class SignIn extends React.Component {
             <Image source={icons.leftArrow} style={styles.arrowButton} />
           </TouchableHighlight>
         </Animated.View>
+
+        <Image resizeMode="contain" source={futurice} style={styles.futurice} />
       </View>
     );
   }
 }
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -156,6 +162,13 @@ const styles = StyleSheet.create({
   arrowButton: {
     tintColor: '#fff',
     transform: [{ rotate: '180deg' }]
+  },
+  futurice: {
+    position: 'absolute',
+    bottom: -20,
+    left: 20,
+    width: width / 4,
+    opacity: 0.4
   }
 });
 

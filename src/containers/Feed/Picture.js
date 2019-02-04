@@ -29,6 +29,9 @@ class Picture extends React.Component {
           renderIndicator={() => spinner}
           source={{ uri }}
           style={styles.image}
+          imageStyle={{
+            borderRadius: 20
+          }}
         />
       </View>
     );
@@ -41,8 +44,19 @@ const styles = StyleSheet.create({
   imageContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: width - 44 + 10,
-    height: width - 44 + 20
+    width: width - 44,
+    height: width - 44,
+    marginBottom: 15,
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 5
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+
+    elevation: 10
   },
   image: {
     width: width - 44,

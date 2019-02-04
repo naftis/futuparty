@@ -22,7 +22,7 @@ export default {
   foodPrimaryColor: '#000',
   foodSecondaryColor: '#444',
 
-  feedItemSecondaryText: '#7f7f7f',
+  feedItemSecondaryText: '#9f9f9f',
   feedItemBorderBottom: '#ddd',
 
   floatingButton: '#E0B400',

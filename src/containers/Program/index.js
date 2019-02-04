@@ -5,43 +5,87 @@ import sizes from '../../theme/sizes';
 
 const PROGRAM_ITEMS = [
   {
-    title: 'Avausmalja',
+    title: 'Paja Kongressi aukeaa',
+    time: '17.00',
+    description: 'Paikalle voi saapua'
+  },
+  {
+    title: 'Vuosijuhlat alkavat',
     time: '18.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    description: 'Liput saapuvat, alkupuhe'
   },
   {
-    title: 'Avausmalja',
-    time: '20.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Luuppi ry:n puheenjohtajan puhe',
+    description: 'Kari Kuukka'
   },
   {
-    title: 'Avausmalja',
-    time: '21.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Yhteistyökumppanin puhe',
+    description: 'Gofore Oyj'
   },
   {
-    title: 'Avausmalja',
-    time: '23.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Alkuruoka',
+    description: 'Tarjoilun löydät "Ruokalista" -sivulta'
   },
   {
-    title: 'Avausmalja',
-    time: '00.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Muistoja luupista',
+    description: 'Jyrki Nummenmaa'
   },
   {
-    title: 'Lopetusmalja',
-    time: '04.00',
-    description: 'Nostetaan malja blah blah bla, blaa blaa TODO blah.'
+    title: 'Tauko'
+  },
+  {
+    title: 'Muistoja luupista'
+  },
+  {
+    title: 'Pääruoka'
+  },
+  {
+    title: 'Kunniamaininnat'
+  },
+  {
+    title: 'Tauko'
+  },
+  {
+    title: 'Muistoja luupista'
+  },
+  {
+    title: 'Jälkiruoka'
+  },
+  {
+    title: 'Puhe naisille',
+    description: 'Ykä Lähteenmäki'
+  },
+  {
+    title: 'Puhe miehille',
+    description: 'Marjaana Isokallio'
+  },
+  {
+    title: 'Liput poistuvat'
+  },
+  {
+    title: 'Tanssiaiset alkavat',
+    description: 'TavastFunk'
+  },
+  {
+    title: 'Kuljetukset jatkoille alkavat',
+    time: '23:00'
+  },
+  {
+    title: 'Kuljetukset jatkojen jatkoille',
+    time: '03:00'
   }
 ];
 
 class Program extends React.Component {
-  static get options() {
-    return {
-      topBar: { title: { text: 'Ohjelma' } }
-    };
-  }
+  static options = {
+    topBar: {
+      title: {
+        fontFamily: fonts.monospaceBold,
+        fontSize: sizes.TEXT_SMALL,
+        text: 'Ohjelma'
+      }
+    }
+  };
 
   render() {
     const items = PROGRAM_ITEMS.map((item, key) => {
@@ -52,15 +96,21 @@ class Program extends React.Component {
           key={`${item.title}${key}`}
           style={[styles.item, isEven ? styles.backgroundWhite : {}]}
         >
-          <Text style={[styles.heading, isEven ? {} : styles.white]}>
-            {item.title}
-          </Text>
-          <Text style={[styles.time, isEven ? {} : styles.white]}>
-            {item.time}
-          </Text>
-          <Text style={[styles.description, isEven ? {} : styles.white]}>
-            {item.description}
-          </Text>
+          <View style={styles.titleContainer}>
+            <Text style={[styles.heading, isEven ? {} : styles.white]}>
+              {item.title}
+            </Text>
+            {item.time && (
+              <Text style={[styles.time, isEven ? {} : styles.white]}>
+                {item.time}
+              </Text>
+            )}
+          </View>
+          {item.description && (
+            <Text style={[styles.description, isEven ? {} : styles.white]}>
+              {item.description}
+            </Text>
+          )}
           <View
             style={[styles.separator, isEven ? {} : styles.backgroundWhite]}
           />
@@ -96,21 +146,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#212121',
     padding: 16
   },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   heading: {
     fontSize: sizes.TEXT_LARGE,
     fontFamily: fonts.default
   },
   time: {
-    marginBottom: 8,
-    fontSize: sizes.TEXT_TINY,
-    fontFamily: fonts.default
+    fontSize: sizes.TEXT_MEDIUM,
+    fontFamily: fonts.monospace
   },
   description: {
-    fontSize: sizes.TEXT_SMALL,
-    fontFamily: fonts.default,
-    marginBottom: 16
+    marginTop: 8,
+    fontSize: sizes.TEXT_TINY,
+    fontFamily: fonts.monospace
   },
   separator: {
+    marginTop: 16,
     backgroundColor: '#000',
     height: 2,
     width: 64

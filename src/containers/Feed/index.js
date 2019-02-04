@@ -16,29 +16,29 @@ import icons from '../../theme/icons';
 import fonts from '../../theme/fonts';
 import FloatingButton from './FloatingButton';
 import Item from './Item';
-import Background from '../../components/Background';
+
+const ITEMS_PER_VIEW = 20;
 
 class Feed extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        visible: true,
-        title: {
-          component: {
-            name: 'FeedTopBar',
-            alignment: 'fill'
-          }
+  static options = {
+    topBar: {
+      visible: true,
+      title: {
+        component: {
+          name: 'FeedTopBar',
+          alignment: 'fill'
         }
-      },
-      bottomTab: {
-        icon: icons.chats
       }
-    };
-  }
+    },
+    bottomTab: {
+      icon: icons.chats
+    }
+  };
 
   state = {
     refreshing: true,
     showScrollTopButton: false,
+    allItems: [],
     items: []
   };
 
@@ -49,17 +49,19 @@ class Feed extends React.Component {
   flatListRef = React.createRef();
 
   async componentDidMount() {
-    const items = await getFeed();
+    const allItems = await getFeed();
+    const items = allItems.slice(0, ITEMS_PER_VIEW);
 
-    this.setState({ items, refreshing: false });
+    this.setState({ allItems, items, refreshing: false });
   }
 
   _onRefresh = async () => {
     this.setState({ refreshing: true });
 
-    const items = await getFeed();
+    const allItems = await getFeed();
+    const items = allItems.slice(0, ITEMS_PER_VIEW);
 
-    this.setState({ items, refreshing: false });
+    this.setState({ allItems, items, refreshing: false });
   };
 
   _onScroll = event => {
@@ -111,12 +113,29 @@ class Feed extends React.Component {
     });
   };
 
+  _onEndReached = () => {
+    const { allItems, items } = this.state;
+
+    const isMoreItems = allItems.length > items.length;
+
+    if (!isMoreItems) {
+      return;
+    }
+
+    const newItems = allItems.slice(0, items.length + ITEMS_PER_VIEW);
+
+    console.log(items.length + ITEMS_PER_VIEW);
+
+    this.setState({ items: newItems });
+  };
+
   _renderItem = ({ item }) => (
     <Item
       id={item.id}
       image={item.image}
+      picture={item.picture}
       text={item.description}
-      time={format(new Date(item.updated_at))}
+      time={format(new Date(item.updated_at), 'fi_FI')}
       name={item.name}
       likes={parseInt(item.likes)}
       liked={item.liked}
@@ -143,9 +162,7 @@ class Feed extends React.Component {
     );
 
     return (
-      <View style={{ flex: 1 }}>
-        <Background />
-
+      <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <SafeAreaView style={{ flex: 1 }}>
           {items.length === 0 ? (
             <Text style={styles.noPostsText}>Ei viestejä!</Text>
@@ -157,6 +174,8 @@ class Feed extends React.Component {
               data={itemsWithKeys}
               renderItem={this._renderItem}
               onScroll={this._onScroll}
+              onEndReachedThreshold={0.5}
+              onEndReached={this._onEndReached}
             />
           )}
 

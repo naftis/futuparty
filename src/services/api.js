@@ -51,8 +51,10 @@ export async function getFeed() {
 }
 
 export async function getUserFeed() {
-  // TODO: get current user feed
-  return getFeed();
+  const request = await apiFetch('/feed/user');
+  const response = await request.json();
+
+  return response;
 }
 
 export async function postFeedItem(image, text) {
@@ -84,6 +86,33 @@ export async function postFeedItem(image, text) {
   }
 
   return await request.json();
+}
+
+export async function updateProfileImage(image) {
+  let imageUrl;
+
+  if (image) {
+    const imageData = { itemName: makeId() + image.fileName, url: image.uri };
+
+    try {
+      imageUrl = await getPreSignedUrl(imageData, 'img');
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const body = JSON.stringify({ imageUrl });
+
+  const request = await apiFetch(`/users/${USER_UUID}`, {
+    body,
+    method: 'PUT'
+  });
+
+  if (!request.ok) {
+    throw new Error('Error when posting item.');
+  }
+
+  return imageUrl;
 }
 
 export async function postComment(text, feedItemId) {
@@ -137,6 +166,11 @@ export async function removeLike(feedItemId) {
   return await request.json();
 }
 
-export function getProfileImageUrl() {
-  return 'https://placeimg.com/640/480/any';
+export async function getProfileImageUrl(userUuid = USER_UUID) {
+  const request = await apiFetch(`/users/${userUuid}`, {
+    method: 'GET'
+  });
+
+  const user = await request.json();
+  return user.picture || 'https://placeimg.com/640/480/any';
 }

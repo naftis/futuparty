@@ -4,6 +4,7 @@ import {
   Dimensions,
   FlatList,
   Image,
+  Platform,
   RefreshControl,
   SafeAreaView,
   StyleSheet,
@@ -12,12 +13,13 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { KeyboardAccessoryView } from 'react-native-keyboard-accessory';
 import { format } from 'timeago.js';
+import { getComments, postComment } from '../../services/api';
 import colors from '../../theme/colors';
 import fonts from '../../theme/fonts';
-import sizes from '../../theme/sizes';
 import icons from '../../theme/icons';
-import { postComment, getComments } from '../../services/api';
+import sizes from '../../theme/sizes';
 import Picture from './Picture';
 
 function requiredPropsCheck(props, _, componentName) {
@@ -29,6 +31,24 @@ function requiredPropsCheck(props, _, componentName) {
 }
 
 class Comment extends React.Component {
+  static options = {
+    topBar: {
+      title: {
+        component: {
+          name: 'CommentTopBar',
+          alignment: 'left'
+        }
+      },
+      backButton: {
+        showTitle: false
+      }
+    },
+    bottomTabs: {
+      visible: false,
+      drawBehind: true
+    }
+  };
+
   static propTypes = {
     item: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -47,23 +67,6 @@ class Comment extends React.Component {
 
   commentListRef = React.createRef();
 
-  static get options() {
-    return {
-      topBar: {
-        title: {
-          component: {
-            name: 'CommentTopBar',
-            alignment: 'left'
-          }
-        }
-      },
-      bottomTabs: {
-        visible: false,
-        drawBehind: true
-      }
-    };
-  }
-
   async componentDidMount() {
     await this._onRefresh();
   }
@@ -78,39 +81,48 @@ class Comment extends React.Component {
   _sendComment = async () => {
     const { text } = this.state;
     const feedId = this.props.item.id;
+
     await postComment(text, feedId);
     await this._onRefresh();
+
     this.setState({ text: '' });
-    this.commentListRef.current.scrollToEnd();
+
+    /* TODO: Scroll 2 bottom */
   };
 
   _renderImageWithText = () => {
     const { image, description, updated_at } = this.props.item;
 
-    const parsedTime = format(new Date(updated_at));
+    const parsedTime = format(new Date(updated_at), 'fi_FI');
 
     return (
       <>
         <Picture uri={image} />
 
-        {description && (
+        {description ? (
           <View style={styles.imageTextWrapper}>
             <Text style={styles.imageText}>{description}</Text>
             <Text style={styles.imageTextTime}>{parsedTime.toUpperCase()}</Text>
           </View>
-        )}
+        ) : null}
       </>
     );
   };
 
   _renderTextOnly = () => {
-    const { description } = this.props.item;
+    const { description, updated_at } = this.props.item;
+    const parsedTime = format(new Date(updated_at), 'fi_FI');
 
-    return <Text style={styles.text}>{description}</Text>;
+    return (
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{description}</Text>
+        <Text style={styles.textTime}>{parsedTime}</Text>
+      </View>
+    );
   };
 
   _renderComment({ item }) {
-    const parsedTime = format(new Date(item.updated_at));
+    const parsedTime = format(new Date(item.updated_at), 'fi_FI');
 
     return (
       <View style={styles.comment}>
@@ -128,7 +140,7 @@ class Comment extends React.Component {
     const { refreshing, comments, text } = this.state;
 
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={{ flex: 1 }}>
         <FlatList
           ref={this.commentListRef}
           keyExtractor={(_, index) => index.toString()}
@@ -151,18 +163,29 @@ class Comment extends React.Component {
           }
         />
 
-        <View style={styles.addComment}>
-          <TextInput
-            placeholder="Kommentoi"
-            onChangeText={text => this.setState({ text })}
-            value={text}
-            style={styles.textField}
-          />
+        <KeyboardAccessoryView
+          inSafeAreaView
+          alwaysVisible
+          hideBorder
+          androidAdjustResize
+          style={{
+            backgroundColor: '#ffffff',
+            marginBottom: Platform.OS === 'ios' ? -4 : 0
+          }}
+        >
+          <View style={styles.addComment}>
+            <TextInput
+              placeholder="Kommentoi"
+              onChangeText={text => this.setState({ text })}
+              value={text}
+              style={styles.textField}
+            />
 
-          <TouchableOpacity onPress={this._sendComment} disabled={!text}>
-            <Image source={icons.leftArrow} style={styles.arrowButton} />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity onPress={this._sendComment} disabled={!text}>
+              <Image source={icons.leftArrow} style={styles.arrowButton} />
+            </TouchableOpacity>
+          </View>
+        </KeyboardAccessoryView>
       </SafeAreaView>
     );
   }
@@ -171,17 +194,28 @@ const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: colors.background
+  },
+  textContainer: {
+    backgroundColor: colors.text,
+    padding: 10,
+    paddingTop: 20,
+    paddingBottom: 0
   },
   text: {
     fontFamily: fonts.default,
     fontSize: sizes.TEXT_LARGE,
     textAlign: 'center',
-    padding: 10,
-    paddingTop: 20,
-    paddingBottom: 20,
-    backgroundColor: '#000',
-    color: '#fff'
+    color: colors.background
+  },
+  textTime: {
+    fontFamily: fonts.monospace,
+    color: '#bbb',
+    fontSize: sizes.TEXT_TINY,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    marginTop: 2
   },
   image: {
     width,
