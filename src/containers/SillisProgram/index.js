@@ -5,16 +5,62 @@ import sizes from '../../theme/sizes';
 
 const PROGRAM_ITEMS = [
   {
-    title: 'Bussit lähtevät Tampere-talolta',
-    time: '12.00'
+    title: 'Silliskuljetus',
+    time: '12.00',
+    description:
+      'Bussit lähtevät kohti salaista sillispaikkaa! Ole ajoissa tai jäät paitsi.'
   },
   {
-    title: 'Bussit lähtevät jatkoille',
-    time: '19.00'
+    title: 'Saapuminen',
+    time: '13.00',
+    description:
+      'Saavumme sillispaikalle, luvassa ruokaa, juomaa paljua sekä muuta ohjelmaa!'
+  },
+  {
+    title: 'Viinavartti™',
+    time: '14:00',
+    description:
+      'Shottikierros! Tarjoamme osallistujille päivän ensimmäiset paukut! Järjestetään etupihalla.'
+  },
+  {
+    title: 'Kilpailu',
+    time: '14:30',
+    description:
+      'Kuka on silliksen kovin tyyppi, tule ottamaan selvää! Palkinnot tarjoaa Kaalimato! Järjestetään juhlasalissa.'
+  },
+  {
+    title: 'Viinavartti™',
+    time: '15:15',
+    description: 'Toinen kierros! Järjestetään etupihalla.'
+  },
+  {
+    title: 'Bändi',
+    time: '15:30',
+    description:
+      'Pikkujouluiltakin tuttu Likes of us soittaa luuppilaisten rakastamia ikivihreitä klassikoita!'
+  },
+  {
+    title: 'Pääesiintyjä',
+    time: '16:30',
+    description:
+      'Vujujen viimeinen yllätysesiintyjä! Tämä yhtye on saavuttanut parissa vuodesasa huippusuosion ja takaa huippu sillisfiiliksen!'
+  },
+  {
+    title: 'Viinavartti™',
+    time: '18:30',
+    description: 'Kolmas ja viimeinen Viinavartti™! Järjestetään etupihalla.'
+  },
+  {
+    title: 'Lähtö',
+    time: '19:00',
+    description:
+      'Kuljetus takaisin kohti Tamperetta, mutta eivät juhlat tähän jää...'
   },
   {
     title: 'Silliksen jatkot',
-    time: '19.30'
+    time: '19:30',
+    description:
+      '...Sillä ilta jatkuu silliksen jatkoilla! Luvassa ruokaa, juomaa, saunomista ja ankaraa juhlimista!'
   }
 ];
 
