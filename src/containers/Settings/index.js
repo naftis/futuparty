@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  Platform
+  View
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import ImagePicker from 'react-native-image-picker';
@@ -128,9 +127,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   link: {
-    height: Platform.OS === 'android' ? 50 : 0,
     margin: 10,
-    padding: Platform.OS === 'android' ? 0 : 10,
+    padding: 10,
     paddingLeft: 15,
     paddingRight: 15,
     borderRadius: 3,
