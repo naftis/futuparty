@@ -84,15 +84,21 @@ class Program extends React.Component {
           key={`${item.title}${key}`}
           style={[styles.item, isEven ? styles.backgroundWhite : {}]}
         >
-          <Text style={[styles.heading, isEven ? {} : styles.white]}>
-            {item.title}
-          </Text>
-          <Text style={[styles.time, isEven ? {} : styles.white]}>
-            {item.time}
-          </Text>
-          <Text style={[styles.description, isEven ? {} : styles.white]}>
-            {item.description}
-          </Text>
+          <View style={styles.titleContainer}>
+            <Text style={[styles.heading, isEven ? {} : styles.white]}>
+              {item.title}
+            </Text>
+            {item.time && (
+              <Text style={[styles.time, isEven ? {} : styles.white]}>
+                {item.time}
+              </Text>
+            )}
+          </View>
+          {item.description && (
+            <Text style={[styles.description, isEven ? {} : styles.white]}>
+              {item.description}
+            </Text>
+          )}
           <View
             style={[styles.separator, isEven ? {} : styles.backgroundWhite]}
           />
@@ -128,21 +134,26 @@ const styles = StyleSheet.create({
     backgroundColor: '#212121',
     padding: 16
   },
+  titleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
   heading: {
     fontSize: sizes.TEXT_LARGE,
     fontFamily: fonts.default
   },
   time: {
-    marginBottom: 8,
-    fontSize: sizes.TEXT_TINY,
-    fontFamily: fonts.default
+    fontSize: sizes.TEXT_MEDIUM,
+    fontFamily: fonts.monospace
   },
   description: {
-    fontSize: sizes.TEXT_SMALL,
-    fontFamily: fonts.default,
-    marginBottom: 16
+    marginTop: 8,
+    fontSize: sizes.TEXT_TINY,
+    fontFamily: fonts.monospace
   },
   separator: {
+    marginTop: 16,
     backgroundColor: '#000',
     height: 2,
     width: 64
