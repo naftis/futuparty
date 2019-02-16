@@ -204,6 +204,8 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   text: {
+    paddingTop: 5,
+    paddingBottom: 10,
     fontFamily: fonts.default,
     fontSize: sizes.TEXT_LARGE,
     textAlign: 'center',
