@@ -6,7 +6,8 @@ import {
   View,
   SafeAreaView,
   StyleSheet,
-  Text
+  Text,
+  ActivityIndicator
 } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { format } from 'timeago.js';
@@ -162,8 +163,19 @@ class Feed extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <SafeAreaView style={{ flex: 1 }}>
+          {}
           {items.length === 0 ? (
-            <Text style={styles.noPostsText}>Ei viestejä!</Text>
+            <View>
+              {refreshing ? (
+                <ActivityIndicator
+                  size="large"
+                  color={colors.refreshButtonTextSelected}
+                  style={styles.noPostsSpinner}
+                />
+              ) : (
+                <Text style={styles.noPostsText}>Ei viestejä!</Text>
+              )}
+            </View>
           ) : (
             <FlatList
               ref={this.flatListRef}
@@ -197,6 +209,9 @@ const styles = StyleSheet.create({
     marginTop: 50,
     alignSelf: 'center',
     fontFamily: fonts.monospace
+  },
+  noPostsSpinner: {
+    marginTop: 50
   },
   container: {
     paddingBottom: 10
