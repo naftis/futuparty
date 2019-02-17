@@ -163,7 +163,6 @@ class Feed extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff' }}>
         <SafeAreaView style={{ flex: 1 }}>
-          {}
           {items.length === 0 ? (
             <View>
               {refreshing ? (
