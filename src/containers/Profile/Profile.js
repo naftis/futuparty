@@ -84,7 +84,7 @@ class Profile extends React.Component {
         }
 
         const imageSource = {
-          uri: 'data:image/jpeg;base64,' + response.data
+          uri: response.uri
         };
 
         try {

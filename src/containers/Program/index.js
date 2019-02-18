@@ -27,14 +27,15 @@ const PROGRAM_ITEMS = [
     description: 'Tarjoilun löydät "Ruokalista" -sivulta'
   },
   {
-    title: 'Muistoja luupista',
-    description: 'Jyrki Nummenmaa'
+    title: 'Puhe menneiltä vuosilta',
+    description: 'Terttu Pulkkinen'
   },
   {
     title: 'Tauko'
   },
   {
-    title: 'Muistoja luupista'
+    title: 'Puhe menneiltä vuosilta',
+    description: 'Jyrki Nummenmaa'
   },
   {
     title: 'Pääruoka'
@@ -46,25 +47,26 @@ const PROGRAM_ITEMS = [
     title: 'Tauko'
   },
   {
-    title: 'Muistoja luupista'
+    title: 'Puhe menneiltä vuosilta',
+    description: 'Marja Ahonen'
   },
   {
     title: 'Jälkiruoka'
   },
   {
-    title: 'Puhe naisille',
+    title: 'Puhe naiselle',
     description: 'Ykä Lähteenmäki'
   },
   {
-    title: 'Puhe miehille',
+    title: 'Puhe miehelle',
     description: 'Marjaana Isokallio'
   },
   {
     title: 'Liput poistuvat'
   },
   {
-    title: 'Tanssiaiset alkavat',
-    description: 'TavastFunk'
+    title: 'Bändi',
+    description: 'Tanssittamassa TavastFunk'
   },
   {
     title: 'Kuljetukset jatkoille alkavat',

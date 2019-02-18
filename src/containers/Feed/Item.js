@@ -43,11 +43,11 @@ class Item extends React.Component {
     const { likes, liked } = this.state;
 
     if (!liked) {
-      await addLike(id);
       this.setState({ likes: likes + 1, liked: true });
+      await addLike(id);
     } else {
-      await removeLike(id);
       this.setState({ likes: likes - 1, liked: false });
+      await removeLike(id);
     }
   };
 

@@ -13,8 +13,7 @@ const PROGRAM_ITEMS = [
   {
     title: 'Saapuminen',
     time: '13.00',
-    description:
-      'Saavumme sillispaikalle, luvassa ruokaa, juomaa paljua sekä muuta ohjelmaa!'
+    description: 'Saavumme sillispaikalle. Sillisjuhlinta alkakoon!'
   },
   {
     title: 'Viinavartti™',
@@ -26,7 +25,7 @@ const PROGRAM_ITEMS = [
     title: 'Kilpailu',
     time: '14:30',
     description:
-      'Kuka on silliksen kovin tyyppi, tule ottamaan selvää! Palkinnot tarjoaa Kaalimato! Järjestetään juhlasalissa.'
+      'Kuka on silliksen kovin tyyppi? Tule ottamaan selvää! Palkinnot tarjoaa Kaalimato! Järjestetään juhlasalissa.'
   },
   {
     title: 'Viinavartti™',
@@ -37,13 +36,13 @@ const PROGRAM_ITEMS = [
     title: 'Bändi',
     time: '15:30',
     description:
-      'Pikkujouluiltakin tuttu Likes of us soittaa luuppilaisten rakastamia ikivihreitä klassikoita!'
+      'Pikkujouluiltakin tuttu Likes of Us soittaa luuppilaisten rakastamia ikivihreitä klassikoita!'
   },
   {
     title: 'Pääesiintyjä',
     time: '16:30',
     description:
-      'Vujujen viimeinen yllätysesiintyjä! Tämä yhtye on saavuttanut parissa vuodesasa huippusuosion ja takaa huippu sillisfiiliksen!'
+      'Vujujen viimeinen yllätysesiintyjä! Tämä yhtye on saavuttanut parissa vuodesasa huippusuosion ja takaa mainion sillisfiiliksen!'
   },
   {
     title: 'Viinavartti™',
@@ -54,7 +53,7 @@ const PROGRAM_ITEMS = [
     title: 'Lähtö',
     time: '19:00',
     description:
-      'Kuljetus takaisin kohti Tamperetta, mutta eivät juhlat tähän jää...'
+      'Kuljetus takaisin kohti Tamperetta, mutta eivät juhlat tähän lopu...'
   },
   {
     title: 'Silliksen jatkot',

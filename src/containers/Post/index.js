@@ -60,7 +60,7 @@ class Post extends React.Component {
           return;
         }
 
-        const imageSource = { uri: 'data:image/jpeg;base64,' + response.data };
+        const imageSource = { uri: response.uri };
 
         this.setState({ imageSource });
       }

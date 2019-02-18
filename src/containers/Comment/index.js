@@ -11,7 +11,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  Keyboard
 } from 'react-native';
 import { KeyboardAccessoryView } from 'react-native-keyboard-accessory';
 import { format } from 'timeago.js';
@@ -87,7 +88,8 @@ class Comment extends React.Component {
 
     this.setState({ text: '' });
 
-    /* TODO: Scroll 2 bottom */
+    Keyboard.dismiss();
+    this.commentList.scrollToEnd({ animated: true });
   };
 
   _renderImageWithText = () => {
@@ -142,7 +144,7 @@ class Comment extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <FlatList
-          ref={this.commentListRef}
+          ref={ref => (this.commentList = ref)}
           keyExtractor={(_, index) => index.toString()}
           refreshControl={
             <RefreshControl
@@ -204,6 +206,8 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   text: {
+    paddingTop: 5,
+    paddingBottom: 10,
     fontFamily: fonts.default,
     fontSize: sizes.TEXT_LARGE,
     textAlign: 'center',

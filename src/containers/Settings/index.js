@@ -39,40 +39,6 @@ function showModal(componentName) {
 
 const SETTINGS_ITEMS = [
   {
-    text: 'Vaihda profiilikuva',
-    icon: icons.addPhoto,
-    onPress: () => {
-      ImagePicker.showImagePicker(
-        {
-          title: 'Valitse kuva',
-          storageOptions: {
-            skipBackup: true,
-            path: 'images'
-          }
-        },
-        async response => {
-          if (response.didCancel) {
-            return;
-          }
-
-          if (response.error) {
-            return;
-          }
-
-          const imageSource = {
-            uri: 'data:image/jpeg;base64,' + response.data
-          };
-
-          try {
-            await updateProfileImage(imageSource);
-          } catch (e) {
-            this.setState({ sending: false });
-          }
-        }
-      );
-    }
-  },
-  {
     text: 'Lisenssit',
     icon: icons.licenses,
     onPress: () => showModal('License')
