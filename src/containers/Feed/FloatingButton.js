@@ -3,7 +3,6 @@ import React from 'react';
 import {
   Animated,
   Easing,
-  Platform,
   StyleSheet,
   TouchableNativeFeedback,
   TouchableOpacity,
@@ -53,9 +52,6 @@ class FloatingButton extends React.Component {
 
   render() {
     const { lineAnim } = this.state;
-
-    const Touchable =
-      Platform.OS === 'android' ? TouchableNativeFeedback : TouchableOpacity;
 
     const lineWrapperAnimation = {
       transform: [
@@ -117,7 +113,7 @@ class FloatingButton extends React.Component {
     return (
       <View style={styles.shadow}>
         <View style={styles.wrapper}>
-          <Touchable
+          <TouchableOpacity
             onPress={this._onPress}
             background={TouchableNativeFeedback.Ripple('rgba(0, 0, 0, 0.5)')}
             style={{
@@ -130,7 +126,7 @@ class FloatingButton extends React.Component {
                 style={[styles.line, styles.line2, line2Animation]}
               />
             </Animated.View>
-          </Touchable>
+          </TouchableOpacity>
         </View>
       </View>
     );
