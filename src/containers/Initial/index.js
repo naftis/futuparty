@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Image, View } from 'react-native';
 import { connect } from 'react-redux';
 import { goAuth, goHome } from '../../navigation';
 import { initFetchUser } from '../../redux/modules/auth/actions';
 import { getCode } from '../../services/auth';
 import sizes from '../../theme/sizes';
+import luuppi from '../../../assets/luuppi.png';
+import futurice from '../../../assets/futurice.png';
 
 class Initial extends React.Component {
   static propTypes = {
@@ -40,11 +42,15 @@ class Initial extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Ladataan...</Text>
+        <Image source={luuppi} style={styles.image} />
+
+        <Image resizeMode="contain" source={futurice} style={styles.futurice} />
       </View>
     );
   }
 }
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   welcome: {
@@ -54,6 +60,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  image: {
+    height: 100,
+    width: 300,
+    resizeMode: 'contain'
+  },
+  futurice: {
+    position: 'absolute',
+    bottom: -20,
+    left: 20,
+    width: width / 4,
+    opacity: 0.4
   }
 });
 

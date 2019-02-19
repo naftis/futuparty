@@ -17,42 +17,6 @@ Navigation.events().registerAppLaunchedListener(() => {
       barStyle: 'black',
       backgroundColor: colors.bottomBar,
       titleDisplayMode: 'alwaysHide'
-    },
-
-    animations: {
-      setRoot: {
-        alpha: {
-          from: 0,
-          to: 1,
-          duration: 400,
-          startDelay: 0,
-          interpolation: 'accelerate'
-        }
-      },
-
-      push: {
-        enabled: 'true',
-        content: {
-          alpha: {
-            from: 0,
-            to: 1,
-            duration: 500,
-            interpolation: 'accelerate'
-          }
-        }
-      },
-
-      pop: {
-        content: {
-          enabled: 'true',
-          alpha: {
-            from: 1,
-            to: 0,
-            duration: 500,
-            interpolation: 'decelerate'
-          }
-        }
-      }
     }
   });
 });
